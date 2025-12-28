@@ -23,37 +23,54 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ================= VIDEO CONTROLS ================= */
-document.querySelectorAll(".video-media").forEach(box => {
-  const video = box.querySelector("video");
-  const playBtn = box.querySelector(".play");
-  const timeline = box.querySelector(".timeline");
-  if (!video || !playBtn || !timeline) return;
+document.querySelectorAll(".video-wrapper").forEach(wrapper => {
+  const video = wrapper.querySelector("video");
+  const playBtn = wrapper.querySelector(".play-btn");
+  const timeline = wrapper.querySelector(".video-timeline");
+  const fullscreenBtn = wrapper.querySelector(".fullscreen-btn");
 
-  timeline.min = 0;
-  timeline.max = 100;
-
+  // Play/Pause toggle
   playBtn.addEventListener("click", async e => {
     e.stopPropagation();
     if (video.paused) {
       await video.play();
-      playBtn.innerHTML = "⏸";
+      playBtn.textContent = "⏸"; // pause icon
     } else {
       video.pause();
-      playBtn.innerHTML = "▶";
+      playBtn.textContent = "▶"; // play icon
     }
   });
 
+  // Update timeline while playing
   video.addEventListener("timeupdate", () => {
     if (!isNaN(video.duration)) {
       timeline.value = (video.currentTime / video.duration) * 100;
     }
   });
 
+  // Seek video with timeline
   timeline.addEventListener("input", () => {
     if (!isNaN(video.duration)) {
       video.currentTime = (timeline.value / 100) * video.duration;
     }
   });
+
+  // Fullscreen toggle
+  fullscreenBtn.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      wrapper.requestFullscreen().catch(err => console.log(err));
+    } else {
+      document.exitFullscreen();
+    }
+  });
+
+  // Hide play button when video is playing
+  video.addEventListener("play", () => { playBtn.style.opacity = "0"; });
+  video.addEventListener("pause", () => { playBtn.style.opacity = "1"; });
+
+  // Show timeline on hover
+  wrapper.addEventListener("mouseenter", () => { if (!video.paused) timeline.style.opacity = "1"; });
+  wrapper.addEventListener("mouseleave", () => { if (!video.paused) timeline.style.opacity = "0"; });
 });
 
 /* ================= SAFE FADE-IN ================= */
@@ -73,12 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
   fadeItems.forEach(item => observer.observe(item));
 });
 
-/* CLICK OUTSIDE CLOSE */
-document.addEventListener("click", (e)=>{
-  if(!e.target.closest(".has-dropdown")){
+// MOBILE DROPDOWN TOGGLE
+function toggleMobileDropdown() {
+  const dropdown = document.getElementById("mobileProductDropdown");
+  dropdown.classList.toggle("show");
+}
+
+// Click outside to close
+document.addEventListener("click", (e) => {
+  const dropdown = document.getElementById("mobileProductDropdown");
+  const btn = document.querySelector(".nav-btn.has-dropdown");
+  if (!btn.contains(e.target)) {
     dropdown.classList.remove("show");
   }
 });
+
 
 /* ===================== STRICT 30s TIMER + 24H VERIFICATION ===================== */
 (function() {
@@ -139,7 +165,7 @@ document.addEventListener("click", (e)=>{
 
     document.getElementById("goVerifyBtn").addEventListener("click", () => {
       const isSubfolder = location.pathname.includes("/product-details/");
-      window.location.href = isSubfolder ? "../login.html" : "/login.html";
+      window.location.href = isSubfolder ? "../login.html" : "login.html";
     });
   }
 
