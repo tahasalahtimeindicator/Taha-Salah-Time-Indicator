@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masjid Clocks | TAHA Salah Time Indicator</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<!-- ICONS -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+<style>
+/* ================= RESET ================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:white;
+  font-family: 'Libre Baskerville', serif;
+  color:#111;                 /* ✅ FIX: text visible */
+  padding-bottom:80px;        /* ✅ FIX: mobile nav overlap */
+}
+
+/* ================= HERO SECTION ================= */
+.page-hero{
+  position:relative;
+  min-height:65vh;
+  padding:80px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+    url("../images/masjid/grand-mosque-grand-bur-dubai-masjid-dubai-ancient-3840x2160-8825.jpg")
+    center/cover no-repeat;
+  overflow:hidden;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  padding:40px 30px;
+  border-radius:18px;
+  animation:heroFade 1.2s ease forwards;
+}
+
+.page-hero h1{
+  font-size:clamp(32px,5vw,48px);
+  color:#ffffff;
+  margin-bottom:14px;
+}
+
+.page-hero p{
+  font-size:clamp(16px,2.5vw,20px);
+  color:#eaeaea;
+}
+
+/* ================= TITLES ================= */
+.masjid-products{
+  width:100%;
+  padding:50px 0;
+}
+
+.masjid-title{
+  text-align:center;
+  font-size:32px;
+  color:#041328;
+  margin-bottom:35px;
+}
+
+/* ================= PRODUCT CARD ================= */
+.product-unit-container{
+  width:100%;
+  padding:0 10px;
+}
+
+.product-unit{
+  background:#f8fbff;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  transition:.3s ease;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding-bottom:16px;
+}
+
+.product-unit img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+
+.product-unit h2{
+  font-size:17px;
+  font-weight:600;
+  color:#051225;             /* ✅ FIX */
+  margin:12px 0;
+}
+
+/* ================= ORDER BUTTON ================= */
+.order-btn{
+  margin-top:12px;
+  padding:12px 28px;
+  border-radius:50px;
+  background:linear-gradient(135deg,#ff6a00,#ffb347);
+  color:#fff;
+  font-weight:600;
+  font-size:.95rem;
+  text-decoration:none;
+  box-shadow:0 8px 25px rgba(255,106,0,.4);
+  transition:.4s ease;
+}
+
+.order-btn:hover{
+  transform:translateY(-4px) scale(1.05);
+}
+
+/* ================= P2.5 MODELS ================= */
+.p25-models .product-unit-container{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+/* ================= P3 & P4 MODELS ================= */
+/* ================= P3 & P4 MODELS ================= */
+.p34-models .product-unit-container{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  padding:0 12px;           /* ✅ limited side padding */
+}
+
+.p34-models .product-unit{
+  width:100%;
+}
+
+.p34-models .product-unit img{
+  width:100%;               /* ✅ full width image */
+  height:auto;
+  object-fit:contain;
+}
+
+/* Text clarity */
+.p34-models .product-unit h2{
+  color:#051225;
+  font-size:18px;
+}
+
+/* ===== FADE IN SYSTEM ===== */
+.fade-item{
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+
+.fade-item.show{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== MODEL IMAGE LAYOUT ===== */
+.model-section{
+  width:100%;
+  padding:16px;
+}
+
+.model-img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:14px;
+}
+
+/* ================= LCD VIDEO ================= */
+.lcd-video-section{
+  padding:80px 20px;
+}
+
+.lcd-video-wrapper{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  align-items:center;
+}
+
+.lcd-video-box{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.lcd-video-box video{
+  width:100%;
+  display:block;
+}
+
+.lcd-play-btn{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:rgba(0,0,0,.65);
+  color:white;
+  border:none;
+  font-size:1.7rem;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:#0099ff;
+  color:white;
+  padding:50px;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:900px){
+  .lcd-video-wrapper{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  .masjid-title{
+    font-size:26px;
+  }
+
+  .page-hero{
+    min-height:55vh;
+    padding:60px 16px;
+  }
+}
+
+/* ================= MOBILE BOTTOM NAV ================= */
+.mobile-bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:1px solid #ddd;
+  z-index:9999;
+}
+
+@media(min-width:769px){
+  .mobile-bottom-nav{
+    display:none;
+  }
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- Navbar (reuse from index.html) -->
+<nav class="navbar">
+  <div class="logo-container">
+  <img src="../images/taha logo.png" alt="T Logo" class="logo-img">
+  <span class="logo-text">TAHA Salah Time Indicator</span>
+</div>
+  <div class="hamburger">&#9776;</div>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li class="nav-item">
+      <a href="#">Products</a>
+      <div class="dropdown">
+        <a href="masjid-clock.html" class="active">Masjid Clocks</a>
+        <a href="azan-home.html">Azan Home Units</a>
+        <a href="other-products.html">Other Products</a>
+      </div>
+    </li>
+    <li><a href="../about.html">About Us</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>Masjid Salah Time Indicators</h1>
+    <p>Let's Make Our Masjids Hi-tech</p>
+  </div>
+</section>
+
+<section class="lcd-video-section reveal">
+  <div class="lcd-video-wrapper">
+
+    <!-- VIDEO -->
+   <div class="lcd-video-box" id="lcdVideoWrapper">
+  <video id="lcdVideo" playsinline muted preload="metadata">
+    <source src="https://res.cloudinary.com/dz38l0vid/video/upload/v1766818972/LCD_32D_Model_Complete_Explainer_Abdullah_s_Premium_Range_Abdullah_s_Electronics_Centre_1080P_wwonvt.mp4" type="video/mp4">
+  </video>
+
+  <!-- VIDEO LOADER -->
+  <div class="video-loader"></div>
+
+  <!-- PLAY / PAUSE -->
+  <button class="lcd-play-btn" id="lcdPlayBtn">▶</button>
+
+  <!-- TIMELINE -->
+  <div class="lcd-controls" id="lcdControls">
+    <input type="range" id="lcdProgress" min="0" max="100" value="0">
+  </div>
+</div>
+
+    <!-- TEXT -->
+    <div class="lcd-video-content">
+      <h2>Premium Series LCD Salah Time Indicator</h2>
+      <p>
+        Get ready to boost your tech experience with our newest product, the LCD premium range model, designed to improve your daily life.
+
+Feel the perfect mix of cool style and smart features with our premium range, specially made to meet your highest needs. From smooth designs to super-cool features, every product is made to make your tech life awesome.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= P2.5 MODELS ================= -->
+<section class="masjid-products p25-models">
+
+  <h2 class="masjid-title">New LCD Premium Series</h2>
+
+  <div class="product-unit-container">
+
+    <div class="product-unit">
+      <img src="../images/LCD-24H.jpg">
+      <h2>LCD-24H</h2>
+<a href="../contact.html?category=Masjid STI&model=LCD-24H" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/LCD-24V.jpg">
+      <h2>LCD-24V</h2>
+      <a href="../contact.html?category=Masjid STI&model=LCD-24V" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/LCD-32H.jpg">
+      <h2>LCD-32H</h2>
+      <a href="../contact.html?category=Masjid STI&model=LCD-32H" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/LCD-32V.jpg">
+      <h2>LCD-32V</h2>
+      <a href="../contact.html?category=Masjid STI&model=LCD-32V" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/LCD-24D.jpg">
+      <h2>LCD-24D</h2>
+      <a href="../contact.html?category=Masjid STI&model=LCD-24D" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/LCD-32D.jpg">
+      <h2>LCD-32D</h2>
+      <a href="../contact.html?category=Masjid STI&model=LCD-32D" class="order-btn">
+  Order Now
+</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= P2.5 MODELS ================= -->
+<section class="masjid-products p25-models">
+
+  <h2 class="masjid-title">Newly Launched P2.5 Models – 2026</h2>
+
+  <div class="product-unit-container">
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2E2C40.jpg">
+      <h2>P2E2C40</h2>
+<a href="../contact.html?category=Masjid STI&model=P2E2C40" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2E2C25.jpg">
+      <h2>P2E2C25</h2>
+      <a href="../contact.html?category=Masjid STI&model=P2E2C25" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2E2C19.jpg">
+      <h2>P2E2C19</h2>
+      <a href="../contact.html?category=Masjid STI&model=P2E2C19" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2D2i24.jpg">
+      <h2>PD2i24</h2>
+      <a href="../contact.html?category=Masjid STI&model=P2D2i24" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2D2i10.jpg">
+      <h2>P2D2i10</h2>
+      <a href="../contact.html?category=Masjid STI&model=P2D2i10" class="order-btn">
+  Order Now
+</a>
+    </div>
+
+    <div class="product-unit">
+      <img src="../images/Masjid/P2C1B18.jpg">
+      <h2>P2C1B18</h2>
+      <a href="../contact.html?category=Masjid STI&model=P2C1B18" class="order-btn">
+  Order Now
+</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= P3 & P4 MODELS ================= -->
+<section class="masjid-products p34-models">
+
+  <h2 class="masjid-title">P3 & P4 Models</h2>
+
+  <div class="product-unit-container">
+  <div class="product-unit">
+    <img src="../images/Masjid/PT2D25.jpg">
+    <h2>PT2D25</h2>
+    <a href="../contact.html?category=Masjid STI&model=PT2D25" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3Q2C25.jpg">
+    <h2>P3Q2C25</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3Q2C25" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i40.jpg">
+    <h2>PD2i40</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i40" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i40.jpg">
+    <h2>P4i40</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i40" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i40.jpg">
+    <h2>P3i40</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i40" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i24L.jpg">
+    <h2>PD2i24L</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i24L" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i24L.jpg">
+    <h2>P4i24L</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i24L" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i24L.jpg">
+    <h2>P3i24L</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i24L" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i24.jpg">
+    <h2>PD2i24</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i24" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i24.jpg">
+    <h2>P4i24</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i24" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i24.jpg">
+    <h2>P3i24</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i24" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i24V.jpg">
+    <h2>PD2i24V</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i24V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i24V.jpg">
+    <h2>P4i24V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i24V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i24V.jpg">
+    <h2>P3i24V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i24V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i18.jpg">
+    <h2>PD2i18</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i18" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i18s.jpg">
+    <h2>PD2i18s</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i18s" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i18V.jpg">
+    <h2>PD2i18V</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i18V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PD2i15V.jpg">
+    <h2>PD2i15V</h2>
+    <a href="../contact.html?category=Masjid STI&model=PD2i15V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i15V.jpg">
+    <h2>P4i15V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i15V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i15V.jpg">
+    <h2>P3i15V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i15V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i15A.jpg">
+    <h2>P4i15A</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i15A" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i15A.jpg">
+    <h2>P3i15A</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i15A" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i15B.jpg">
+    <h2>P4i15B</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i15B" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i15B.jpg">
+    <h2>P3i15B</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i15B" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PC3i19.jpg">
+    <h2>PC3i19</h2>
+    <a href="../contact.html?category=Masjid STI&model=PC3i19" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i12.jpg">
+    <h2>P4i12</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i12" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i12.jpg">
+    <h2>P3i12</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i12" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/PC3i9V.jpg">
+    <h2>PC3i9V</h2>
+    <a href="../contact.html?category=Masjid STI&model=PC3i9V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P4i12V.jpg">
+    <h2>P4i12V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P4i12V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/P3i12V.jpg">
+    <h2>P3i12V</h2>
+    <a href="../contact.html?category=Masjid STI&model=P3i12V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/pi10.jpg">
+    <h2>pi10</h2>
+    <a href="../contact.html?category=Masjid STI&model=pi10" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/pi10V.jpg">
+    <h2>pi10V</h2>
+    <a href="../contact.html?category=Masjid STI&model=pi10V" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+  <div class="product-unit">
+    <img src="../images/Masjid/pi10mini.jpg">
+    <h2>pi10mini</h2>
+    <a href="../contact.html?category=Masjid STI&model=pi10mini" class="order-btn">
+  Order Now
+</a>
+  </div>
+
+</div>
+</section>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer-columns">
+    <div>
+      <h2>TAHA Salah Time Indicator</h2>
+      <p>Professional Salah & Azan Clocks for Masjid , Home & Office.</p>
+    </div>
+    <div>
+      <h3>Products</h3>
+      <ul>
+        <li><a href="masjid-clock.html">Masjid Clocks</a></li>
+        <li><a href="azan-home.html">Azan Home Units</a></li>
+        <li><a href="other-products.html">Other Products</a></li>
+        <li><a href="../terms.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>Phone: +91 9826623786</p>
+      <p>Phone: +91 9302022123</p>
+      <p>Email: tahasalahtime@gmail.com</p>
+      <p>Address: 06, New Cloth Market Ratlam, Madhya Pradesh</p>
+      <p>Head Offfice: Mumbai, Maharashtra</p>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 TAHA Salah Time Indicator. All Rights Reserved.</p>
+</footer>
+
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<nav class="mobile-bottom-nav">
+
+  <!-- HOME -->
+  <a href="../index.html" class="nav-btn">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <!-- PRODUCTS -->
+  <div class="nav-btn has-dropdown" id="productsBtn">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-dropdown" id="mobileProductDropdown">
+      <a href="masjid-clock.html">Masjid Clock</a>
+      <a href="azan-home.html">Azan Home</a>
+      <a href="other-products.html" class="active-link">Other Products</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <a href="../about.html" class="nav-btn">
+    <span class="material-symbols-rounded">info</span>
+    <span class="label">About</span>
+  </a>
+
+  <!-- CONTACT -->
+  <a href="../contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+
+  <!-- TRACK -->
+  <a href="../tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track</span>
+  </a>
+
+</nav>
+
+<script>
+/* ===================== MASJID CLOCKS PAGE – SAFE JS ===================== */
+
+/* ---------- OPEN PRODUCT FUNCTION ---------- */
+function openProduct(productUrl) {
+  const isHomePage =
+    location.pathname === "/" || location.pathname.endsWith("index.html");
+
+  if (!isHomePage) {
+    window.location.href = productUrl;
+    return;
+  }
+
+  const lastVerified = localStorage.getItem("phoneVerifiedTime");
+
+  if (lastVerified && (Date.now() - lastVerified) < 24 * 60 * 60 * 1000) {
+    window.location.href = productUrl;
+  } else {
+    localStorage.setItem("redirectAfterVerify", productUrl);
+    localStorage.setItem("entryTime", Date.now());
+    window.location.href = "login.html";
+  }
+}
+
+  /* ================= FADE-IN ANIMATION (FIXED) ================= */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const fadeTargets = document.querySelectorAll(".product-unit");
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    fadeTargets.forEach(el => observer.observe(el));
+  } else {
+    fadeTargets.forEach(el => el.classList.add("show"));
+  }
+
+});
+
+  /* ================= LCD VIDEO CONTROLS + LOADER ================= */
+const lcdVideo = document.getElementById("lcdVideo");
+const lcdPlayBtn = document.getElementById("lcdPlayBtn");
+const lcdProgress = document.getElementById("lcdProgress");
+const lcdControls = document.getElementById("lcdControls");
+const lcdWrapper = document.getElementById("lcdVideoWrapper");
+const loader = lcdWrapper.querySelector(".video-loader");
+
+let hideTimer;
+
+// Show / hide controls
+function showControls() {
+  lcdPlayBtn.style.opacity = "1";
+  lcdControls.style.opacity = "1";
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => {
+    if (!lcdVideo.paused) {
+      lcdPlayBtn.style.opacity = "0";
+      lcdControls.style.opacity = "0";
+    }
+  }, 3000);
+}
+
+// Show loader
+function showLoader() {
+  loader.classList.add("show");
+}
+
+// Hide loader
+function hideLoader() {
+  loader.classList.remove("show");
+}
+
+if (lcdVideo && lcdPlayBtn) {
+
+  // Play / Pause button
+  lcdPlayBtn.addEventListener("click", () => {
+    if (lcdVideo.paused) {
+      showLoader();
+      lcdVideo.play().then(() => {
+        lcdVideo.muted = false;
+        hideLoader();
+      }).catch(() => hideLoader());
+      lcdPlayBtn.textContent = "❚❚";
+    } else {
+      lcdVideo.pause();
+      lcdPlayBtn.textContent = "▶";
+    }
+    showControls();
+  });
+
+  // Timeline update
+  lcdVideo.addEventListener("timeupdate", () => {
+    if (lcdVideo.duration) {
+      lcdProgress.value = (lcdVideo.currentTime / lcdVideo.duration) * 100;
+    }
+  });
+
+  lcdProgress.addEventListener("input", () => {
+    lcdVideo.currentTime = (lcdProgress.value / 100) * lcdVideo.duration;
+  });
+
+  // Loader on buffering
+  lcdVideo.addEventListener("waiting", showLoader);
+  lcdVideo.addEventListener("canplay", hideLoader);
+  lcdVideo.addEventListener("playing", hideLoader);
+  lcdVideo.addEventListener("loadstart", showLoader);
+
+  // Controls auto hide
+  lcdWrapper.addEventListener("mousemove", showControls);
+  lcdWrapper.addEventListener("touchstart", showControls);
+
+  // Reset play button on video end
+  lcdVideo.addEventListener("ended", () => {
+    lcdPlayBtn.textContent = "▶";
+    lcdPlayBtn.style.opacity = "1";
+    lcdControls.style.opacity = "1";
+  });
+}
+
+
+/* ================= MOBILE BOTTOM NAV FUNCTIONALITY ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const bnHome = document.getElementById("bn-home");
+  const bnProducts = document.getElementById("bn-products");
+  const bnAbout = document.getElementById("bn-about");
+  const bnContact = document.getElementById("bn-contact");
+  const bnTrack = document.getElementById("bn-track");
+  const mobileDropdown = document.getElementById("mobileProductDropdown");
+
+  // ================= PRODUCTS DROPDOWN =================
+ const productsBtn = document.getElementById("productsBtn");
+const dropdown = document.getElementById("mobileProductDropdown");
+
+/* TOGGLE DROPDOWN */
+productsBtn.addEventListener("click", function (e) {
+  e.stopPropagation(); // 🔥 VERY IMPORTANT
+  dropdown.classList.toggle("show");
+});
+
+/* CLOSE WHEN CLICKING OUTSIDE */
+document.addEventListener("click", function () {
+  dropdown.classList.remove("show");
+});
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!mobileDropdown) return;
+    if (!mobileDropdown.contains(e.target) && !bnProducts.contains(e.target)) {
+      mobileDropdown.style.display = "none";
+    }
+  });
+
+  // ================= ACTIVE PAGE HIGHLIGHT =================
+  const currentPage = window.location.pathname.split("/").pop();
+  if (currentPage === "index.html") bnHome?.classList.add("active");
+  else if (["masjid-clock.html", "azan-home.html", "other-products.html"].includes(currentPage))
+    bnProducts?.classList.add("active");
+  else if (currentPage === "about.html") bnAbout?.classList.add("active");
+  else if (currentPage === "contact.html") bnContact?.classList.add("active");
+  else if (currentPage === "tracking.html") bnTrack?.classList.add("active");
+});
+
+</script>
+
+<script src="../js/main.js"></script>
+
+</body>
+</html>

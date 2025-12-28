@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azan Home Units | TAHA Salah Time Indicator</title>
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for mobile nav icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- ICONS -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+/* ===== GLOBAL RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body{
+  font-family:'Libre Baskerville', serif;
+  background:#fff;
+}
+
+/* ===== HERO ===== */
+.page-hero{
+  position:relative;
+  min-height:65vh;
+  padding:80px 20px 40px;
+  display:flex;
+  justify-content:center;
+  text-align:center;
+  background:url("https://www.abdullahs.in/cdn/shop/files/Nheader1_13fcc6d1-1c87-4d2d-b808-07d9046e6a08.png?v=1759562487&width=3840") center/cover no-repeat;
+}
+
+/* ===== MOBILE HERO BACKGROUND ===== */
+@media only screen and (max-width:768px){
+  .page-hero{
+    background: url("../images/Azan-Hero.jpg") center/cover no-repeat;
+  }
+}
+
+.hero-content{
+  max-width:900px;
+  margin-top:40px;
+}
+.page-hero h1{
+  font-size:clamp(32px,5vw,48px);
+  color:#ffffff;
+}
+.page-hero p{
+  font-size:clamp(16px,2.5vw,20px);
+  color:#f2f2f2;
+}
+
+/* ===== PRODUCTS ===== */
+.home-products{
+  padding:60px 0;
+}
+.home-title{
+  text-align:center;
+  font-size:34px;
+  color:#0a5fd8;
+  margin-bottom:36px;
+}
+
+.product-unit-container{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+  max-width:1300px;
+  margin:auto;
+  padding:0 12px;
+}
+@media(max-width:1200px){.product-unit-container{grid-template-columns:repeat(3,1fr);} }
+@media(max-width:768px){.product-unit-container{grid-template-columns:repeat(2,1fr);} }
+
+/* PRODUCT CARD */
+.product-unit{
+  background:#f8fbff;
+  border-radius:14px;
+  overflow:hidden;
+  text-align:center;
+  transition:.35s;
+}
+.product-unit:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.12);
+}
+.product-unit img{
+  width:100%;
+  object-fit:contain;
+}
+.product-unit h3{
+  padding:10px 0;
+  font-size:17px;
+  color:#555;
+}
+.product-unit h2{
+  font-size:15px;
+  color:#777;
+}
+
+/* BUTTON */
+.order-btn{
+  display:inline-block;
+  margin:15px 0 25px;
+  padding:12px 28px;
+  border-radius:50px;
+  background:linear-gradient(135deg,#ff6a00,#ffb347);
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  transition:.4s;
+}
+.order-btn:hover{
+  transform:translateY(-4px) scale(1.05);
+}
+
+/* ===== FOOTER (Montserrat ONLY) ===== */
+footer{
+    background:#0099ff;
+    color:white;
+    padding:50px;
+    width:100%;
+}
+
+.footer-columns{
+    display:flex;
+    flex-wrap:wrap;
+    gap:40px;
+    justify-content:space-between;
+}
+
+.footer-columns h3{
+    font-family:'Montserrat', sans-serif;
+    margin-bottom:15px;
+}
+
+.footer-columns ul{
+    list-style:none;
+}
+
+.footer-columns ul li a{
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+}
+
+.footer-columns ul li a:hover{
+    color:#f0f0f0;
+}
+
+.footer-bottom{
+    text-align:center;
+    margin-top:30px;
+    font-size:14px;
+    opacity:0.8;
+}
+
+/* ================= VIDEO SECTION ================= */
+.product-video-section {
+  padding: 80px 8%;
+  background: #ffffff;
+}
+
+.product-video-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+/* VIDEO BOX */
+.custom-video {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+.custom-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.center-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 28px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.center-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.video-controls input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+/* TEXT CONTENT */
+.product-video-content h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0b2545;
+  margin-bottom: 15px;
+}
+
+.product-video-content p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.center-btn,
+.video-controls {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.center-btn.show,
+.video-controls.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .product-video-wrapper {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .product-video-content h2 {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .product-video-content p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-video-section {
+    padding: 60px 6%;
+  }
+
+  .center-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+}
+
+/* ================= MOBILE BOTTOM NAV ================= */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  z-index: 9999;
+}
+
+.nav-btn {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+  position: relative;
+}
+
+.nav-btn i {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* DROPDOWN */
+.mobile-dropdown{
+  position:absolute;
+  bottom:78px;
+  left:50%;
+  transform:translateX(-50%) scale(0.95);
+  opacity:0;
+  pointer-events:none;
+  transition:0.3s ease;
+}
+
+.mobile-dropdown.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) scale(1);
+}
+
+.mobile-dropdown a {
+  padding: 12px;
+  font-size: 13px;
+  color: #222;
+  text-decoration: none;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-dropdown a:last-child {
+  border-bottom: none;
+}
+
+.mobile-dropdown a:hover {
+  background: #f2f2f2;
+}
+
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+}
+
+/* ===== SCROLL FADE IN ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+ <div class="logo-container">
+  <img src="../images/taha logo.png" alt="T Logo" class="logo-img">
+  <span class="logo-text">TAHA Salah Time Indicator</span>
+</div>
+  <div class="hamburger">&#9776;</div>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li class="nav-item">
+      <a href="#">Products</a>
+      <div class="dropdown">
+        <a href="masjid-clock.html">Masjid Clocks</a>
+        <a href="azan-home.html" class="active">Azan Home Units</a>
+        <a href="other-products.html">Other Products</a>
+      </div>
+    </li>
+    <li><a href="../about.html">About Us</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-content">
+    <h1></h1>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="product-video-section fade-in">
+  <div class="product-video-wrapper">
+
+    <div class="custom-video" id="videoWrapper">
+
+  <video id="productVideo" poster="video-poster.jpg" preload="metadata" playsinline>
+    <source src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Abdullah_s_P3_Azan_Clock_Explainer_Home_Unit_Abdullah_s_Electronics_Pvt_Ltd_1080P_uainan.mp4" type="video/mp4">
+  </video>
+
+  <button class="center-btn" id="playBtn">▶</button>
+
+  <div class="video-controls" id="videoControls">
+    <input type="range" id="progressBar" value="0" min="0" max="100">
+  </div>
+
+</div>
+
+    <div class="product-video-content">
+      <h2>Azan Clock–</h2>
+      <p>✨ Never miss a prayer again with our beautifully designed Azan Clock! ✨</p>
+      <p>
+        Stay connected to your Namaz on time with automatic prayer time reminders,
+        a clear digital display, and accurate Azan for all five daily prayers.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUCTS GRID -->
+<section class="home-products fade-in">
+  <h2 class="home-title">Featured Azan Home Units with Quran Player</h2>
+  <div class="product-unit-container">
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/Azan-B-Best-Seller.png?v=1759214931&width=360" alt="Azan Home 1">
+      <h3>P3-B</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-B" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/Azan-A-Best-Seller.png?v=1759214909&width=360" alt="Azan Home 2">
+      <h3>P3-A</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-A" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-Best-Seller.png?v=1759214870&width=360" alt="Azan Home 3">
+      <h3>P3-C1</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C1" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/c14.png?v=1765871298&width=360" alt="Azan Home 4">
+      <h3>P3-C14 Makkah</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C14 " class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-New-Best-Seller.png?v=1759214837&width=360" alt="Azan Home 4">
+      <h3>P3-C7 Madina New</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C7 " class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/1_cd25f43e-faed-41a1-9881-a589e21be2ad.png?v=1748958499&width=360" alt="Azan Home 4">
+      <h3>P3-C10 Madina Vintage</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C10" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/2.png?v=1748958743&width=360" alt="Azan Home 4">
+      <h3>P3-C8 Dome of the Rock</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C8" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/6.png?v=1748959905&width=360" alt="Azan Home 4">
+      <h3>P3-C9 Persian Pattern</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C9" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/4.png?v=1748959157&width=360" alt="Azan Home 4">
+      <h3>P3-C13 Kalma</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C13" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/7.png?v=1748959417&width=360" alt="Azan Home 4">
+      <h3>P3-C12 Kalma</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C12" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/5_1115feb8-0d58-46fd-8577-f23c0fae2615.png?v=1748959596&width=360" alt="Azan Home 4">
+      <h3>P3-C11 Makkah Pattern</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C11" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/8_8e0e4e4b-1d5a-4c51-842b-87424a3b4c24.png?v=1749028093&width=360" alt="Azan Home 4">
+      <h3>P3-C2 Surah Ikhlas</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C2" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/9_a450ebbe-94ce-436e-801d-80356e61255b.png?v=1749028451" alt="Azan Home 4">
+      <h3>P3-C4</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C4" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/10.png?v=1749028491&width=360" alt="Azan Home 4">
+      <h3>P3-C3 Darood Shareef</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C3" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/12.png?v=1749028653&width=360" alt="Azan Home 4">
+      <h3>P3-C5 Ayatul Kursi</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C5" class="order-btn">Order Now</a>
+    </div>
+
+    <div class="product-unit fade-in">
+      <img src="https://www.abdullahs.in/cdn/shop/files/11.png?v=1749028612&width=360" alt="Azan Home 4">
+      <h3>P3-C6 4Qul Surah</h3>
+      <h2>5,000 + 18% GST</h2>
+      <a href="../contact.html?category=Azan Home&model=P3-C6" class="order-btn">Order Now</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-columns fade-in">
+    <div>
+      <h2>TAHA Salah Time Indicator</h2>
+      <p>Professional Salah & Azan Clocks for Masjid & Home.</p>
+      <p>Let's make our Masjids Hi-Tech</p>
+    </div>
+
+    <div>
+      <h3>Products</h3>
+      <ul>
+        <li><a href="masjid-clock.html">Masjid Clocks</a></li>
+        <li><a href="azan-home.html">Azan Home Units</a></li>
+        <li><a href="other-products.html">Other Products</a></li>
+        <li><a href="../terms.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Contact</h3>
+      <p>+91 9826623786</p>
+      <p>+91 9302022123</p>
+      <p>tahasalahtime@gmail.com</p>
+      <p>Ratlam, Madhya Pradesh</p>
+      <p>Mumbai, Maharashtra</p>
+    </div>
+  </div>
+
+  <p class="footer-bottom">© 2025 TAHA Salah Time Indicator. All Rights Reserved.</p>
+</footer>
+
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<nav class="mobile-bottom-nav">
+
+  <!-- HOME -->
+  <a href="../index.html" class="nav-btn">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <!-- PRODUCTS -->
+  <div class="nav-btn has-dropdown" id="productsBtn">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-dropdown" id="mobileProductDropdown">
+      <a href="masjid-clock.html">Masjid Clock</a>
+      <a href="azan-home.html">Azan Home</a>
+      <a href="other-products.html" class="active-link">Other Products</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <a href="../about.html" class="nav-btn">
+    <span class="material-symbols-rounded">info</span>
+    <span class="label">About</span>
+  </a>
+
+  <!-- CONTACT -->
+  <a href="../contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+
+  <!-- TRACK -->
+  <a href="../tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track</span>
+  </a>
+
+</nav>
+
+<script>
+/* ================= MOBILE BOTTOM NAV ================= */
+document.addEventListener("DOMContentLoaded", () => {
+
+  // NAV BUTTONS
+  const bnHome = document.getElementById("bn-home");
+  const bnProducts = document.getElementById("bn-products");
+  const bnAbout = document.getElementById("bn-about");
+  const bnContact = document.getElementById("bn-contact");
+  const bnTrack = document.getElementById("bn-track");
+  const mobileDropdown = document.getElementById("mobileProductDropdown");
+
+  // ================= PRODUCTS DROPDOWN =================
+  const productsBtn = document.getElementById("productsBtn");
+const dropdown = document.getElementById("mobileProductDropdown");
+
+/* TOGGLE DROPDOWN */
+productsBtn.addEventListener("click", function (e) {
+  e.stopPropagation(); // 🔥 VERY IMPORTANT
+  dropdown.classList.toggle("show");
+});
+
+/* CLOSE WHEN CLICKING OUTSIDE */
+document.addEventListener("click", function () {
+  dropdown.classList.remove("show");
+});
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!mobileDropdown) return;
+    if (!mobileDropdown.contains(e.target) && e.target.id !== "bn-products") {
+      mobileDropdown.style.display = "none";
+    }
+  });
+
+  // ================= ACTIVE PAGE HIGHLIGHT =================
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage === "index.html") bnHome?.classList.add("active");
+  else if (["masjid-clock.html", "azan-home.html", "other-products.html"].includes(currentPage))
+    bnProducts?.classList.add("active");
+  else if (currentPage === "about.html") bnAbout?.classList.add("active");
+  else if (currentPage === "contact.html") bnContact?.classList.add("active");
+  else if (currentPage === "tracking.html") bnTrack?.classList.add("active");
+
+});
+
+// VIDEO CONTROLS
+
+const video = document.getElementById("productVideo");
+const playBtn = document.getElementById("playBtn");
+const progressBar = document.getElementById("progressBar");
+const controls = document.getElementById("videoControls");
+
+let hideTimer;
+
+/* PLAY / PAUSE */
+function togglePlay() {
+  if (video.paused) {
+    video.play();
+    playBtn.textContent = "❚❚";
+  } else {
+    video.pause();
+    playBtn.textContent = "▶";
+  }
+  showControls();
+}
+
+playBtn.addEventListener("click", togglePlay);
+video.addEventListener("click", togglePlay);
+
+/* SHOW CONTROLS → AUTO HIDE (3s) */
+function showControls() {
+  playBtn.classList.add("show");
+  controls.classList.add("show");
+
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => {
+    if (!video.paused) {
+      playBtn.classList.remove("show");
+      controls.classList.remove("show");
+    }
+  }, 3000);
+}
+
+/* Hover / Touch */
+video.addEventListener("mousemove", showControls);
+video.addEventListener("touchstart", showControls);
+controls.addEventListener("mousemove", showControls);
+
+/* TIMELINE UPDATE */
+video.addEventListener("timeupdate", () => {
+  if (video.duration) {
+    progressBar.value = (video.currentTime / video.duration) * 100;
+  }
+});
+
+/* SEEK */
+progressBar.addEventListener("input", () => {
+  video.currentTime = (progressBar.value / 100) * video.duration;
+});
+
+/* END */
+video.addEventListener("ended", () => {
+  playBtn.textContent = "▶";
+  playBtn.classList.add("show");
+  controls.classList.add("show");
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const fadeElements = document.querySelectorAll(".fade-in");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+  fadeElements.forEach(el => observer.observe(el));
+  });
+
+</script>
+
+<script src="../js/main.js"></script>
+
+</body>
+</html>
