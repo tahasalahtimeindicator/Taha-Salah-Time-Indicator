@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phone Verification</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="css/login.css">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url("https://static.vecteezy.com/system/resources/previews/049/887/312/non_2x/email-verification-concept-receiving-incoming-email-sending-and-receiving-verification-email-can-be-used-for-web-page-banner-mobile-app-flat-illustration-isolated-on-background-vector.jpg") center/cover no-repeat;
+  font-family:Montserrat,sans-serif;
+}
+
+@media (max-width: 768px) {
+  body {
+    background: url("https://static.vecteezy.com/system/resources/previews/050/066/504/non_2x/email-verification-concept-receiving-incoming-email-sending-and-receiving-verification-emails-can-be-used-for-web-pages-banners-mobile-apps-flat-illustration-vector.jpg") center/cover no-repeat;
+  }
+}
+
+.verify-box{
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(12px);
+  padding:30px;
+  border-radius:18px;
+  width:90%;
+  max-width:380px;
+  color:#fff;
+  text-align:center;
+}
+.input-row{display:flex;gap:10px;margin:20px 0}
+select,input{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  width:100%;
+}
+button{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:#00ff9c;
+  font-weight:bold;
+  cursor:pointer;
+}
+.loader{
+  display:none;
+  width:40px;
+  height:40px;
+  border:4px solid rgba(255,255,255,.3);
+  border-top:4px solid #00ff9c;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:15px auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{display:none;font-size:14px}
+.success{display:none;color:#00ff9c;font-weight:bold;margin-top:15px}
+</style>
+</head>
+
+<body>
+
+<div class="verify-box">
+  <h2>Phone Verification</h2>
+  <p>Enter your phone number to continue</p>
+
+  <!-- 🚫 NO action, NO method -->
+  <form id="verifyForm">
+
+    <input type="hidden" name="Product" id="productField">
+    <input type="hidden" name="TimeSpent" id="timeField">
+    <input type="hidden" name="Device" id="deviceField">
+    <input type="hidden" name="VerifiedAt" id="dateField">
+
+    <div class="input-row">
+      <select name="CountryCode">
+        <option value="+91">🇮🇳 +91</option>
+        <option value="+1">🇺🇸 +1</option>
+      </select>
+      <input type="tel" name="Phone" required pattern="[0-9]{10}" placeholder="Enter phone number">
+    </div>
+
+    <button type="submit" id="verifyBtn">Verify</button>
+
+    <div class="loader" id="loader"></div>
+    <div class="loading-text" id="loadingText">Verifying…</div>
+    <div class="success" id="successMsg">✅ Verification Successful</div>
+  </form>
+</div>
+
+<script src="js/login.js"></script>
+</body>
+</html>

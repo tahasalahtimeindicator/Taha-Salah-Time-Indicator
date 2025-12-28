@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Order | TAHA</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/tracking.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+</head>
+<body>
+
+<!-- ===== NAVBAR (same structure as other pages) ===== -->
+  <nav class="navbar">
+  <div class="logo-container">
+  <img src="images/taha logo.png" alt="T Logo" class="logo-img">
+  <span class="logo-text">TAHA Salah Time Indicator</span>
+</div>
+
+  <div class="hamburger" id="hamburger">&#9776;</div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+
+    <li class="nav-item">
+      <a href="#">Products</a>
+      <div class="dropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clocks</a>
+        <a href="product-details/azan-home.html">Azan Home Units</a>
+        <a href="product-details/ajanta-clocks.html">Ajanta Digital Clocks</a>
+        <a href="product-details/other-products.html">Other Products</a>
+      </div>
+    </li>
+
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+
+    <!-- 📜 TERMS PAGE -->
+
+    <li id="userNav" class="nav-item" style="display:none;">
+      <a href="#" id="userName">My Account</a>
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- ================= TRACKING SECTION ================= -->
+<section class="tracking-page">
+  <div class="tracking-box">
+    <h1>Track Your Order</h1>
+    <p>Enter your tracking ID to continue</p>
+
+    <!-- Existing Tracking ID input -->
+<input type="text" id="trackingId" placeholder="Enter Tracking ID">
+<button onclick="trackOrder()">Track Order</button>
+
+<!-- LR note -->
+<p style="margin-top:15px; font-size:14px;">
+  Have a 9-digit Delhivery LR number? 
+  <a href="https://www.delhivery.com/" target="_blank" class="lr-button">Click Here</a>
+</p>
+
+    <div class="error" id="errorMsg"></div>
+  </div>
+</section>
+
+
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<nav class="mobile-bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-btn">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <!-- PRODUCTS -->
+  <div class="nav-btn has-dropdown" onclick="toggleMobileDropdown()">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-dropdown" id="mobileProductDropdown">
+      <a href="product-details/masjid-clock.html">Masjid Clock</a>
+      <a href="product-details/azan-home.html">Azan Home</a>
+      <a href="product-details/other-products.html">Other Products</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <a href="about.html" class="nav-btn">
+    <span class="material-symbols-rounded">info</span>
+    <span class="label">About</span>
+  </a>
+
+  <!-- CONTACT -->
+  <a href="contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+
+</nav>
+
+<script src="js/tracking.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

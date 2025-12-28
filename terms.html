@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terms & Conditions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/terms.css">
+<!-- ICONS -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== NAVBAR (same structure as other pages) ===== -->
+  <nav class="navbar">
+  <div class="logo-container">
+  <img src="images/taha logo.png" alt="T Logo" class="logo-img">
+  <span class="logo-text">TAHA Salah Time Indicator</span>
+</div>
+
+  <div class="hamburger" id="hamburger">&#9776;</div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+
+    <li class="nav-item">
+      <a href="#">Products</a>
+      <div class="dropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clocks</a>
+        <a href="product-details/azan-home.html">Azan Home Units</a>
+        <a href="product-details/ajanta-clocks.html">Ajanta Digital Clocks</a>
+        <a href="product-details/other-products.html">Other Products</a>
+      </div>
+    </li>
+
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="tracking.html">Track Order</a></li>
+
+    <!-- 📜 TERMS PAGE -->
+    <li>
+      <a href="terms.html" class="active">Terms & Conditions</a>
+    </li>
+
+    <li id="userNav" class="nav-item" style="display:none;">
+      <a href="#" id="userName">My Account</a>
+      <div class="dropdown">
+        <a href="profile.html">Profile</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="terms-hero">
+    <h1 class="hero-title">Terms & Conditions</h1>
+    <p class="hero-subtitle">Please read carefully before placing an order</p>
+  </section>
+
+  <!-- ===== TERMS CONTENT ===== -->
+  <section class="terms-container">
+
+    <ul class="terms-list">
+
+      <li class="term-item">
+        <span class="bullet"></span>
+        <p><strong>Hadiya is fixed.</strong> Please do not embarrass us by asking for any discount.</p>
+      </li>
+
+      <li class="term-item">
+        <span class="bullet"></span>
+        <p>
+          Hadiya mentioned in the catalogue is on an <strong>Ex-Works Mumbai basis</strong>.
+          Unit must be picked up from our office in <strong>Malad, Mumbai</strong>.
+          If delivery to your masjid is required, transportation charges will be extra at actuals.
+          Our technician’s salary and food expenses will be borne by us.
+        </p>
+      </li>
+
+      <li class="term-item">
+        <span class="bullet"></span>
+        <p>
+          For customised units with a different image but no change in electronics placement,
+          an additional <strong>10% charge</strong> will apply.
+          If electronics placement changes, an additional <strong>20% charge</strong> will apply.
+        </p>
+      </li>
+
+      <li class="term-item">
+        <span class="bullet"></span>
+        <p>
+          <strong>50% payment</strong> must be made in advance.
+          The remaining balance is payable when the unit is ready for dispatch.
+        </p>
+      </li>
+
+      <li class="term-item">
+        <span class="bullet"></span>
+        <p>
+          All units carry a <strong>ONE YEAR warranty</strong> against manufacturing defects
+          from the date of installation.
+          <strong>Lifetime service is FREE.</strong>
+          Only spare parts will be charged after the warranty period.
+        </p>
+      </li>
+
+      <li class="term-item highlight">
+        <span class="bullet"></span>
+        <p>
+          If any of our staff or dealer asks for travel expenses for service,
+          please call us immediately at
+          <strong>81080 33322</strong> and register a complaint.
+          We will take appropriate action against him,
+          <em>In’shaa Allah</em>.
+        </p>
+      </li>
+
+    </ul>
+
+  </section>
+
+  <!-- ================= MOBILE BOTTOM NAV ================= -->
+<nav class="mobile-bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-btn">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <!-- PRODUCTS -->
+  <div class="nav-btn has-dropdown" onclick="toggleMobileDropdown()">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-dropdown" id="mobileProductDropdown">
+      <a href="product-details/masjid-clock.html">Masjid Clock</a>
+      <a href="product-details/azan-home.html">Azan Home</a>
+      <a href="product-details/other-products.html">Other Products</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <a href="about.html" class="nav-btn">
+    <span class="material-symbols-rounded">info</span>
+    <span class="label">About</span>
+  </a>
+
+  <!-- CONTACT -->
+  <a href="contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+
+  <!-- TRACK -->
+  <a href="tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track</span>
+  </a>
+
+</nav>
+
+  <!-- JS -->
+  <script src="js/terms.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

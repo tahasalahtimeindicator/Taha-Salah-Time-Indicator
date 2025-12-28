@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | Azan Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+
+<section class="contact-hero">
+  <h1>Let’s Talk ✨</h1>
+  <p>Order • Inquiry • Custom Solutions</p>
+</section>
+
+<section class="contact-container">
+  <form
+    id="contactForm"
+    action="https://formsubmit.co/tahasalahtime@gmail.com"
+    method="POST"
+    class="contact-form"
+  >
+
+    <!-- FormSubmit config -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New Product Contact Request">
+    <input type="hidden" name="_template" value="table">
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" name="Name" required>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" name="Phone" required>
+    </div>
+
+    <div class="form-group">
+      <label>Select Category</label>
+      <select name="Category" id="categorySelect" required>
+        <option value="">Choose</option>
+        <option value="Masjid STI">Masjid STI</option>
+        <option value="Azan Home">Azan Home</option>
+        <option value="Gold Rate Display">Gold Rate Display</option>
+        <option value="Rate Display">Rate Display</option>
+        <option value="Presentation Timer">Presentation Timer</option>
+        <option value="World Clock">World Clock</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Select Model</label>
+      <input type="text" id="modelSearch" placeholder="Search model...">
+      <select name="Model" id="modelSelect" required>
+        <option value="">Select Model</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Purpose</label>
+      <div class="checkbox-group">
+        <label><input type="radio" name="Purpose" value="To Order" required> To Order</label>
+        <label><input type="radio" name="Purpose" value="Inquiry"> Inquiry</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Message (max 100 words)</label>
+      <textarea name="Message" maxlength="600" rows="4"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Send Request 🚀</button>
+  </form>
+</section>
+
+<!-- LOADER -->
+<div id="submitOverlay" class="submit-overlay hidden">
+  <div class="loader"></div>
+  <p>Sending your request...</p>
+</div>
+
+<!-- SUCCESS -->
+<div id="successOverlay" class="success-overlay hidden">
+  <h2>✅ Request Sent</h2>
+  <p>Our team will contact you shortly.</p>
+  <a href="index.html" class="submit-btn home-btn">Go to Home</a>
+</div>
+
+<script src="js/contact.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

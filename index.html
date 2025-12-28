@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAHA Salah Time Indicator</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<!-- ICONS -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="logo-container">
+    <img src="images/taha logo.png" alt="T Logo" class="logo-img">
+    <span class="logo-text">TAHA Salah Time Indicator</span>
+  </div>
+
+  <div class="hamburger">&#9776;</div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+
+    <li class="nav-item">
+      <a href="#" onclick="event.preventDefault()">Products</a>
+      <div class="dropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clock</a>
+
+        <a href="product-details/azan-home.html">Azan Home</a>
+
+        <a href="product-details/other-products.html">Other Products</a>
+
+      </div>
+    </li>
+
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+<section class="hero-carousel">
+  <div class="hero-slide slide-1 active">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      Professional Masjid Salah Time Indicators
+    </div>
+  </div>
+
+  <div class="hero-slide slide-2">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      Smart Azan Clocks for Home & Office
+    </div>
+  </div>
+</section>
+
+<!-- Featured Categories -->
+<!-- ================= CATEGORIES ================= -->
+<section class="categories">
+  <h2>Shop by Category</h2>
+  <div class="category-grid">
+    <div class="category-card" onclick="location.href='product-details/masjid-clock.html'">
+      <img src="images/MasjidClock.jpg">
+      <p>Masjid Clocks</p>
+    </div>
+
+    <div class="category-card" onclick="location.href='product-details/azan-home.html'">
+      <img src="images/Azan-clock.jpg">
+      <p>Azan Home Units</p>
+    </div>
+
+    <div class="category-card"  onclick="location.href='product-details/other-products.html'">
+      <img src="images/GoldRate.jpg">
+      <p>Other Products</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VIDEO SECTION ================= -->
+<section class="video-section">
+
+  <!-- ROW 1 -->
+  <div class="video-row fade-in">
+  <div class="video-media">
+
+    <video
+      id="masjidVideo"
+      preload="metadata"
+      playsinline
+      poster="video-poster.jpg">
+      <source
+        src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Masjid-clockvid_y0fnhb.mp4"
+        type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="controls" id="masjidControls">
+      <button class="play" id="masjidPlayBtn">▶</button>
+      <input
+        type="range"
+        class="timeline"
+        id="masjidTimeline"
+        min="0"
+        max="100"
+        value="0">
+    </div>
+
+  </div>
+
+  <div class="video-text">
+    <h2>Masjid Salah Time Indicator</h2>
+    <p>
+      Advanced digital salah time indicators for masjids with
+      automatic azan, bright LED display and long service life.
+    </p>
+  </div>
+</div>
+
+  <!-- ROW 2 -->
+  <div class="video-row alt">
+    <div class="video-media">
+      <video src="https://www.abdullahs.in/cdn/shop/videos/c/vp/b796efa89de64cdb9a35d8b745a2d3f7/b796efa89de64cdb9a35d8b745a2d3f7.HD-1080p-7.2Mbps-38149923.mp4?v=0"></video>
+
+      <div class="controls">
+        <button class="play">▶</button>
+        <input type="range" class="timeline" value="0">
+      </div>
+    </div>
+
+    <div class="video-text">
+      <h2>Azan Clock for Home & Office</h2>
+      <p>
+        Smart azan clocks with Quran recitation and modern Islamic
+        design for homes, offices and institutions.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section class="products-section">
+  <h2 class="products-title">Our Products</h2>
+
+  <div class="products-grid">
+    <div class="product-card" onclick="location.href='product-details/masjid-clock.html'">
+      <img src="images/MasjidClock2.jpg">
+      <h3>Masjid Salah Time Indicator</h3>
+    </div>
+
+    <div class="product-card" onclick="location.href='product-details/azan-home.html'">
+      <img src="images/AzanClock.jpg">
+      <h3>Azan Clocks</h3>
+    </div>
+
+    <div class="product-card" onclick="location.href='product-details/other-products.html'">
+      <img src="images/GoldRate.jpg">
+      <h3>Gold Rate Displays</h3>
+    </div>
+
+    <div class="product-card" onclick="location.href='product-details/other-products.html'">
+      <img src="images/Rate-Display.png">
+      <h3>Rate Displays</h3>
+    </div>
+
+    <div class="product-card" onclick="location.href='product-details/other-products.html'">
+      <img src="images/World-Clock.png">
+      <h3>World Clock</h3>
+    </div>
+
+    <div class="product-card" onclick="location.href='product-details/other-products.html'">
+      <img src="images/Presentation-Timer.png">
+      <h3>Presentation Timer</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="footer-columns">
+    <div>
+      <h3>TAHA Salah Time Indicator</h3>
+      <p>Professional Salah & Azan Clocks for Masjid & Home.</p>
+    </div>
+
+    <div>
+      <h3>Products</h3>
+      <ul>
+        <li><a href="product-details/masjid-clock.html">Masjid Clock</a></li>
+        <li> <a href="product-details/azan-home.html">Azan Home</a></li>
+        <li><a href="product-details/other-products.html">Other Products</a>li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Contact</h3>
+      <p>Phone: +91 9826623786</p>
+      <p>Phone: +91 9302022123</p>
+      <p>Email: tahasalahtime@gmail.com</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= MOBILE NAV ================= -->
+<nav class="mobile-bottom-nav">
+
+  <div class="nav-btn has-dropdown" onclick="toggleMobileDropdown()">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-dropdown" id="mobileProductDropdown">
+      <a href="product-details/masjid-clock.html">Masjid Clock</a>
+      <a href="product-details/azan-home.html">Azan Home</a>
+      <a href="product-details/other-products.html">Other Products</a>
+    </div>
+  </div>
+
+  <a href="about.html" class="nav-btn">
+    <span class="material-symbols-rounded">info</span>
+    <span class="label">About</span>
+  </a>
+
+  <a href="contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+
+  <a href="tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track Order</span>
+  </a>
+
+</nav>
+
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+
+</body>
+</html>
