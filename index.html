@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAHA Salah Time Indicator | Advanced & Professional Salah Time Solutions</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <style>
+        /* --- CORE STYLES & RESETS --- */
+        :root {
+            --primary-color: #8a1414; /* Deep Professional Burgundy Red */
+            --primary-color-dark: #660d0d;
+            --accent-color: #c9a71a; /* Professional Gold */
+            --text-dark: #1e1e1e;
+            --text-light: #626262;
+            --bg-light: #ffffff;
+            --bg-alt: #f8faf9;
+            --white: #ffffff;
+            
+            --font-headings: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.04);
+            --shadow-intense: 0 12px 35px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img, video { max-width: 100%; height: auto; display: block; }
+        
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- ADVANCED NAVBAR --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 14px 0;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1050;
+            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1060;
+        }
+        .navbar .logo-img { 
+            height: 48px; 
+            width: auto;
+            object-fit: contain;
+        }
+        .navbar .logo-text {
+            font-family: var(--font-headings);
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* Hamburger Menu Icon */
+        .hamburger {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            display: none; /* Desktop hidden */
+            z-index: 1060;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .hamburger:hover { color: var(--accent-color); }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-links li a {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-links li a:hover,
+        .nav-links li .active {
+            color: var(--primary-color);
+        }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        .nav-links li a:hover::after { width: 100%; }
+
+        /* ADVANCED DESKTOP DROPDOWN */
+        .nav-item { position: relative; }
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--white);
+            box-shadow: var(--shadow-intense);
+            min-width: 240px;
+            padding: 16px;
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            border-top: 3px solid var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown a {
+            font-size: 0.85rem;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 500;
+            color: var(--text-light) !important;
+            padding: 10px 12px;
+            border-radius: 6px;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: var(--bg-alt);
+            color: var(--primary-color) !important;
+            transform: translateX(4px);
+        }
+
+        /* --- SLICK HERO SECTION WITH BACKDROP IMAGES --- */
+        .hero-section {
+            height: 85vh;
+            margin-top: 0;
+            position: relative;
+            background-color: #111;
+        }
+        .swiper-container { width: 100%; height: 100%; }
+        .swiper-slide {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #111;
+        }
+
+        /* CSS-Based Fallbacks for Hero images configured to preserve code cleanly */
+        .slide-1 {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://www.abdullahs.in/cdn/shop/files/donate_e17ee7e8-2c4b-4f7d-932a-57922bb4e816.png?v=1759564884&width=1100');
+            background-size: cover;
+            background-position: center;
+        }
+        .slide-2 {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://www.abdullahs.in/cdn/shop/files/Untitled-1-Recovered_92b7fe09-83f6-44c7-ab62-10284d010d54.jpg?v=1749021904&width=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            padding: 0 24px;
+            transform: translateY(25px);
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
+        }
+        .swiper-slide-active .hero-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--white);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .swiper-button-next, .swiper-button-prev { color: var(--accent-color); transform: scale(0.85); }
+        .swiper-pagination-bullet-active { background: var(--accent-color); }
+
+        /* --- CATEGORIES SECTION --- */
+        .categories {
+            padding: 90px 0;
+            background-color: var(--bg-alt);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70px; height: 3.5px;
+            background-color: var(--accent-color);
+            margin: 14px auto 0;
+            border-radius: 2px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .category-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            height: 380px;
+        }
+        .category-card:hover {
+            box-shadow: var(--shadow-intense);
+            transform: translateY(-8px);
+        }
+        .category-card .card-img-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .category-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .category-card:hover img { transform: scale(1.06); }
+        
+        .category-card .card-content {
+            padding: 40px 24px 24px;
+            text-align: center;
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0) 100%);
+            z-index: 2;
+        }
+        .category-card h3 {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- VIDEO SHOWCASE SECTION (FIXED CONTROLS & COMPATIBILITY) --- */
+        .video-section {
+            padding: 90px 0;
+            background-color: var(--white);
+        }
+        .video-row {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 70px;
+        }
+        .video-row:last-child { margin-bottom: 0; }
+        .video-row.alt { flex-direction: row-reverse; }
+
+        .video-media {
+            flex: 1.2;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-intense);
+            aspect-ratio: 16/9;
+            background-color: #000000;
+        }
+        .video-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Modern Video Controls Overlay */
+        .controls {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            opacity: 1; /* Always interactive to prevent missing triggers on mobile */
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .play-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--white);
+            border: 1.5px solid var(--white);
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .play-btn:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .timeline {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.35);
+            outline: none;
+            cursor: pointer;
+        }
+        .timeline::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            border: 2px solid var(--white);
+        }
+
+        .video-text {
+            flex: 1;
+        }
+        .video-text h2 { font-size: 2rem; margin-bottom: 16px; position: relative; padding-bottom: 12px; }
+        .video-text h2::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0;
+            width: 50px; height: 3px;
+            background-color: var(--primary-color);
+        }
+        .video-text p { font-size: 1.05rem; color: var(--text-light); font-weight: 400; line-height: 1.7; }
+
+        /* --- PRODUCTS GRID SECTION --- */
+        .products-section {
+            padding: 90px 0;
+            background-color: var(--bg-alt);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .product-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.015);
+        }
+        .product-card:hover {
+            box-shadow: var(--shadow-intense);
+            transform: translateY(-5px);
+        }
+        .product-card .prod-img-container {
+            height: 260px;
+            overflow: hidden;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .product-card img {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img { transform: scale(1.04); }
+
+        .product-card .prod-content {
+            padding: 20px 16px;
+            text-align: center;
+            border-top: 1px solid #f1f1f1;
+        }
+        .product-card h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            margin: 0;
+        }
+        .product-card:hover h3 { color: var(--primary-color); }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #141414;
+            color: #b5b5b5;
+            padding: 75px 0 110px; /* Extra bottom padding for mobile layout comfort */
+            font-size: 0.9rem;
+        }
+        .footer-columns {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 40px;
+        }
+        footer h3 {
+            color: var(--white);
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+        footer ul li { margin-bottom: 12px; }
+        footer ul li a { color: #b5b5b5; display: inline-block; }
+        footer ul li a:hover { color: var(--accent-color); transform: translateX(4px); }
+        footer p { margin-bottom: 10px; line-height: 1.6; }
+
+        /* --- MOBILE SLIDEOUT SIDE NAVIGATION --- */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 280px; height: 100%;
+            background-color: var(--white);
+            z-index: 1100;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 80px 24px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .mobile-sidebar.open { right: 0; }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1090;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+        .sidebar-overlay.show { opacity: 1; visibility: visible; }
+        
+        .mobile-side-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .mobile-side-links > li > a {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .mobile-side-dropdown {
+            padding-left: 14px;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .mobile-side-dropdown a {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: block;
+            padding: 6px 0;
+        }
+
+        /* --- MOBILE BOTTOM NAVIGATION --- */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background-color: rgba(255, 255, 255, 0.97);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 64px;
+            z-index: 1040;
+            box-shadow: 0 -3px 20px rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.04);
+            display: none; /* Desktop Hidden */
+        }
+        .nav-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-light);
+            flex: 1;
+            height: 100%;
+            font-weight: 500;
+            position: relative;
+        }
+        .nav-btn .material-symbols-rounded { font-size: 22px; margin-bottom: 2px; color: #757575; transition: var(--transition); }
+        .nav-btn .label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; transition: var(--transition); }
+        
+        .nav-btn:hover .material-symbols-rounded,
+        .nav-btn.active .material-symbols-rounded { color: var(--primary-color); }
+        .nav-btn:hover .label,
+        .nav-btn.active .label { color: var(--text-dark); }
+
+        .mobile-bottom-dropdown {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--white);
+            box-shadow: var(--shadow-intense);
+            min-width: 190px;
+            border-radius: 8px;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .mobile-bottom-dropdown.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mobile-bottom-dropdown a { padding: 12px 16px; border-bottom: 1px solid var(--bg-alt); color: var(--text-dark); font-size: 0.85rem; font-weight: 500; text-align: left;}
+        .mobile-bottom-dropdown a:last-child { border-bottom: none; }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        
+        /* Under 1100px (Tablets & Mobile View Preparation) */
+        @media (max-width: 1100px) {
+            .nav-links { display: none; } 
+            .hamburger { display: block; } /* Show explicit sidebar drawer trigger */
+            .mobile-bottom-nav { display: flex; } /* Show navigation convenience bar */
+            
+            .hero-section { height: 60vh; }
+            .hero-content h1 { font-size: 2.5rem; }
+            
+            .category-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+            .category-card { height: 320px; }
+            
+            .footer-columns { grid-template-columns: 1fr; gap: 35px; text-align: center; }
+        }
+
+        /* Under 768px (Phones - High Visual Polish Fixes) */
+        @media (max-width: 768px) {
+            .navbar { padding: 10px 0; }
+            .navbar .logo-img { height: 38px; }
+            .navbar .logo-text { font-size: 1rem; letter-spacing: 0px; }
+            
+            .hero-section { height: 50vh; }
+            .hero-content h1 { font-size: 1.8rem; line-height: 1.3; }
+            
+            .section-title { font-size: 1.8rem; margin-bottom: 35px; }
+            
+            .category-grid { grid-template-columns: 1fr; gap: 20px; }
+            .category-card { height: 280px; }
+            .category-card h3 { font-size: 1.3rem; }
+
+            .video-section { padding: 50px 0; }
+            .video-row, .video-row.alt { flex-direction: column; gap: 24px; margin-bottom: 45px; }
+            .video-text h2 { font-size: 1.5rem; }
+            .video-text p { font-size: 0.95rem; }
+            
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .product-card .prod-img-container { height: 180px; }
+            .product-card h3 { font-size: 0.88rem; }
+        }
+        
+        /* Under 480px (Compact Mobile Adjustments) */
+        @media (max-width: 480px) {
+            .navbar .logo-text { font-size: 0.88rem; font-weight: 700; }
+            .navbar .logo-img { height: 32px; }
+            .hero-content h1 { font-size: 1.5rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 20px; }
+            .product-card .prod-img-container { height: 210px; }
+            .product-card h3 { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+      <img src="images/taha logo.png" alt="TAHA Logo" class="logo-img">
+      <span class="logo-text">TAHA Salah Time Indicator</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li class="nav-item">
+        <a href="#" onclick="event.preventDefault()">Products</a>
+        <div class="dropdown">
+          <a href="product-details/masjid-clock.html">Masjid Clock</a>
+          <a href="product-details/azan-home.html">Azan Home</a>
+          <a href="product-details/other-products.html">Other Products</a>
+        </div>
+      </li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="tracking.html">Track Order</a></li>
+    </ul>
+    
+    <div class="hamburger" id="sidebarTrigger">&#9776;</div>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="mobile-sidebar" id="mobileSidebar">
+  <ul class="mobile-side-links">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <a href="#" onclick="event.preventDefault()">Products</a>
+      <div class="mobile-side-dropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clock</a>
+        <a href="product-details/azan-home.html">Azan Home</a>
+        <a href="product-details/other-products.html">Other Products</a>
+      </div>
+    </li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+<section class="hero-section">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide slide-1">
+        <div class="hero-content">
+          <h1>Professional Masjid Salah Time Indicators</h1>
+        </div>
+      </div>
+      <div class="swiper-slide slide-2">
+        <div class="hero-content">
+          <h1>Smart Azan Clocks for Home & Office</h1>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</section>
+
+<section class="categories">
+  <div class="container">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="category-grid">
+      
+      <div class="category-card" onclick="location.href='product-details/masjid-clock.html'">
+        <div class="card-img-container">
+          <img src="images/MasjidClock.jpg" alt="Masjid Clocks">
+        </div>
+        <div class="card-content">
+          <h3>Masjid Clocks</h3>
+        </div>
+      </div>
+
+      <div class="category-card" onclick="location.href='product-details/azan-home.html'">
+        <div class="card-img-container">
+          <img src="images/Azan-clock.jpg" alt="Azan Home Units">
+        </div>
+        <div class="card-content">
+          <h3>Azan Home Units</h3>
+        </div>
+      </div>
+
+      <div class="category-card" onclick="location.href='product-details/other-products.html'">
+        <div class="card-img-container">
+          <img src="images/GoldRate.jpg" alt="Other Products">
+        </div>
+        <div class="card-content">
+          <h3>Other Products</h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="video-section">
+  <div class="container">
+    
+    <div class="video-row">
+      <div class="video-media">
+        <video id="masjidVideo" preload="metadata" playsinline poster="video-poster.jpg">
+          <source src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Masjid-clockvid_y0fnhb.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="controls" id="masjidControls">
+          <button class="play-btn" id="masjidPlayBtn">▶</button>
+          <input type="range" class="timeline" id="masjidTimeline" min="0" max="100" value="0">
+        </div>
+      </div>
+      <div class="video-text">
+        <h2>Masjid Salah Time Indicator</h2>
+        <p>Advanced digital salah time indicators for masjids with automatic azan, bright LED display and long service life.</p>
+      </div>
+    </div>
+
+    <div class="video-row alt">
+      <div class="video-media">
+        <video id="homeVideo" preload="metadata" playsinline>
+          <source src="https://www.abdullahs.in/cdn/shop/videos/c/vp/b796efa89de64cdb9a35d8b745a2d3f7/b796efa89de64cdb9a35d8b745a2d3f7.HD-1080p-7.2Mbps-38149923.mp4?v=0" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="controls" id="homeControls">
+          <button class="play-btn" id="homePlayBtn">▶</button>
+          <input type="range" class="timeline" id="homeTimeline" min="0" max="100" value="0">
+        </div>
+      </div>
+      <div class="video-text">
+        <h2>Azan Clock for Home & Office</h2>
+        <p>Smart azan clocks with Quran recitation and modern Islamic design for homes, offices and institutions.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+    <h2 class="section-title">Our Products</h2>
+
+    <div class="products-grid">
+      <div class="product-card" onclick="location.href='product-details/masjid-clock.html'">
+        <div class="prod-img-container"><img src="images/MasjidClock2.jpg" alt="Masjid Salah Time Indicator"></div>
+        <div class="prod-content"><h3>Masjid Salah Time Indicator</h3></div>
+      </div>
+
+      <div class="product-card" onclick="location.href='product-details/azan-home.html'">
+        <div class="prod-img-container"><img src="images/AzanClock.jpg" alt="Azan Clocks"></div>
+        <div class="prod-content"><h3>Azan Clocks</h3></div>
+      </div>
+
+      <div class="product-card" onclick="location.href='product-details/other-products.html'">
+        <div class="prod-img-container"><img src="images/GoldRate.jpg" alt="Gold Rate Displays"></div>
+        <div class="prod-content"><h3>Gold Rate Displays</h3></div>
+      </div>
+
+      <div class="product-card" onclick="location.href='product-details/other-products.html'">
+        <div class="prod-img-container"><img src="images/Rate-Display.png" alt="Rate Displays"></div>
+        <div class="prod-content"><h3>Rate Displays</h3></div>
+      </div>
+
+      <div class="product-card" onclick="location.href='product-details/other-products.html'">
+        <div class="prod-img-container"><img src="images/World-Clock.png" alt="World Clock"></div>
+        <div class="prod-content"><h3>World Clock</h3></div>
+      </div>
+
+      <div class="product-card" onclick="location.href='product-details/other-products.html'">
+        <div class="prod-img-container"><img src="images/Presentation-Timer.png" alt="Presentation Timer"></div>
+        <div class="prod-content"><h3>Presentation Timer</h3></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-columns">
+      <div>
+        <h3>TAHA Salah Time Indicator</h3>
+        <p>Professional Salah & Azan Clocks for Masjid & Home. Engineering premium quality digital displays with accuracy and long lifecycle support.</p>
+      </div>
+
+      <div>
+        <h3>Products Menu</h3>
+        <ul>
+          <li><a href="product-details/masjid-clock.html">Masjid Clock</a></li>
+          <li><a href="product-details/azan-home.html">Azan Home</a></li>
+          <li><a href="product-details/other-products.html">Other Products</a></li>
+          <li><a href="terms.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact Info</h3>
+        <p><strong>Phone Support:</strong></p>
+        <p><a href="tel:+919826623786" style="color: #b5b5b5; text-decoration: none;">+91 9826623786</a></p>
+<p><a href="tel:+919302022123" style="color: #b5b5b5; text-decoration: none;">+91 9302022123</a></p>
+       <p>
+    <strong>Email:</strong> 
+    <a href="mailto:tahasalahtime@gmail.com" class="email-link">tahasalahtime@gmail.com</a>
+</p>
+      </div>
+    </div>
+    
+    <div style="text-align: center; color: #555; border-top: 1px solid #222; padding-top: 20px; font-size: 0.8rem;">
+        &copy; TAHA Salah Time Indicator. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<nav class="mobile-bottom-nav">
+  <a href="index.html" class="nav-btn active">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <div class="nav-btn" id="mobileProductBtn" style="cursor: pointer;">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-bottom-dropdown" id="mobileBottomDropdown">
+      <a href="product-details/masjid-clock.html">Masjid Clock</a>
+      <a href="product-details/azan-home.html">Azan Home</a>
+      <a href="product-details/other-products.html">Other Products</a>
+    </div>
+  </div>
+
+  <a href="tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track</span>
+  </a>
+
+  <a href="contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+</nav>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script src="js/video.js"></script>
+
+<script>
+    /* --- Swiper Engine --- */
+    var swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: { delay: 4500, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        effect: 'fade',
+        fadeEffect: { crossFade: true }
+    });
+
+    /* --- Hamburger Slide Sidebar Trigger --- */
+    const trigger = document.getElementById('sidebarTrigger');
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    trigger.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    });
+
+    /* --- Bottom Navigation Dropdown Control --- */
+    const mobProdBtn = document.getElementById('mobileProductBtn');
+    const mobDropdown = document.getElementById('mobileBottomDropdown');
+
+    mobProdBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobDropdown.classList.toggle('show');
+    });
+
+    window.addEventListener('click', () => {
+        if (mobDropdown.classList.contains('show')) {
+            mobDropdown.classList.remove('show');
+        }
+    });
+
+    /* --- Native Robust Video Playback Handler --- */
+    function setupVideoControls(videoId, playBtnId, timelineId) {
+        const video = document.getElementById(videoId);
+        const playBtn = document.getElementById(playBtnId);
+        const timeline = document.getElementById(timelineId);
+
+        if (!video || !playBtn || !timeline) return;
+
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.paused || video.ended) {
+                video.play();
+                playBtn.innerText = '⏸';
+            } else {
+                video.pause();
+                playBtn.innerText = '▶';
+            }
+        });
+
+        video.addEventListener('timeupdate', () => {
+            const percentage = (video.currentTime / video.duration) * 100;
+            timeline.value = isNaN(percentage) ? 0 : percentage;
+        });
+
+        timeline.addEventListener('input', () => {
+            const time = (timeline.value / 100) * video.duration;
+            video.currentTime = time;
+        });
+        
+        // Reset button on end
+        video.addEventListener('ended', () => {
+            playBtn.innerText = '▶';
+            timeline.value = 0;
+        });
+    }
+
+    // Initialize both video players properly
+    document.addEventListener('DOMContentLoaded', () => {
+        setupVideoControls('masjidVideo', 'masjidPlayBtn', 'masjidTimeline');
+        setupVideoControls('homeVideo', 'homePlayBtn', 'homeTimeline');
+    });
+</script>
+
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647; /* Infinite absolute top layout indexing safety override */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px; /* Activates pure hardware-accelerated 3D depth space */
+  }
+
+  /* Interactive Multi-layered Ambient Light Radiance Engines */
+  .taha-3d-wp-wrapper::before,
+  .taha-3d-wp-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Layer 1: Professional Emerald Wave */
+  .taha-3d-wp-wrapper::before {
+    background-color: #25D366;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  }
+  
+  /* Layer 2: Premium Metallic Gold Sub-Aura */
+  .taha-3d-wp-wrapper::after {
+    background-color: #c9a71a;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 0.8s;
+  }
+
+  /* --- PHYSICAL 3D EMBOSSED GLASS BUTTON FRAME --- */
+  .taha-3d-wp-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    
+    /* Complex Multi-Tier Drop Shadows for 3D Realism Elevation */
+    box-shadow: 
+      0 12px 28px rgba(18, 122, 55, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+      
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    
+    /* Real-Time Mathematical Anti-Gravity Floating Engine Simulation */
+    animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+
+  /* Glossy Hyper-Realistic Reflection Sheet Overlay */
+  .glass-specular-glare {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+
+  /* Vector Branding Element Depth Extraction Styles */
+  .wp-vector-icon {
+    fill: #ffffff;
+    width: 33px;
+    height: 33px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    transform: translateZ(15px); /* Forces vector icon to pop outwards off the disk base physically */
+  }
+
+  /* --- HIGH-END HOVER MICRO-ACTIONS AND PROPULSIONS --- */
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+    animation-play-state: paused; /* Halts automated idle animation cleanly when interacting */
+    transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06);
+    background: linear-gradient(145deg, #35ff82 0%, #1fb456 50%, #158f41 100%);
+    box-shadow: 
+      0 22px 38px rgba(18, 122, 55, 0.55),
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Sweeps the glossy reflection sheet across the face of the circle on mouseover */
+  .taha-3d-wp-wrapper:hover .glass-specular-glare {
+    transform: rotate(-15deg) translate(25%, 25%);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .taha-3d-wp-wrapper:hover .wp-vector-icon {
+    transform: translateZ(28px) scale(1.1); /* Increases 3D depth pop effect significantly on mouse hovering */
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Tactile Compression Feedback Layer on Device Tap clicks */
+  .taha-3d-wp-wrapper:active .taha-3d-wp-button {
+    transform: translateY(-2px) scale(0.94);
+    box-shadow: 0 8px 16px rgba(18, 122, 55, 0.4);
+  }
+
+  /* --- SYSTEM MATHEMATICAL TIMELINE MATRIX KEYFRAMES --- */
+  @keyframes luxuriousWpPulse {
+    0% { transform: scale(0.88); opacity: 0.6; }
+    100% { transform: scale(1.65); opacity: 0; }
+  }
+
+  @keyframes dynamicWpFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* --- MOBILE UI RESPONSIVE SAFELOCK MATRIX --- */
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper {
+      bottom: 84px; /* Perfectly aligns spacing above your fixed mobile bottom shortcut panel menu strip */
+      right: 18px;
+      width: 55px;
+      height: 55px;
+    }
+    .wp-vector-icon {
+      width: 27px;
+      height: 27px;
+      transform: translateZ(8px); /* Calibrates soft depth scales for handheld devices */
+    }
+    .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+      /* Optimizes simpler scaling curves for touch views without awkward rotation axis skewing */
+      transform: translateY(-4px) scale(1.04); 
+    }
+    .taha-3d-wp-wrapper:hover .wp-vector-icon {
+      transform: translateZ(12px) scale(1.05);
+    }
+  }
+</style>
+
+<style>
+  /* --- HOVER EFFECT FOR PHONE NUMBERS --- */
+  /* Target links with the 'tel:' protocol */
+  a[href^="tel:"] {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  a[href^="tel:"]:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: scale(1.05);    /* Slight zoom effect */
+    letter-spacing: 0.5px;
+  }
+
+  /* --- PROFESSIONAL MOBILE OPTIMIZATIONS --- */
+  @media (max-width: 768px) {
+    footer {
+      padding: 50px 0 60px;
+    }
+    
+    .footer-columns {
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    footer h2, footer h3 {
+      font-size: 1rem; /* Slightly smaller for mobile readability */
+      margin-bottom: 15px;
+    }
+
+    footer p, footer ul li, .footer-bottom {
+      font-size: 0.85rem;
+    }
+
+    /* Stack and center for clean mobile appearance */
+    .footer-columns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* --- EMAIL LINK STYLING --- */
+.email-link {
+    color: #b5b5b5 !important; /* Matches your footer text */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border-bottom: 1px solid transparent; /* Keeps it subtle */
+}
+
+/* Hover Effect */
+.email-link:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: translateX(5px); /* Gentle slide-in animation */
+    border-bottom: 1px solid #c9a71a; /* Underline appears on hover */
+}
+
+/* Optional: Clickable feedback */
+.email-link:active {
+    transform: scale(0.98);
+}
+</style>
+
+</body>
+</html>

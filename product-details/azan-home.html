@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azan Home Units | TAHA Salah Time Indicator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        /* --- CORE STYLE MATRIX & PALETTE (MATCHING MASJID CLOCK UI) --- */
+        :root {
+            --primary-color: #8a1414; /* Deep Burgundy Red */
+            --primary-color-dark: #660d0d;
+            --accent-color: #c9a71a; /* Professional Gold */
+            --text-dark: #1e1e1e;
+            --text-light: #626262;
+            --bg-light: #ffffff;
+            --bg-alt: #f8faf9;
+            --white: #ffffff;
+            --discount-green: #388e3c;
+            
+            --font-headings: 'Cinzel', serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-alt: 'Montserrat', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.04);
+            --shadow-intense: 0 12px 35px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-alt);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 60px;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-alt); font-weight: 700; color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img, video { max-width: 100%; height: auto; display: block; }
+        
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- NAVBAR STYLING --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 14px 0;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1050;
+            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1060;
+        }
+        .navbar .logo-img { 
+            height: 48px; 
+            width: auto;
+            object-fit: contain;
+        }
+        .navbar .logo-text {
+            font-family: var(--font-headings);
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .hamburger {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            display: none;
+            z-index: 1060;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .hamburger:hover { color: var(--accent-color); }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .nav-links li a {
+            font-family: var(--font-alt);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-links li a:hover,
+        .nav-links li .active { color: var(--primary-color); }
+        .nav-links li a::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        .nav-links li a:hover::after { width: 100%; }
+
+        .nav-item { position: relative; }
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--white);
+            box-shadow: var(--shadow-intense);
+            min-width: 240px;
+            padding: 16px;
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            border-top: 3px solid var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+        .nav-item:hover .dropdown {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown a {
+            font-size: 0.85rem;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 500;
+            color: var(--text-light) !important;
+            padding: 10px 12px;
+            border-radius: 6px;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: var(--bg-alt);
+            color: var(--primary-color) !important;
+            transform: translateX(4px);
+        }
+
+        /* --- HERO SECTION --- */
+        .page-hero {
+            position: relative;
+            min-height: 45vh;
+            margin-top: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://www.abdullahs.in/cdn/shop/files/Nheader1_13fcc6d1-1c87-4d2d-b808-07d9046e6a08.png?v=1759562487&width=3840") center/cover no-repeat;
+        }
+        .page-hero h1 {
+            font-size: 3rem;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        /* --- VIDEO SHOWCASE SECTION --- */
+        .product-video-section {
+            padding: 90px 0;
+            background-color: var(--white);
+        }
+        .product-video-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .custom-video {
+            flex: 1.2;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-intense);
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        .custom-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .video-controls {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .center-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            width: 62px; height: 62px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(138, 20, 20, 0.4);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .center-btn:hover { background-color: var(--primary-color-dark); transform: translate(-50%, -50%) scale(1.05); }
+        
+        .center-btn.show, .video-controls.show { opacity: 1; pointer-events: auto; }
+
+        .video-controls input[type="range"] {
+            flex: 1; -webkit-appearance: none; appearance: none; height: 5px; border-radius: 3px;
+            background: rgba(255,255,255,0.35); outline: none; cursor: pointer;
+        }
+        .video-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+            border-radius: 50%; background: var(--accent-color); cursor: pointer; border: 2px solid var(--white);
+        }
+
+        .product-video-content { flex: 0.8; }
+        .product-video-content h2 { font-size: 2rem; margin-bottom: 16px; position: relative; padding-bottom: 12px; }
+        .product-video-content h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background-color: var(--primary-color); }
+        .product-video-content p { font-size: 1.05rem; color: var(--text-light); line-height: 1.7; margin-bottom: 12px; }
+
+        /* --- PRODUCTS GRID LAYOUT --- */
+        .home-products {
+            padding: 80px 0;
+            background-color: var(--bg-alt);
+        }
+        .home-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        .home-title::after {
+            content: ''; display: block; width: 70px; height: 3.5px; background-color: var(--accent-color); margin: 14px auto 0; border-radius: 2px;
+        }
+
+        .product-unit-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .product-unit {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        .product-unit:hover {
+            box-shadow: var(--shadow-intense);
+            transform: translateY(-5px);
+        }
+        
+        .prod-img-box {
+            height: 250px;
+            overflow: hidden;
+            background-color: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            position: relative;
+            cursor: zoom-in;
+            border-bottom: 1px solid #f9f9f9;
+        }
+        .product-unit img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        .product-unit:hover img { transform: scale(1.03); }
+
+        .prod-img-box::after {
+            content: 'zoom_in';
+            font-family: 'Material Symbols Rounded';
+            position: absolute;
+            bottom: 12px; right: 12px;
+            background: rgba(138, 20, 20, 0.95);
+            color: var(--white);
+            padding: 6px;
+            border-radius: 50%;
+            font-size: 18px;
+            opacity: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: var(--transition);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .prod-img-box:hover::after { opacity: 1; }
+
+        .prod-details-box {
+            padding: 16px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .product-unit h3 {
+            font-family: var(--font-alt);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .model-badge {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Price Engine Matrix */
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: auto;
+            flex-wrap: wrap;
+        }
+        .sales-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .mrp-cut {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            font-weight: 400;
+        }
+        .gst-tag {
+            font-size: 0.8rem;
+            color: var(--discount-green);
+            font-weight: 600;
+            display: block;
+            width: 100%;
+            margin-top: 2px;
+        }
+
+        .order-btn {
+            margin-top: 14px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 11px 16px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .order-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+
+        /* --- LIGHTBOX MODAL POPUP --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .lightbox-overlay.active { opacity: 1; visibility: visible; }
+        
+        .lightbox-container {
+            position: relative;
+            max-width: 85%;
+            max-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lightbox-overlay.active .lightbox-container { transform: scale(1) translateY(0); }
+        
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            background-color: var(--white);
+            padding: 10px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -46px; right: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+        }
+        .lightbox-close:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        /* --- FOOTER STYLING --- */
+        footer {
+            background-color: #1e1e1e;
+            color: var(--white);
+            padding: 60px 5% 40px;
+            border-top: 4px solid var(--primary-color);
+        }
+        .footer-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+        footer h2 {
+            font-family: var(--font-alt);
+            font-size: 22px;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        footer h3 {
+            font-family: var(--font-alt);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        footer p { font-size: 14px; color: #bbb; line-height: 1.6; }
+        footer ul li { margin-bottom: 10px; }
+        footer ul li a { color: #bbb; font-size: 14px; display: inline-block; }
+        footer ul li a:hover { color: var(--primary-color); padding-left: 4px; }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #2d2d2d;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* --- MOBILE BOTTOM NAVIGATION --- */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            z-index: 9999;
+            display: none;
+        }
+        .nav-btn {
+            flex: 1;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            padding: 8px 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-btn .material-symbols-rounded { font-size: 22px; margin-bottom: 2px; color: #555; }
+        .nav-btn.active, .nav-btn:hover { color: var(--primary-color); }
+        .nav-btn.active .material-symbols-rounded { color: var(--primary-color); }
+        
+        .mobile-dropdown {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
+            background-color: var(--white);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            width: 160px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 1px solid rgba(0,0,0,0.06);
+            z-index: 10000;
+        }
+        .mobile-dropdown.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) scale(1); }
+        .mobile-dropdown a { padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.05); color: var(--text-dark); font-size: 13px; text-align: center; display: block; }
+        .mobile-dropdown a:last-child { border-bottom: none; }
+        .mobile-dropdown a.active-link { color: var(--primary-color); background: #fff5f5; font-weight: 600; }
+
+        /* --- FADE EFFECTS INTERSECTION OBSERVER --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .fade-in.show { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 1100px) {
+            .product-unit-container { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        }
+        @media (max-width: 768px) {
+            /* Transform desktop header links into custom responsive mobile menu overlay */
+            .navbar .nav-links { 
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+                padding: 20px;
+                gap: 16px;
+                align-items: flex-start;
+                border-top: 1px solid #eee;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: var(--transition);
+            }
+            .navbar .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            .navbar .nav-links li {
+                width: 100%;
+            }
+            .navbar .nav-links li a {
+                display: block;
+                width: 100%;
+                padding: 10px 0;
+                font-size: 0.95rem;
+            }
+            
+            /* Handle desktop dropdown inside mobile menu expansion */
+            .navbar .nav-links .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                padding: 4px 0 0 15px;
+                border-top: none;
+                display: flex;
+                gap: 6px;
+            }
+            .navbar .nav-links .dropdown a {
+                padding: 8px 10px;
+            }
+
+            .navbar .hamburger { display: block; }
+            .mobile-bottom-nav { 
+                display: flex; 
+                padding-bottom: env(safe-area-inset-bottom, 0px);
+                height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+                z-index: 999999 !important;
+            }
+            .page-hero { min-height: 35vh; margin-top: 70px; }
+            .product-video-section { padding: 50px 0; }
+            .product-video-wrapper { flex-direction: column; gap: 30px; }
+            .product-video-content h2 { font-size: 26px; text-align: center; }
+            .product-video-content h2::after { margin: 8px auto 0; }
+            .product-video-content p { text-align: center; }
+            
+            /* High Precision Product Double Grid layout */
+            .product-unit-container { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 10px; }
+            .home-products { padding: 30px 0 60px; }
+            .home-title { font-size: 20px; margin-bottom: 20px; }
+            .prod-img-box { height: 160px; padding: 10px; }
+            .prod-img-box::after { display: none; }
+            .prod-details-box { padding: 10px; }
+            .product-unit h3 { font-size: 13px; }
+            .sales-price { font-size: 15px; }
+            .mrp-cut { font-size: 11px; }
+            .order-btn { padding: 8px 10px; font-size: 11px; margin-top: 10px; border-radius: 4px; }
+            .lightbox-container { max-width: 90%; }
+            .lightbox-close { top: -42px; right: 2px; width: 34px; height: 34px; font-size: 18px; }
+        }
+
+        /* =======================================================
+           RESPONSIVE FIXES FOR EXTRA SMALL/PHONE DEVICES (max-width: 480px)
+           ======================================================= */
+        @media (max-width: 480px) {
+            .navbar .container {
+                padding: 0 12px !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+            .navbar .logo-container {
+                gap: 6px !important;
+                max-width: 80%;
+            }
+            .navbar .logo-img {
+                height: 28px !important;
+                width: auto;
+            }
+            .navbar .logo-text {
+                font-size: 0.82rem !important;
+                white-space: nowrap;
+                letter-spacing: -0.2px !important;
+            }
+            .hamburger {
+                font-size: 1.6rem !important;
+                line-height: 1;
+                margin-left: auto;
+                position: relative;
+                z-index: 1200 !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .navbar .logo-text { font-size: 0.75rem !important; }
+            .navbar .logo-img { height: 24px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo-container" onclick="location.href='../index.html'" style="cursor:pointer;">
+                <img src="../images/taha logo.png" alt="T Logo" class="logo-img">
+                <span class="logo-text">TAHA Salah Time Indicator</span>
+            </div>
+            <ul class="nav-links" id="navLinksMenu">
+                <li><a href="../index.html">Home</a></li>
+                <li class="nav-item">
+                    <a href="#" class="active">Products</a>
+                    <div class="dropdown">
+                        <a href="masjid-clock.html">Masjid Clocks</a>
+                        <a href="azan-home.html">Azan Home Units</a>
+                        <a href="other-products.html">Other Products</a>
+                    </div>
+                </li>
+                <li><a href="../about.html">About Us</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+                <li><a href="../terms.html">Terms & Conditions</a></li>
+                <li><a href="../tracking.html">Track Order</a></li>
+            </ul>
+            <div class="hamburger" id="hamburgerBtn">&#9776;</div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>Featured Azan Home Units</h1>
+        </div>
+    </section>
+
+    <section class="product-video-section fade-in">
+        <div class="container product-video-wrapper">
+            <div class="custom-video" id="videoWrapper">
+                <video id="productVideo" poster="video-poster.jpg" preload="metadata" playsinline>
+                    <source src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Abdullah_s_P3_Azan_Clock_Explainer_Home_Unit_Abdullah_s_Electronics_Pvt_Ltd_1080P_uainan.mp4" type="video/mp4">
+                </video>
+                <button class="center-btn" id="playBtn">▶</button>
+                <div class="video-controls" id="videoControls">
+                    <input type="range" id="progressBar" value="0" min="0" max="100">
+                </div>
+            </div>
+            <div class="product-video-content">
+                <h2>Azan Clock–</h2>
+                <p>✨ Never miss a prayer again with our beautifully designed Azan Clock! ✨</p>
+                <p>Stay connected to your Namaz on time with automatic prayer time reminders, a clear digital display, and accurate Azan for all five daily prayers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-products fade-in">
+        <div class="container">
+            <h2 class="home-title">Featured Azan Home Units with Quran Player</h2>
+            <div class="product-unit-container">
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/Azan-B-Best-Seller.png?v=1759214931&width=360" alt="Azan Home 1"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-B</h3>
+                        <div class="model-badge">Home Unit Series</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-B" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/Azan-A-Best-Seller.png?v=1759214909&width=360" alt="Azan Home 2"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-A</h3>
+                        <div class="model-badge">Home Unit Series</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-A" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-Best-Seller.png?v=1759214870&width=360" alt="Azan Home 3"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C1</h3>
+                        <div class="model-badge">Madina Special</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C1" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/c14.png?v=1765871298&width=360" alt="Azan Home 4"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C14 Makkah</h3>
+                        <div class="model-badge">Makkah Premium</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C14" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-New-Best-Seller.png?v=1759214837&width=360" alt="Azan Home 5"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C7 Madina New</h3>
+                        <div class="model-badge">Madina Series</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C7" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/1_cd25f43e-faed-41a1-9881-a589e21be2ad.png?v=1748958499&width=360" alt="Azan Home 6"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C10 Madina Vintage</h3>
+                        <div class="model-badge">Vintage Edition</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C10" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/2.png?v=1748958743&width=360" alt="Azan Home 7"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C8 Dome of the Rock</h3>
+                        <div class="model-badge">Heritage Series</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C8" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/6.png?v=1748959905&width=360" alt="Azan Home 8"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C9 Persian Pattern</h3>
+                        <div class="model-badge">Artisan Edition</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C9" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/4.png?v=1748959157&width=360" alt="Azan Home 9"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C13 Kalma</h3>
+                        <div class="model-badge">Islamic Art</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C13" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/7.png?v=1748959417&width=360" alt="Azan Home 10"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C12 Kalma</h3>
+                        <div class="model-badge">Islamic Art</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                       <a href="product-detail.html?model=P3-C12" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/5_1115feb8-0d58-46fd-8577-f23c0fae2615.png?v=1748959596&width=360" alt="Azan Home 11"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C11 Allahu Akbar</h3>
+                        <div class="model-badge">Allahu Akbar</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C11" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/8_8e0e4e4b-1d5a-4c51-842b-87424a3b4c24.png?v=1749028093&width=360" alt="Azan Home 12"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C2 Surah Ikhlas</h3>
+                        <div class="model-badge">Quranic Collection</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                       <a href="product-detail.html?model=P3-C2" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/9_a450ebbe-94ce-436e-801d-80356e61255b.png?v=1749028451&width=360" alt="Azan Home 13"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C4</h3>
+                        <div class="model-badge">Home Unit Series</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C4" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/10.png?v=1749028491&width=360" alt="Azan Home 14"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C3 Darood Shareef</h3>
+                        <div class="model-badge">Quranic Collection</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C3" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/12.png?v=1749028653&width=360" alt="Azan Home 15"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C5 Ayatul Kursi</h3>
+                        <div class="model-badge">Quranic Collection</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C5" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+                <div class="product-unit fade-in">
+                    <div class="prod-img-box"><img src="https://www.abdullahs.in/cdn/shop/files/11.png?v=1749028612&width=360" alt="Azan Home 16"></div>
+                    <div class="prod-details-box">
+                        <h3>P3-C6 4Qul Surah</h3>
+                        <div class="model-badge">Quranic Collection</div>
+                        <div class="price-container">
+                            <span class="sales-price">₹5,500</span>
+                            <span class="mrp-cut">₹8,500
+                            </span>
+                            <span class="gst-tag">+ 18% GST</span>
+                        </div>
+                        <a href="product-detail.html?model=P3-C6" class="order-btn">View Details</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <div class="lightbox-container">
+            <button class="lightbox-close" id="lightboxCloseBtn">&times;</button>
+            <img src="" alt="Expanded View" class="lightbox-img" id="lightboxActiveImg">
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-columns fade-in">
+            <div>
+                <h2>TAHA Salah Time Indicator</h2>
+                <p>Professional Salah & Azan Clocks for Masjid & Home.</p>
+                <p>Let's make our Masjids Hi-Tech</p>
+            </div>
+            <div>
+                <h3>Products</h3>
+                <ul>
+                    <li><a href="masjid-clock.html">Masjid Clocks</a></li>
+                    <li><a href="azan-home.html">Azan Home Units</a></li>
+                    <li><a href="other-products.html">Other Products</a></li>
+                    <li><a href="../terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p><a href="tel:+919826623786" style="color: #b5b5b5; text-decoration: none;">+91 9826623786</a></p>
+<p><a href="tel:+919302022123" style="color: #b5b5b5; text-decoration: none;">+91 9302022123</a></p>
+                <p>
+    <strong>Email:</strong> 
+    <a href="mailto:tahasalahtime@gmail.com" class="email-link">tahasalahtime@gmail.com</a>
+</p>
+                <p>Ratlam, Madhya Pradesh</p>
+                <p>Mumbai, Maharashtra</p>
+            </div>
+        </div>
+        <p class="footer-bottom">&copy; 2025 TAHA Salah Time Indicator. All Rights Reserved.</p>
+    </footer>
+
+    <nav class="mobile-bottom-nav">
+        <a href="../index.html" class="nav-btn" id="bn-home">
+            <span class="material-symbols-rounded">home</span>
+            <span class="label">Home</span>
+        </a>
+        <div class="nav-btn has-dropdown" id="productsBtn">
+            <span class="material-symbols-rounded">inventory_2</span>
+            <span class="label">Products</span>
+            <div class="mobile-dropdown" id="mobileProductDropdown">
+                <a href="masjid-clock.html">Masjid Clock</a>
+                <a href="azan-home.html" class="active-link">Azan Home</a>
+                <a href="other-products.html">Other Products</a>
+            </div>
+        </div>
+        <a href="../about.html" class="nav-btn" id="bn-about">
+            <span class="material-symbols-rounded">info</span>
+            <span class="label">About</span>
+        </a>
+        <a href="../contact.html" class="nav-btn" id="bn-contact">
+            <span class="material-symbols-rounded">call</span>
+            <span class="label">Contact</span>
+        </a>
+        <a href="../tracking.html" class="nav-btn" id="bn-track">
+            <span class="material-symbols-rounded">local_shipping</span>
+            <span class="label">Track</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Hamburger Top Menu Overlay Toggle Fixes
+            const hamburger = document.getElementById("hamburgerBtn");
+            const navLinksMenu = document.getElementById("navLinksMenu");
+
+            if (hamburger && navLinksMenu) {
+                hamburger.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    navLinksMenu.classList.toggle("active");
+                });
+                
+                // Clicking inside links area shouldn't snap shut randomly unless navigating
+                navLinksMenu.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            // Bottom Navigation Products Tab Dropdown 
+            const productsBtn = document.getElementById("productsBtn");
+            const dropdown = document.getElementById("mobileProductDropdown");
+
+            if (productsBtn && dropdown) {
+                productsBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation(); 
+                    dropdown.classList.toggle("show");
+                });
+            }
+
+            // Global Click to close open menus when user taps empty body real estate
+            document.addEventListener("click", function () {
+                if (dropdown) dropdown.classList.remove("show");
+                if (navLinksMenu) navLinksMenu.classList.remove("active");
+            });
+
+            // Set Current Page Active State Highlights
+            const bnHome = document.getElementById("bn-home");
+            const bnAbout = document.getElementById("bn-about");
+            const bnContact = document.getElementById("bn-contact");
+            const bnTrack = document.getElementById("bn-track");
+
+            const currentPage = window.location.pathname.split("/").pop();
+            if (currentPage === "index.html" || currentPage === "") bnHome?.classList.add("active");
+            else if (["masjid-clock.html", "azan-home.html", "other-products.html"].includes(currentPage)) productsBtn?.classList.add("active");
+            else if (currentPage === "about.html") bnAbout?.classList.add("active");
+            else if (currentPage === "contact.html") bnContact?.classList.add("active");
+            else if (currentPage === "tracking.html") bnTrack?.classList.add("active");
+
+            // Scroll Intersection Fade Animations Logic
+            const fadeElements = document.querySelectorAll(".fade-in");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Run features safely without duplicate event listener blocks crashing scripts
+            setupCustomVideoPlayer();
+            initImageLightbox();
+        });
+
+        function setupCustomVideoPlayer() {
+            const video = document.getElementById("productVideo");
+            const playBtn = document.getElementById("playBtn");
+            const progressBar = document.getElementById("progressBar");
+            const controls = document.getElementById("videoControls");
+            let hideTimer;
+
+            if (!video || !playBtn || !progressBar || !controls) return;
+
+            function togglePlay() {
+                if (video.paused) {
+                    video.play();
+                    playBtn.textContent = "❚❚";
+                } else {
+                    video.pause();
+                    playBtn.textContent = "▶";
+                }
+                showControls();
+            }
+
+            playBtn.addEventListener("click", togglePlay);
+            video.addEventListener("click", togglePlay);
+
+            function showControls() {
+                playBtn.classList.add("show");
+                controls.classList.add("show");
+
+                clearTimeout(hideTimer);
+                hideTimer = setTimeout(() => {
+                    if (!video.paused) {
+                        playBtn.classList.remove("show");
+                        controls.classList.remove("show");
+                    }
+                }, 3000);
+            }
+
+            video.addEventListener("mousemove", showControls);
+            video.addEventListener("touchstart", showControls);
+            controls.addEventListener("mousemove", showControls);
+
+            video.addEventListener("timeupdate", () => {
+                if (video.duration) {
+                    progressBar.value = (video.currentTime / video.duration) * 100;
+                }
+            });
+
+            progressBar.addEventListener("input", () => {
+                video.currentTime = (progressBar.value / 100) * video.duration;
+            });
+
+            video.addEventListener("ended", () => {
+                playBtn.textContent = "▶";
+                playBtn.classList.add("show");
+                controls.classList.add("show");
+            });
+            
+            playBtn.classList.add("show");
+            controls.classList.add("show");
+        }
+
+        function initImageLightbox() {
+            const overlay = document.getElementById('lightboxOverlay');
+            const modalImg = document.getElementById('lightboxActiveImg');
+            const closeBtn = document.getElementById('lightboxCloseBtn');
+            const imgBoxes = document.querySelectorAll('.prod-img-box');
+
+            if (!overlay || !modalImg || !closeBtn) return;
+
+            imgBoxes.forEach(box => {
+                box.addEventListener('click', () => {
+                    const img = box.querySelector('img');
+                    if (img) {
+                        modalImg.src = img.src;
+                        modalImg.alt = img.alt;
+                        overlay.classList.add('active');
+                        document.body.style.overflow = 'hidden'; 
+                    }
+                });
+            });
+
+            const clearModal = () => {
+                overlay.classList.remove('active');
+                document.body.style.overflow = ''; 
+            };
+
+            closeBtn.addEventListener('click', clearModal);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) clearModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    clearModal();
+                }
+            });
+        }
+    </script>
+
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647; /* Infinite absolute top layout indexing safety override */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px; /* Activates pure hardware-accelerated 3D depth space */
+  }
+
+  /* Interactive Multi-layered Ambient Light Radiance Engines */
+  .taha-3d-wp-wrapper::before,
+  .taha-3d-wp-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Layer 1: Professional Emerald Wave */
+  .taha-3d-wp-wrapper::before {
+    background-color: #25D366;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  }
+  
+  /* Layer 2: Premium Metallic Gold Sub-Aura */
+  .taha-3d-wp-wrapper::after {
+    background-color: #c9a71a;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 0.8s;
+  }
+
+  /* --- PHYSICAL 3D EMBOSSED GLASS BUTTON FRAME --- */
+  .taha-3d-wp-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    
+    /* Complex Multi-Tier Drop Shadows for 3D Realism Elevation */
+    box-shadow: 
+      0 12px 28px rgba(18, 122, 55, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+      
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    
+    /* Real-Time Mathematical Anti-Gravity Floating Engine Simulation */
+    animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+
+  /* Glossy Hyper-Realistic Reflection Sheet Overlay */
+  .glass-specular-glare {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+
+  /* Vector Branding Element Depth Extraction Styles */
+  .wp-vector-icon {
+    fill: #ffffff;
+    width: 33px;
+    height: 33px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    transform: translateZ(15px); /* Forces vector icon to pop outwards off the disk base physically */
+  }
+
+  /* --- HIGH-END HOVER MICRO-ACTIONS AND PROPULSIONS --- */
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+    animation-play-state: paused; /* Halts automated idle animation cleanly when interacting */
+    transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06);
+    background: linear-gradient(145deg, #35ff82 0%, #1fb456 50%, #158f41 100%);
+    box-shadow: 
+      0 22px 38px rgba(18, 122, 55, 0.55),
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Sweeps the glossy reflection sheet across the face of the circle on mouseover */
+  .taha-3d-wp-wrapper:hover .glass-specular-glare {
+    transform: rotate(-15deg) translate(25%, 25%);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .taha-3d-wp-wrapper:hover .wp-vector-icon {
+    transform: translateZ(28px) scale(1.1); /* Increases 3D depth pop effect significantly on mouse hovering */
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Tactile Compression Feedback Layer on Device Tap clicks */
+  .taha-3d-wp-wrapper:active .taha-3d-wp-button {
+    transform: translateY(-2px) scale(0.94);
+    box-shadow: 0 8px 16px rgba(18, 122, 55, 0.4);
+  }
+
+  /* --- SYSTEM MATHEMATICAL TIMELINE MATRIX KEYFRAMES --- */
+  @keyframes luxuriousWpPulse {
+    0% { transform: scale(0.88); opacity: 0.6; }
+    100% { transform: scale(1.65); opacity: 0; }
+  }
+
+  @keyframes dynamicWpFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* --- MOBILE UI RESPONSIVE SAFELOCK MATRIX --- */
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper {
+      bottom: 84px; /* Perfectly aligns spacing above your fixed mobile bottom shortcut panel menu strip */
+      right: 18px;
+      width: 55px;
+      height: 55px;
+    }
+    .wp-vector-icon {
+      width: 27px;
+      height: 27px;
+      transform: translateZ(8px); /* Calibrates soft depth scales for handheld devices */
+    }
+    .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+      /* Optimizes simpler scaling curves for touch views without awkward rotation axis skewing */
+      transform: translateY(-4px) scale(1.04); 
+    }
+    .taha-3d-wp-wrapper:hover .wp-vector-icon {
+      transform: translateZ(12px) scale(1.05);
+    }
+  }
+</style>
+
+<style>
+  /* --- HOVER EFFECT FOR PHONE NUMBERS --- */
+  /* Target links with the 'tel:' protocol */
+  a[href^="tel:"] {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  a[href^="tel:"]:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: scale(1.05);    /* Slight zoom effect */
+    letter-spacing: 0.5px;
+  }
+
+  /* --- PROFESSIONAL MOBILE OPTIMIZATIONS --- */
+  @media (max-width: 768px) {
+    footer {
+      padding: 50px 0 60px;
+    }
+    
+    .footer-columns {
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    footer h2, footer h3 {
+      font-size: 1rem; /* Slightly smaller for mobile readability */
+      margin-bottom: 15px;
+    }
+
+    footer p, footer ul li, .footer-bottom {
+      font-size: 0.85rem;
+    }
+
+    /* Stack and center for clean mobile appearance */
+    .footer-columns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* --- EMAIL LINK STYLING --- */
+.email-link {
+    color: #b5b5b5 !important; /* Matches your footer text */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border-bottom: 1px solid transparent; /* Keeps it subtle */
+}
+
+/* Hover Effect */
+.email-link:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: translateX(5px); /* Gentle slide-in animation */
+    border-bottom: 1px solid #c9a71a; /* Underline appears on hover */
+}
+
+/* Optional: Clickable feedback */
+.email-link:active {
+    transform: scale(0.98);
+}
+</style>
+
+</body>
+</html>

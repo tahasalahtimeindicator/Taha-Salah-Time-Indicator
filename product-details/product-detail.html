@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | TAHA Salah Time Indicator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #8a1414;
+            --primary-color-dark: #660d0d;
+            --accent-color: #c9a71a;
+            --text-dark: #1e1e1e;
+            --text-light: #626262;
+            --bg-alt: #f8faf9;
+            --white: #ffffff;
+            --font-headings: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background-color: #ffffff;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 100px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        :root{
+    --primary-color:#8a1414;
+    --primary-color-dark:#660d0d;
+    --accent-color:#c9a71a;
+    --text-dark:#1e1e1e;
+    --text-light:#626262;
+    --bg-alt:#f8faf9;
+    --white:#ffffff;
+
+    --font-headings:'Cinzel',serif;
+    --font-body:'Montserrat',sans-serif;
+
+    --transition:all .3s cubic-bezier(.25,.8,.25,1);
+    --shadow-subtle:0 4px 20px rgba(0,0,0,.04);
+    --shadow-intense:0 12px 35px rgba(0,0,0,.08);
+}
+
+.container{
+    width:100%;
+    max-width:1300px;
+    margin:auto;
+    padding:0 24px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:rgba(255,255,255,.98);
+    padding:14px 0;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1050;
+    box-shadow:var(--shadow-subtle);
+    backdrop-filter:blur(8px);
+}
+
+.navbar .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo-container{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    z-index:1060;
+}
+
+.logo-img{
+    height:48px;
+    width:auto;
+    object-fit:contain;
+}
+
+.logo-text{
+    font-family:var(--font-headings);
+    font-size:1.25rem;
+    color:var(--primary-color);
+    font-weight:700;
+}
+
+.hamburger{
+    font-size:2rem;
+    cursor:pointer;
+    color:var(--primary-color);
+    display:none;
+    z-index:1060;
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+    align-items:center;
+    list-style:none;
+}
+
+.nav-links a{
+    font-size:.85rem;
+    text-transform:uppercase;
+    font-weight:600;
+    letter-spacing:1px;
+    color:var(--text-dark);
+    text-decoration:none;
+    position:relative;
+}
+
+.nav-links a:after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:0;
+    height:2px;
+    background:var(--accent-color);
+    transition:.3s;
+}
+
+.nav-links a:hover:after{
+    width:100%;
+}
+
+/* Desktop Dropdown */
+
+.nav-item{
+    position:relative;
+}
+
+.dropdown{
+    position:absolute;
+    top:calc(100% + 14px);
+    left:50%;
+    transform:translateX(-50%) translateY(10px);
+    background:#fff;
+    min-width:240px;
+    padding:16px;
+    border-radius:8px;
+    border-top:3px solid var(--accent-color);
+    box-shadow:var(--shadow-intense);
+
+    opacity:0;
+    visibility:hidden;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+    transition:.3s;
+}
+
+.nav-item:hover .dropdown{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(-50%) translateY(0);
+}
+
+.dropdown a{
+    padding:10px 12px;
+    border-radius:6px;
+}
+
+.dropdown a:hover{
+    background:#f8faf9;
+}
+
+/* Sidebar */
+
+.mobile-sidebar{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:280px;
+    height:100%;
+    background:#fff;
+    z-index:1100;
+    padding:80px 24px 40px;
+    transition:.4s;
+    box-shadow:-5px 0 30px rgba(0,0,0,.15);
+}
+
+.mobile-sidebar.open{
+    right:0;
+}
+
+.sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+    z-index:1090;
+}
+
+.sidebar-overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.mobile-side-links{
+    list-style:none;
+}
+
+.mobile-side-links > li > a{
+    display:block;
+    padding:12px 0;
+    font-weight:600;
+    border-bottom:1px solid #eee;
+}
+
+.mobile-side-dropdown{
+    padding-left:15px;
+    margin-top:10px;
+}
+
+.mobile-side-dropdown a{
+    display:block;
+    padding:8px 0;
+}
+
+/* Bottom Nav */
+
+.mobile-bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:64px;
+    background:#fff;
+    display:none;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -3px 20px rgba(0,0,0,.06);
+    z-index:1040;
+}
+
+.nav-btn{
+    flex:1;
+    text-align:center;
+    position:relative;
+}
+
+.nav-btn .material-symbols-rounded{
+    font-size:22px;
+}
+
+.label{
+    display:block;
+    font-size:.68rem;
+}
+
+.mobile-bottom-dropdown{
+    position:absolute;
+    bottom:calc(100% + 8px);
+    left:50%;
+    transform:translateX(-50%);
+    background:#fff;
+    min-width:190px;
+    border-radius:8px;
+    overflow:hidden;
+
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.mobile-bottom-dropdown.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.mobile-bottom-dropdown a{
+    display:block;
+    padding:12px 16px;
+}
+
+/* Responsive */
+
+@media(max-width:1100px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hamburger{
+        display:block;
+    }
+
+    .mobile-bottom-nav{
+        display:flex;
+    }
+}
+
+@media(max-width:768px){
+
+    .navbar{
+        padding:10px 0;
+    }
+
+    .logo-img{
+        height:38px;
+    }
+
+    .logo-text{
+        font-size:1rem;
+    }
+}
+
+.mobile-side-links{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.mobile-side-links li{
+    margin-bottom:8px;
+}
+
+.mobile-side-links > li > a{
+    display:flex;
+    align-items:center;
+    padding:14px 16px;
+    border-radius:12px;
+
+    color:#1e1e1e;
+    text-decoration:none;
+    font-weight:600;
+
+    background:#f8fafc;
+    transition:.3s;
+}
+
+.mobile-side-links > li > a:hover{
+    background:#8a1414;
+    color:#fff;
+    transform:translateX(5px);
+}
+
+.mobile-side-dropdown{
+    margin-top:8px;
+    padding-left:15px;
+}
+
+.mobile-side-dropdown a{
+    display:block;
+    padding:10px 15px;
+    border-radius:10px;
+
+    color:#444;
+    text-decoration:none;
+    background:#f5f5f5;
+    margin-bottom:6px;
+
+    transition:.3s;
+}
+
+.mobile-side-dropdown a:hover{
+    background:#c9a71a;
+    color:#fff;
+}
+
+        /* --- LAYOUT STRUCTURE --- */
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            padding: 20px 0 80px;
+            align-items: start;
+        }
+
+        /* Image Frame */
+        .detail-visual-panel {
+            background-color: var(--bg-alt);
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 120px;
+        }
+        .product-image-frame {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: var(--transition);
+        }
+
+        /* Information Presentation */
+        .detail-info-panel h1 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        .model-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Pricing Setup */
+        .detail-price-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+            background: var(--bg-alt);
+            padding: 16px 24px;
+            border-radius: 8px;
+            width: fit-content;
+        }
+        .sales-price-label {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .mrp-price-label {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+        .discount-pct-badge {
+            font-size: 0.9rem;
+            color: #2e7d32;
+            font-weight: 700;
+            background-color: #e8f5e9;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        /* --- PRODUCT COMPACT HIGHLIGHTED SIZE PANEL --- */
+        .size-highlight-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            background-color: #fdf8f8;
+            border-left: 5px solid var(--accent-color);
+            padding: 14px 20px;
+            margin: 20px 0 30px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 12px rgba(138, 20, 20, 0.05);
+        }
+        .size-highlight-box span.size-icon {
+            font-size: 28px;
+            color: var(--accent-color);
+        }
+
+        /* Technical Specifications */
+        .specs-section-title {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 8px;
+            width: fit-content;
+        }
+        .spec-table {
+            width: 100%;
+            margin-bottom: 40px;
+            border-collapse: collapse;
+        }
+        .spec-table tr {
+            border-bottom: 1px solid #eeeeee;
+        }
+        .spec-table tr:last-child {
+            border-bottom: none;
+        }
+        .spec-table td {
+            padding: 16px 0;
+            vertical-align: top;
+            font-size: 1rem;
+        }
+        .spec-label {
+            width: 35%;
+            font-weight: 600;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .spec-label span {
+            font-size: 20px;
+            color: var(--accent-color);
+        }
+        .spec-value {
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .actions-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 24px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-whatsapp {
+            background-color: #128c7e;
+            color: var(--white);
+        }
+        .btn-whatsapp:hover {
+            background-color: #0b665c;
+            box-shadow: 0 6px 18px rgba(18, 140, 126, 0.3);
+        }
+        .btn-form {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        .btn-form:hover {
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 6px 18px rgba(138, 20, 20, 0.3);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            body { padding-top: 90px; }
+            .detail-layout { grid-template-columns: 1fr; gap: 35px; }
+            .detail-visual-panel { position: relative; top: 0; padding: 20px; }
+            .product-image-frame { max-width: 320px; }
+            .detail-info-panel h1 { font-size: 1.8rem; }
+            .actions-group { grid-template-columns: 1fr; }
+            .size-highlight-box { font-size: 1.2rem; padding: 12px 16px; }
+        }
+
+
+/* --- RELATED PRODUCTS SECTION --- */
+/* Container Layout */
+.related-products-section { padding: 40px 0; overflow: hidden; }
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Mobile Scrolling: 2 in a row */
+@media (max-width: 768px) {
+    .product-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 10px;
+    }
+    .related-item {
+        flex: 0 0 calc(50% - 10px);
+        scroll-snap-align: start;
+    }
+}
+
+/* Card Styling to match your theme */
+.related-item {
+    background: var(--white);
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: var(--transition);
+}
+.related-item:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+.order-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #9b1313; /* Adjust to your brand color */
+    color: #ffffff;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.order-btn:hover {
+    background-color: #730d0d; /* Slightly lighter shade for hover */
+}
+
+/* Apply this to the individual product items in your grid */
+.related-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 8px; /* Adjust to match your design */
+}
+
+.related-item:hover {
+    transform: translateY(-10px); /* Lifts the item up */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Adds a depth shadow */
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="logo-container" onclick="location.href='../index.html'" style="cursor:pointer;">
+      <img src="../images/taha logo.png" alt="TAHA Logo" class="logo-img">
+      <span class="logo-text">TAHA Salah Time Indicator</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li class="nav-item">
+        <a href="#" class="active" onclick="event.preventDefault()">Products</a>
+        <div class="dropdown">
+          <a href="masjid-clock.html">Masjid Clock</a>
+          <a href="azan-home.html">Azan Home</a>
+          <a href="other-products.html">Other Products</a>
+        </div>
+      </li>
+      <li><a href="../about.html">About Us</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../terms.html">Terms & Conditions</a></li>
+      <li><a href="../tracking.html">Track Order</a></li>
+    </ul>
+    
+    <div class="hamburger" id="sidebarTrigger">&#9776;</div>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="mobile-sidebar" id="mobileSidebar">
+  <ul class="mobile-side-links">
+    <li><a href="../index.html">Home</a></li>
+    <li>
+      <a href="#" onclick="event.preventDefault()">Products</a>
+      <div class="mobile-side-dropdown">
+        <a href="masjid-clock.html">Masjid Clock</a>
+        <a href="azan-home.html">Azan Home</a>
+        <a href="other-products.html">Other Products</a>
+      </div>
+    </li>
+    <li><a href="../about.html">About Us</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+    <main class="container">
+        <div class="detail-layout">
+            <div class="detail-visual-panel">
+                <img id="detailProductImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24'><rect width='24' height='24' fill='%23eee'/></svg>" alt="TAHA Clock Frame Asset" class="product-image-frame">
+            </div>
+
+            <div class="detail-info-panel">
+                <h1 id="detailProductName">Loading Clock Model Name...</h1>
+                <div class="model-badge" id="detailModelBadge">MODEL: LOADING...</div>
+                
+                <div class="detail-price-row">
+                    <span class="sales-price-label" id="detailSalesPrice">₹0</span>
+                    <span class="mrp-price-label" id="detailMrpPrice">₹0</span>
+                    <span class="discount-pct-badge" id="detailDiscountPct">0% OFF</span>
+                </div>
+
+                <div class="size-highlight-box" id="detailSizeHighlight">
+                    <span class="material-symbols-rounded size-icon">straighten</span>
+                    <div id="sizeValueDisplay">Dimensions: Loading Frame Size...</div>
+                </div>
+
+                <h2 class="specs-section-title">Technical Specifications</h2>
+                <table class="spec-table">
+                    <tr>
+                        <td class="spec-label">
+                            <span class="material-symbols-rounded">screenshot_monitor</span> Display Details
+                        </td>
+                        <td class="spec-value" id="specDisplay">Loading system configuration variables...</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-label">
+                            <span class="material-symbols-rounded">layers</span> Cabinet Architecture
+                        </td>
+                        <td class="spec-value" id="specCabinet">Loading mechanical profile layout dimensions...</td>
+                    </tr>
+                </table>
+
+                <div class="actions-group">
+                    <a id="whatsappInquiryLink" href="#" target="_blank" class="btn btn-whatsapp">
+                        <span class="material-symbols-rounded">chat</span> Inquire On WhatsApp
+                    </a>
+                    <a id="directContactFormLink" href="#" class="btn btn-form">
+                        <span class="material-symbols-rounded">mail</span> Request Formal Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+<!-- Main Section Wrapper -->
+<section class="masjid-products" style="background-color: #ffffff; padding: 40px 0;">
+  <div class="container">
+    <h2 class="masjid-title" style="font-size: 1.8rem; margin-bottom: 30px;">Related Products</h2>
+    
+    <!-- This is the ONLY container needed. JavaScript will fill this. -->
+    <div class="product-grid" id="relatedProductsGrid">
+        <!-- JS will inject .related-item blocks here -->
+    </div>
+  </div>
+</section>
+          
+        </div>
+      </div>
+      <!-- End of block -->
+
+    </div>
+  </div>
+</section>
+    </main>
+
+    <script>
+        // STRICT CONFIGURATION DATABASE MAPPED INTERNALLY WITH REAL REPOSITORY IMAGE LINKS
+        const productsDatabase = {
+            
+    "PT2D25": {
+        name: "Model PT2D25 High End Multi-Colour Display",
+        price: 105000,
+        mrp: 110000,
+        img: "https://azanclock.in/wp-content/uploads/2026/01/P-T2-D25-Slaah-Time-Indicator-600x600.png",
+        sizeText: "Size - Horizontal 95\" x 59\"",
+        display: "Main Time & Next Jama'at: 12.6\" (320mm) | Azan Display: 3.2\" (80mm) | Farz Salah, Jama'at & Makrooh Cells: 2.5\" (64mm) | Extra-Wide Electronic Message Scroll Panel: 63.5\" (1613mm)",
+        cabinet: "Internal Poster Sheet Surface Matrix: 95\"L × 59\"H | Premium Outer Protective Architectural Frame Dimension: 98\"L × 62\"H | Total Packaging Transport Space: 101\" × 65\" × 6\""
+    },
+    "P3Q2C25": {
+        name: "Model P3Q2C25 Premium Multi-Colour Display",
+        price: 72000,
+        mrp: 80000,
+        img: "https://azanclock.in/wp-content/uploads/2026/02/P3-Q2-C25-Azan-Display-600x600.png",
+        sizeText: "Size - Horizontal 83\" x 35\"",
+        display: "Main Time & Next Jama'at: 5\" (128mm) | Calendar Fields (Day & Month): 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 2.5\" (64mm) | Dynamic Notification Scroll Matrix Ribbon: 20\" (508mm)",
+        cabinet: "Internal Panel Layout Base: 83\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 86\"L × 38\"H | Standard Power Requirement: 75 Watts"
+    },
+    "PD2i40": {
+        name: "Model PD2i40 Premium Multi-Colour Display",
+        price: 47000,
+        mrp: 52000,
+        img: "https://azanclock.in/wp-content/uploads/2026/02/Al-Barakah-Website-Images-1-1-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 20\" (508mm)",
+        cabinet: "Internal Base Layout Surface: 47\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 50\"L × 38\"H | Standard Operating Input Voltage: 220V AC"
+    },
+    "P4i40": {
+        name: "Model P4i40 Premium Multi-Colour Display",
+        price: 41000,
+        mrp: 46000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-36-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Integrated Moving Notification Message Board: 20\" (508mm)",
+        cabinet: "Internal Base Layout Surface: 47\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 50\"L × 38\"H | Power Consumption: 45 Watts"
+    },
+    "P3i40": {
+        name: "Model P3i40 Premium Multi-Colour Display",
+        price: 40000,
+        mrp: 45000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-37-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Integrated Moving Notification Message Board: 20\" (508mm)",
+        cabinet: "Internal Base Layout Surface: 47\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 50\"L × 38\"H | Structural Profile: Robust Anti-Rust Powder Coated Metal Frame"
+    },
+    "PD2i24L": {
+        name: "Model PD2i24L Premium Multi-Colour Display",
+        price: 41000,
+        mrp: 46000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-44-1-600x600.png",
+        sizeText: "Size - Horizontal 60\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 60\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 63\"L × 38\"H | Structural Profile: Robust Wide-View Anti-Rust Coated Shell"
+    },
+    "P4i24L": {
+        name: "Model P4i24L Premium Multi-Colour Display",
+        price: 36000,
+        mrp: 41000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-45-1-600x600.png",
+        sizeText: "Size - Horizontal 60\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar & Custom Digital Fields: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 60\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 63\"L × 38\"H | Structural Profile: Robust Wide-View Anti-Rust Coated Shell"
+    },
+    "P3i24L": {
+        name: "Model P3i24L Premium Multi-Colour Display",
+        price: 33000,
+        mrp: 38000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-46-1-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 30\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar & Custom Digital Fields: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Integrated Moving Notification Message Board: 7.5\" (190mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 47\"L × 30\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 50\"L × 33\"H | Structural Profile: Robust Wide-View Anti-Rust Coated Shell"
+    },
+    "P-D2 i24": {
+        name: "Model P-D2 i24 Premium Multi-Colour Display",
+        price: 39000,
+        mrp: 44000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-49-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Anti-Rust Coated Shell"
+    },
+    "P4i24": {
+        name: "Model P4i24 Premium Multi-Colour Display",
+        price: 34000,
+        mrp: 39000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-50-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar & Custom Digital Fields: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Power Consumption: 45 Watts"
+    },
+    "P3i24": {
+        name: "Model P3i24 Premium Multi-Colour Display",
+        price: 31000,
+        mrp: 38000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-51-600x600.png",
+        sizeText: "Size - Vertical 30\" x 47\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar & Custom Digital Fields: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Integrated Moving Notification Message Board: 7.5\" (190mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 30\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 33\"L × 50\"H | Structural Profile: Robust Anti-Rust Powder Coated Metal Frame"
+    },
+    "PD2i24V": {
+        name: "Model PD2i24V Premium Multi-Colour Display",
+        price: 41000,
+        mrp: 46000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-52-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Vertical-View Anti-Rust Coated Shell"
+    },
+    "P4i24V": {
+        name: "Model P4i24V Premium Multi-Colour Display",
+        price: 35000,
+        mrp: 40000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-53-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar & Custom Digital Fields: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Vertical-View Anti-Rust Coated Shell"
+    },
+    "P3i24V": {
+        name: "Model P3i24V Premium Multi-Colour Display",
+        price: 33000,
+        mrp: 38000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-54-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar & Custom Digital Fields: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Integrated Moving Notification Message Board: 7.5\" (190mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Anti-Rust Powder Coated Metal Frame"
+    },
+    "PD2i18": {
+        name: "Model PD2i18 Premium Multi-Colour Display",
+        price: 37000,
+        mrp: 42000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-55-600x600.png",
+        sizeText: "Size - Horizontal 60\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar Lines: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 47\"L × 29\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 63\"L × 38\"H | Structural Profile: Robust Anti-Rust Coated Shell"
+    },
+    "PD2i18s": {
+        name: "Model PD2i18s Premium Multi-Colour Display",
+        price: 35000,
+        mrp: 40000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-56-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar Lines: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Compact Interface Structural Assembly Layout",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 47\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 50\"L × 38\"H | Structural Profile: Robust Anti-Rust Coated Shell"
+    },
+    "PD2i18V": {
+        name: "Model PD2i18V Premium Multi-Colour Display",
+        price: 34000,
+        mrp: 39000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-57-600x600.png",
+        sizeText: "Size - Vertical 30\" x 49\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 30\"L × 49\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 33\"L × 52\"H | Structural Profile: Robust Vertical-View Anti-Rust Coated Shell"
+    },
+    "PD2i15V": {
+        name: "Model PD2i15V Premium Multi-Colour Display",
+        price: 27000,
+        mrp: 32000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-58-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar Lines: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Compact Vertical Layout Setup Structure",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Vertical-View Anti-Rust Coated Shell"
+    },
+    "P4i15V": {
+        name: "Model P4i15V Premium Multi-Colour Display",
+        price: 26000,
+        mrp: 31000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-59-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar Lines: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Compact Vertical Layout Setup Structure",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 35\"L × 47\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 38\"L × 50\"H | Structural Profile: Robust Vertical-View Anti-Rust Coated Shell"
+    },
+    "P3i15V": {
+        name: "Model P3i15V Premium Multi-Colour Display",
+        price: 22000,
+        mrp: 27000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-60-600x600.png",
+        sizeText: "Size - Vertical 30\" x 35\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar Lines: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Compact Vertical Layout Setup Structure",
+        cabinet: "Vertical Aspect Ratio Framework | Internal Base Layout Surface: 30\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 33\"L × 38\"H | Structural Profile: Robust Anti-Rust Powder Coated Metal Frame"
+    },
+    "P-D2 i15": {
+        name: "Model P-D2 i15 Premium Multi-Colour Display",
+        price: 25000,
+        mrp: 30000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-61-600x600.png",
+        sizeText: "Size - Horizontal 27\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar & Custom Digital Fields: 1.1\" (28mm) | All Azan, Jama'at & Makrooh Lines: 1.5\" (40mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 27\"L × 35\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 30\"L × 38\"H | Structural Profile: Robust Anti-Rust Coated Shell"
+    },
+    "P4i15A": {
+        name: "Model P4i15A Premium Multi-Colour Display",
+        price: 23000,
+        mrp: 28000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-62-600x600.png",
+        sizeText: "Size - Horizontal 39\" x 27\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar & Custom Digital Fields: 0.8\" (21mm) | All Azan, Jama'at & Makrooh Lines: 1.1\" (28mm) | Integrated Moving Notification Message Board: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 39\"L × 27\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 42\"L × 30\"H | Structural Profile: Robust Anti-Rust Coated Shell"
+    },
+    "P3i15A": {
+        name: "Model P3i15A Premium Multi-Colour Display",
+        price: 21000,
+        mrp: 26000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-63-600x600.png",
+        sizeText: "Size - Horizontal 40\" x 20\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar & Custom Digital Fields: 0.6\" (15mm) | All Azan, Jama'at & Makrooh Lines: 0.8\" (21mm) | Integrated Moving Notification Message Board: 7.5\" (190mm)",
+        cabinet: "Horizontal Aspect Ratio Framework | Internal Base Layout Surface: 40\"L × 20\"H | Finished Outer Heavy-Duty Frame Enclosure Boundary: 43\"L × 23\"H | Structural Profile: Robust Anti-Rust Powder Coated Metal Frame"
+    },
+    "P-D2 i15": {
+        name: "Model P-D2 i15 Premium Multi-Colour Display",
+        price: 25000,
+        mrp: 30000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-64-600x600.png",
+        sizeText: "Size - Vertical 27\" x 35\"",
+        display: "Main Time & Next Jama'at: 3.5\" (84mm) | Calendar/Custom: 1.1\" (28mm) | Azan/Jama'at Lines: 1.5\" (40mm) | Scroll Message: 10\" (254mm)",
+        cabinet: "Vertical Aspect Ratio | Surface: 27\"L x 35\"H | Frame: 30\"L x 38\"H | Anti-Rust Coated Shell"
+    },
+    "P4i15B": {
+        name: "Model P4i15B Premium Multi-Colour Display",
+        price: 23000,
+        mrp: 28000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-65-600x600.png",
+        sizeText: "Size - Horizontal 39\" x 27\"",
+        display: "Main Time & Next Jama'at: 3.1\" (80mm) | Calendar/Custom: 0.8\" (21mm) | Azan/Jama'at Lines: 1.1\" (28mm) | Scroll Message: 10\" (254mm)",
+        cabinet: "Horizontal Aspect Ratio | Surface: 39\"L x 27\"H | Frame: 42\"L x 30\"H | Anti-Rust Coated Shell"
+    },
+    "P3i15B": {
+        name: "Model P3i15B Premium Multi-Colour Display",
+        price: 21000,
+        mrp: 26000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-66-600x600.png",
+        sizeText: "Size - Horizontal 40\" x 20\"",
+        display: "Main Time & Next Jama'at: 2.3\" (60mm) | Calendar/Custom: 0.6\" (15mm) | Azan/Jama'at Lines: 0.8\" (21mm) | Scroll Message: 7.5\" (190mm)",
+        cabinet: "Horizontal Aspect Ratio | Surface: 40\"L x 20\"H | Frame: 43\"L x 23\"H | Anti-Rust Powder Coated Metal"
+    },
+    "PC3i19": {
+        name: "Model PC3i19 Premium Multi-Colour Display",
+        price: 21000,
+        mrp: 26000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-67-600x600.png",
+        sizeText: "Size - Horizontal 40\" x 20\"",
+        display: "Main Time: 2.5\" (64mm) | Calendar Fields: 0.6\" (15mm) | Azan/Jama'at Lines: 0.8\" (21mm) | Message Board: 8\" (200mm)",
+        cabinet: "Compact Frame | Surface: 40\"L x 20\"H | Frame: 43\"L x 23\"H | Robust Anti-Rust Shell"
+    },
+    "P4i12": {
+        name: "Model P4i12 Premium Multi-Colour Display",
+        price: 19000,
+        mrp: 24000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-68-600x600.png",
+        sizeText: "Size - Horizontal 40\" x 20\"",
+        display: "Main Time: 2.0\" (50mm) | Calendar Fields: 0.5\" (12mm) | Azan/Jama'at Lines: 0.8\" (21mm) | Message Board: 6\" (150mm)",
+        cabinet: "Mini Frame | Surface: 40\"L x 20\"H | Frame: 43\"L x 23\"H | Lightweight Anti-Rust Shell"
+    },
+    "P3i12": {
+        name: "Model P3i12 Premium Multi-Colour Display",
+        price: 17000,
+        mrp: 22000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-69-600x600.png",
+        sizeText: "Size - Horizontal 40\" x 20\"",
+        display: "Main Time: 1.8\" (45mm) | Calendar Fields: 0.5\" (12mm) | Azan/Jama'at Lines: 0.6\" (15mm) | Message Board: 6\" (150mm)",
+        cabinet: "Mini Frame | Surface: 40\"L x 20\"H | Frame: 43\"L x 23\"H | Powder Coated Steel Frame"
+    },
+    "PC3i9V": {
+        name: "Model PC3i9V Premium Multi-Colour Display",
+        price: 21000,
+        mrp: 26000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-70-600x600.png",
+        sizeText: "Size - Vertical 18\" x 39\"",
+        display: "Main Time: 1.5\" (38mm) | Calendar/Custom: 0.5\" (12mm) | Azan/Jama'at Lines: 0.6\" (15mm) | Message Board: 5\" (127mm)",
+        cabinet: "Vertical Frame | Surface: 18\"L x 39\"H | Frame: 21\"L x 42\"H | Robust Anti-Rust Shell"
+    },
+    "P4i12V": {
+        name: "Model P4i12V Premium Multi-Colour Display",
+        price: 19000,
+        mrp: 24000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-71-600x600.png",
+        sizeText: "Size - Vertical 20\" x 35\"",
+        display: "Main Time: 2.0\" (50mm) | Calendar Fields: 0.5\" (12mm) | Azan/Jama'at Lines: 0.8\" (21mm) | Message Board: 6\" (150mm)",
+        cabinet: "Vertical Frame | Surface: 20\"L x 35\"H | Frame: 23\"L x 38\"H | Robust Anti-Rust Shell"
+    },
+    "P3i12V": {
+        name: "Model P3i12V Premium Multi-Colour Display",
+        price: 17000,
+        mrp: 22000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-72-600x600.png",
+        sizeText: "Size - Vertical 18\" x 30\"",
+        display: "Main Time: 1.8\" (45mm) | Calendar Fields: 0.5\" (12mm) | Azan/Jama'at Lines: 0.6\" (15mm) | Message Board: 6\" (150mm)",
+        cabinet: "Vertical Frame | Surface: 18\"L x 30\"H | Frame: 21\"L x 33\"H | Powder Coated Steel Frame"
+    },
+    "pi10": {
+        name: "Model pi10 Premium Multi-Colour Display",
+        price: 13000,
+        mrp: 18000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-73-600x600.png",
+        sizeText: "Size - Horizontal 30\" x 18\"",
+        display: "Main Time: 1.5\" (38mm) | Calendar Fields: 0.4\" (10mm) | Azan/Jama'at Lines: 0.5\" (12mm) | Message Board: 4\" (100mm)",
+        cabinet: "Mini Frame | Surface: 30\"L x 18\"H | Frame: 33\"L x 21\"H | Slim Anti-Rust Shell"
+    },
+    "pi10V": {
+        name: "Model pi10V Premium Multi-Colour Display",
+        price: 13000,
+        mrp: 18000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-74-600x600.png",
+        sizeText: "Size - Vertical 14\" x 27\"",
+        display: "Main Time: 1.5\" (38mm) | Calendar Fields: 0.4\" (10mm) | Azan/Jama'at Lines: 0.5\" (12mm) | Message Board: 4\" (100mm)",
+        cabinet: "Mini Frame | Surface: 14\"L x 27\"H | Frame: 17\"L x 30\"H | Slim Anti-Rust Shell"
+    },
+    "pi10mini": {
+        name: "Model pi10mini Premium Multi-Colour Display",
+        price: 11000,
+        mrp: 17000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-75-600x600.png",
+        sizeText: "Size - Horizontal 18\" x 12\"",
+        display: "Main Time: 1.2\" (30mm) | Calendar Fields: 0.3\" (8mm) | Azan/Jama'at Lines: 0.4\" (10mm) | Message Board: 3\" (75mm)",
+        cabinet: "Micro Frame | Surface: 18\"L x 12\"H | Frame: 21\"L x 15\"H | Compact Shell"
+    },
+
+// -------------------For LCD Units-------------------
+"LCD-24D": {
+        name: "Model LCD-24D Premium Hybrid Display",
+        price: 44000,
+        mrp: 50000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-39-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "P3 RGB Panel Matrix + 24\" LCD Panels (x2)",
+        cabinet: "Professional Hybrid Layout | 35\"L x 47\"H | Integrated P3+LCD Architecture"
+    },
+    "LCD-24H": {
+        name: "Model LCD-24H Premium Hybrid Display",
+        price: 32000,
+        mrp: 35000, 
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-43.png",
+        sizeText: "Size - Horizontal 35\" x 27\"",
+        display: "P3 RGB Panel Matrix + 24\" LCD Panel",
+        cabinet: "Professional Hybrid Layout | 35\"L x 27\"H | Integrated P3+LCD Architecture"
+    },
+    "LCD-24V": {
+        name: "Model LCD-24V Premium Hybrid Display",
+        price: 33000,
+        mrp: 36000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-42.png",
+        sizeText: "Size - Vertical 27\" x 47\"",
+        display: "P3 RGB Panel Matrix + 24\" LCD Panel",
+        cabinet: "Professional Hybrid Layout | 27\"L x 47\"H | Integrated P3+LCD Architecture"
+    },
+    "LCD-32D": {
+        name: "Model LCD-32D Premium Hybrid Display",
+        price: 59000,
+        mrp: 65000, // IncGST
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-38-600x600.png",
+        sizeText: "Size - Vertical 39\" x 60\"",
+        display: "P4 RGB Panels (x2) + 32\" LCD Panels (x2)",
+        cabinet: "Ultra Professional Hybrid Layout | 39\"L x 60\"H | Advanced Dual P4+LCD Architecture"
+    },
+    "LCD-32H": {
+        name: "Model LCD-32H Premium Hybrid Display",
+        price: 40000,
+        mrp: 45000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-41-600x600.png",
+        sizeText: "Size - Horizontal 47\" x 35\"",
+        display: "P4 RGB Panels (x2) + 32\" LCD Panel",
+        cabinet: "Professional Hybrid Layout | 47\"L x 35\"H | Integrated Dual P4+LCD Architecture"
+    },
+    "LCD-32V": {
+        name: "Model LCD-32V Premium Hybrid Display",
+        price: 40000,
+        mrp: 45000,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-40-600x600.png",
+        sizeText: "Size - Vertical 35\" x 47\"",
+        display: "P4 RGB Panels (x2) + 32\" LCD Panel",
+        cabinet: "Professional Hybrid Layout | 35\"L x 47\"H | Integrated Dual P4+LCD Architecture"
+    },
+
+    // -------------------P2.5 Units-------------------
+// --- Economy Series ---
+    "P2C1B18": {
+        name: "Model P2-C1 B18 Economy Series",
+        price: 9800,
+        mrp: 11564,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/9.png",
+        sizeText: "Size - 18\" x 12\"",
+        display: "P2.5 LED Matrix | Time: 2.0\" Display",
+        cabinet: "Compact Frame | 18\"L x 12\"H | 11W Power Consumption"
+    },
+    "P2D1i10": {
+        name: "Model P2-D1 i10 Economy Series",
+        price: 9800,
+        mrp: 11564,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/11-600x600.png",
+        sizeText: "Size - 12\" x 18\"",
+        display: "P2.5 LED Matrix | Time: 2.3\" Display",
+        cabinet: "Compact Vertical Frame | 12\"L x 18\"H | 15W Power Consumption"
+    },
+    "P2D2i24": {
+        name: "Model P2-D2 i24 Economy Series",
+        price: 23000,
+        mrp: 27140,
+        img: "../images/P2-D2 i24.jpg",
+        sizeText: "Size - 35\" x 23\"",
+        display: "P2.5 LED Matrix | Time: 2.3\" Display",
+        cabinet: "Standard Frame | 35\"L x 23\"H | 24W Power Consumption"
+    },
+    "P2D2i40": {
+        name: "Model P2-D2 i40 Economy Series",
+        price: 31000,
+        mrp: 36580,
+        img: "../images/P2-D2 i40.jpg",
+        sizeText: "Size - 44\" x 27\"",
+        display: "P2.5 LED Matrix | Time: 2.3\" Display",
+        cabinet: "Large Standard Frame | 44\"L x 27\"H | 35W Power Consumption"
+    },
+
+    // --- Mid Range Series ---
+    "P2E2C18": {
+        name: "Model P2-E2 C18 Mid Range Series",
+        price: 41000,
+        mrp: 48380,
+        img: "../images/P2-E2 C18.jpg",
+        sizeText: "Size - 47\" x 35\"",
+        display: "P2.5 LED Matrix | Time: 4.0\" Display",
+        cabinet: "Professional Frame | 47\"L x 35\"H | 38W Power Consumption"
+    },
+    "P2E2C24": {
+        name: "Model P2-E2 C24 Mid Range Series",
+        price: 45000,
+        mrp: 53100,
+        img: "https://azanclock.in/wp-content/uploads/2026/03/19-1-600x600.png",
+        sizeText: "Size - 47\" x 35\"",
+        display: "P2.5 LED Matrix | Time: 4.0\" Display",
+        cabinet: "Professional Frame | 47\"L x 35\"H | 47W Power Consumption"
+    },
+    "P2E2C40": {
+        name: "Model P2-E2 C40 Mid Range Series",
+        price: 54000,
+        mrp: 63720,
+        img: "../images/P2-E2 C40.jpg",
+        sizeText: "Size - 47\" x 39\"",
+        display: "P2.5 LED Matrix | Time: 4.0\" Display",
+        cabinet: "Professional Frame | 47\"L x 39\"H | High-Density Matrix"
+    },
+
+    "P3-B": {
+    name: "Model P3-AZAN B Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/Azan-B-Best-Seller.png?v=1759214931&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-A": {
+    name: "Model P3-AZAN A Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/Azan-A-Best-Seller.png?v=1759214909&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C1": {
+    name: "Model P3-AZAN C1 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-Best-Seller.png?v=1759214870&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C14": {
+    name: "Model P3-AZAN C14  Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/c14.png?v=1765871298&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C7": {
+    name: "Model P3-AZAN C7 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/Azan-C-Madina-New-Best-Seller.png?v=1759214837&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C10": {
+    name: "Model P3-AZAN C10 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/1_cd25f43e-faed-41a1-9881-a589e21be2ad.png?v=1748958499&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C8": {
+    name: "Model P3-AZAN C8 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/2.png?v=1748958743&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C9": {
+    name: "Model P3-AZAN C9 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/6.png?v=1748959905&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C13": {
+    name: "Model P3-AZAN C13 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/4.png?v=1748959157&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C12": {
+    name: "Model P3-AZAN C12 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/7.png?v=1748959417&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C11": {
+    name: "Model P3-AZAN C11 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/5_1115feb8-0d58-46fd-8577-f23c0fae2615.png?v=1748959596&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C2": {
+    name: "Model P3-AZAN C2 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/8_8e0e4e4b-1d5a-4c51-842b-87424a3b4c24.png?v=1749028093&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C4": {
+    name: "Model P3-AZAN C4 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/9_a450ebbe-94ce-436e-801d-80356e61255b.png?v=1749028451&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C3": {
+    name: "Model P3-AZAN C3 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/10.png?v=1749028491&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C5": {
+    name: "Model P3-AZAN C5 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/12.png?v=1749028653&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+},
+
+    "P3-C6": {
+    name: "Model P3-AZAN C6 Clock with Qur'an Player",
+    price: 5500,
+    mrp: 8500,
+    img: "https://www.abdullahs.in/cdn/shop/files/11.png?v=1749028612&width=360",
+    sizeText: "Size - 18\" x 12\" (450mm x 300mm)",
+    display: "P3 RGB Colour Display",
+    cabinet: "Wall mount | P3-AZAN Series"
+}
+
+};
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 2. PARSE URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let modelKey = urlParams.get('model');
+        if (!modelKey || !productsDatabase[modelKey]) { modelKey = "PT2D25"; }
+        const activeProduct = productsDatabase[modelKey];
+
+        // 3. MAIN PRODUCT DETAILS
+        document.getElementById('detailProductName').textContent = activeProduct.name;
+        document.getElementById('detailModelBadge').textContent = `MODEL: ${modelKey.toUpperCase()}`;
+        document.getElementById('detailProductImg').src = activeProduct.img;
+        document.getElementById('detailProductImg').alt = activeProduct.name;
+        document.getElementById('detailSalesPrice').textContent = `₹${activeProduct.price.toLocaleString('en-IN')}`;
+        document.getElementById('detailMrpPrice').textContent = `₹${activeProduct.mrp.toLocaleString('en-IN')}`;
+        document.getElementById('specDisplay').textContent = activeProduct.display;
+        document.getElementById('specCabinet').textContent = activeProduct.cabinet;
+        document.getElementById('sizeValueDisplay').textContent = activeProduct.sizeText || "Size - Dimensions Unspecified";
+
+        // 4. DISCOUNT LOGIC
+        if (activeProduct.mrp > activeProduct.price) {
+            const calculatedPct = Math.round(((activeProduct.mrp - activeProduct.price) / activeProduct.mrp) * 100);
+            document.getElementById('detailDiscountPct').textContent = `${calculatedPct}% OFF`;
+        } else {
+            document.getElementById('detailDiscountPct').style.display = 'none';
+        }
+
+        // 5. RELATED PRODUCTS LOGIC
+        const grid = document.getElementById('relatedProductsGrid');
+        const related = Object.keys(productsDatabase).filter(key => {
+            const p = productsDatabase[key];
+            return key !== modelKey && p.price >= activeProduct.price && p.price <= (activeProduct.price * 1.2);
+        }).slice(0, 4);
+
+        if (related.length > 0) {
+            related.forEach(key => {
+                const p = productsDatabase[key];
+                grid.innerHTML += `
+                    <div class="related-item">
+                        <img src="${p.img}" alt="${p.name}">
+                        <h4>${p.name.split(' ').slice(0, 4).join(' ')}</h4>
+                        <div class="price">₹${p.price.toLocaleString('en-IN')}</div>
+                        <a href="?model=${key}">View Details</a>
+                    </div>`;
+            });
+        } else {
+            grid.innerHTML = '<p>No specific related products available at this time.</p>';
+        }
+
+        // 6. ACTION LINKS
+        const encodedText = encodeURIComponent(`Salam TAHA Clocks, I want an official price quote for Model: ${modelKey}`);
+        document.getElementById('whatsappInquiryLink').href = `https://wa.me/919302022123?text=${encodedText}`;
+        document.getElementById('directContactFormLink').href = `../contact.html?category=Masjid%20STI&model=${encodeURIComponent(modelKey)}`;
+    });
+
+    // Mobile UI Functions
+    const trigger = document.getElementById('sidebarTrigger');
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    trigger.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('relatedProductsGrid');
+    const urlParams = new URLSearchParams(window.location.search);
+    const modelKey = urlParams.get('model');
+    
+    if (!grid || typeof productsDatabase === 'undefined' || !modelKey) return;
+
+    const currentProduct = productsDatabase[modelKey];
+    
+    // Filter: Same category, Price within 30% range
+    const relatedKeys = Object.keys(productsDatabase).filter(key => {
+        if (key === modelKey) return false;
+        const p = productsDatabase[key];
+        return p.category === currentProduct.category && 
+               p.price >= (currentProduct.price * 0.7) && 
+               p.price <= (currentProduct.price * 1.3);
+    }).slice(0, 4);
+
+    grid.innerHTML = relatedKeys.map(key => {
+        const p = productsDatabase[key];
+        return `
+        <div class="related-item">
+            <div class="prod-img-box"><img src="${p.img}" alt="${p.name}" style="width:100%;"></div>
+            <h4 style="font-family: var(--font-headings); font-size: 0.9rem; margin: 10px 0;">${p.name}</h4>
+            <div class="price" style="color:var(--primary-color); font-weight:700; margin-bottom:10px;">
+                ₹${p.price.toLocaleString('en-IN')}
+            </div>
+            <a href="product-detail.html?model=${key}" class="order-btn" style="text-decoration:none;">View Details</a>
+        </div>
+        `;
+    }).join('');
+});
+</script>
+
+<style>
+  /* --- FOOTER & MOBILE NAV STYLES --- */
+  footer {
+      background-color: #141414;
+      color: #b5b5b5;
+      padding: 75px 0 110px;
+      font-size: 0.9rem;
+  }
+  .footer-container {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+  }
+  .footer-columns {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 50px;
+      margin-bottom: 40px;
+  }
+  footer h2, footer h3 {
+      color: #ffffff;
+      font-size: 1.15rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+  }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 12px; }
+  footer ul li a { color: #b5b5b5; display: inline-block; transition: all 0.3s ease; }
+  footer ul li a:hover { color: #c9a71a; transform: translateX(4px); }
+  footer p { margin-bottom: 10px; line-height: 1.6; }
+  .footer-bottom { text-align: center; color: #555; border-top: 1px solid #222; padding-top: 20px; font-size: 0.8rem; }
+
+  /* Mobile Responsive Adjustment */
+  @media (max-width: 1100px) {
+      .footer-columns { grid-template-columns: 1fr; gap: 35px; text-align: center; }
+  }
+</style>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-columns">
+      <div>
+        <h2>TAHA Salah Time Indicator</h2>
+        <p>Professional Salah & Azan Clocks for Masjid, Home & Office. Engineering premium quality digital displays with accuracy and long lifecycle support.</p>
+      </div>
+      <div>
+        <h3>Products Menu</h3>
+        <ul>
+          <li><a href="masjid-clock.html">Masjid Clocks</a></li>
+          <li><a href="azan-home.html">Azan Home Units</a></li>
+          <li><a href="other-products.html">Other Products</a></li>
+          <li><a href="../terms.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Info</h3>
+        <p><strong>Phone Support:</strong></p>
+        <p><a href="tel:+919826623786" style="color: #b5b5b5; text-decoration: none;">+91 9826623786</a></p>
+        <p><a href="tel:+919302022123" style="color: #b5b5b5; text-decoration: none;">+91 9302022123</a></p>
+        <p>
+    <strong>Email:</strong> 
+    <a href="mailto:tahasalahtime@gmail.com" class="email-link">tahasalahtime@gmail.com</a>
+</p>
+        <p><strong>Address:</strong> 06, New Cloth Market Ratlam, Madhya Pradesh</p>
+        <p><strong>Head Office:</strong> Mumbai, Maharashtra</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; TAHA Salah Time Indicator. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px;
+  }
+  .taha-3d-wp-wrapper::before, .taha-3d-wp-wrapper::after {
+    content: ''; position: absolute; border-radius: 50%; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; pointer-events: none;
+  }
+  .taha-3d-wp-wrapper::before { background-color: #25D366; animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite; }
+  .taha-3d-wp-wrapper::after { background-color: #c9a71a; animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite; animation-delay: 0.8s; }
+  .taha-3d-wp-button {
+    position: relative; width: 100%; height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    text-decoration: none; overflow: hidden;
+    box-shadow: 0 12px 28px rgba(18, 122, 55, 0.45), 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 3px 6px rgba(255, 255, 255, 0.5), inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d; animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+  .glass-specular-glare {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg); pointer-events: none;
+  }
+  .wp-vector-icon { fill: #ffffff; width: 33px; height: 33px; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25)); z-index: 2; transform: translateZ(15px); }
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button { transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06); }
+  .taha-3d-wp-wrapper:hover .wp-vector-icon { transform: translateZ(28px) scale(1.1); }
+  
+  @keyframes luxuriousWpPulse { 0% { transform: scale(0.88); opacity: 0.6; } 100% { transform: scale(1.65); opacity: 0; } }
+  @keyframes dynamicWpFloat { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(3deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper { bottom: 84px; right: 18px; width: 55px; height: 55px; }
+  }
+</style>
+
+<style>
+  /* --- HOVER EFFECT FOR PHONE NUMBERS --- */
+  /* Target links with the 'tel:' protocol */
+  a[href^="tel:"] {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  a[href^="tel:"]:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: scale(1.05);    /* Slight zoom effect */
+    letter-spacing: 0.5px;
+  }
+
+  /* --- PROFESSIONAL MOBILE OPTIMIZATIONS --- */
+  @media (max-width: 768px) {
+    footer {
+      padding: 50px 0 60px;
+    }
+    
+    .footer-columns {
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    footer h2, footer h3 {
+      font-size: 1rem; /* Slightly smaller for mobile readability */
+      margin-bottom: 15px;
+    }
+
+    footer p, footer ul li, .footer-bottom {
+      font-size: 0.85rem;
+    }
+
+    /* Stack and center for clean mobile appearance */
+    .footer-columns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* --- EMAIL LINK STYLING --- */
+.email-link {
+    color: #b5b5b5 !important; /* Matches your footer text */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border-bottom: 1px solid transparent; /* Keeps it subtle */
+}
+
+/* Hover Effect */
+.email-link:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: translateX(5px); /* Gentle slide-in animation */
+    border-bottom: 1px solid #c9a71a; /* Underline appears on hover */
+}
+
+/* Optional: Clickable feedback */
+.email-link:active {
+    transform: scale(0.98);
+}
+</style>
+
+</body>
+</html>

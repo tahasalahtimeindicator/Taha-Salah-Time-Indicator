@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masjid Clocks | TAHA Salah Time Indicator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+    <style>
+        /* --- CORE STYLE MATRIX & PALETTE --- */
+        :root {
+            --primary-color: #8a1414; /* Deep Burgundy Red */
+            --primary-color-dark: #660d0d;
+            --accent-color: #c9a71a; /* Professional Gold */
+            --text-dark: #1e1e1e;
+            --text-light: #626262;
+            --bg-light: #ffffff;
+            --bg-alt: #f8faf9;
+            --white: #ffffff;
+            
+            --font-headings: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.04);
+            --shadow-intense: 0 12px 35px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 80px; /* Space out for mobile navigation overlap safety */
+        }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img, video { max-width: 100%; height: auto; display: block; }
+        
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- ADVANCED NAVBAR --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 14px 0;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1050;
+            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1060;
+        }
+        .navbar .logo-img { 
+            height: 48px; 
+            width: auto;
+            object-fit: contain;
+        }
+        .navbar .logo-text {
+            font-family: var(--font-headings);
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* Hamburger Menu Icon */
+        .hamburger {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            display: none;
+            z-index: 1060;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .hamburger:hover { color: var(--accent-color); }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-links li a {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-links li a:hover,
+        .nav-links li .active { color: var(--primary-color); }
+        .nav-links li a::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        .nav-links li a:hover::after { width: 100%; }
+
+        /* ADVANCED DESKTOP DROPDOWN */
+        .nav-item { position: relative; }
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: var(--white);
+            box-shadow: var(--shadow-intense);
+            min-width: 240px;
+            padding: 16px;
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            border-top: 3px solid var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+        .nav-item:hover .dropdown {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown a {
+            font-size: 0.85rem;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 500;
+            color: var(--text-light) !important;
+            padding: 10px 12px;
+            border-radius: 6px;
+            display: block;
+        }
+        .dropdown a:hover {
+            background-color: var(--bg-alt);
+            color: var(--primary-color) !important;
+            transform: translateX(4px);
+        }
+
+        /* --- MOBILE SLIDEOUT DRAWER --- */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 280px; height: 100%;
+            background-color: var(--white);
+            z-index: 1100;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 80px 24px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .mobile-sidebar.open { right: 0; }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1090;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+        .sidebar-overlay.show { opacity: 1; visibility: visible; }
+        
+        .mobile-side-links { display: flex; flex-direction: column; gap: 16px; }
+        .mobile-side-links > li > a {
+            font-size: 1rem; font-weight: 600; text-transform: uppercase;
+            color: var(--text-dark); display: block; padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+        }
+        .mobile-side-dropdown {
+            padding-left: 14px; margin-top: 8px; display: flex; flex-direction: column; gap: 10px;
+        }
+        .mobile-side-dropdown a { font-size: 0.9rem; color: var(--text-light); display: block; padding: 6px 0; }
+
+        /* --- IMMERSIVE HERO SECTION --- */
+        .page-hero {
+            position: relative;
+            min-height: 45vh;
+            margin-top: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url("../images/masjid/grand-mosque-grand-bur-dubai-masjid-dubai-ancient-3840x2160-8825.jpg") center/cover no-repeat;
+        }
+        .page-hero h1 {
+            font-size: 3rem;
+            color: var(--white);
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .page-hero p {
+            font-size: 1.2rem;
+            color: #eaeaea;
+            font-weight: 400;
+        }
+
+        /* --- PREMIUM LCD VIDEO SHOWCASE --- */
+        .lcd-video-section {
+            padding: 90px 0;
+            background-color: var(--white);
+        }
+        .lcd-video-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .lcd-video-box {
+            flex: 1.2;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-intense);
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        .lcd-video-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .lcd-controls {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 10;
+        }
+        .lcd-play-btn {
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--white);
+            border: 1.5px solid var(--white);
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .lcd-play-btn:hover { background-color: var(--white); color: var(--primary-color); transform: scale(1.05); }
+        
+        .lcd-progress {
+            flex: 1; -webkit-appearance: none; appearance: none; height: 5px; border-radius: 3px;
+            background: rgba(255,255,255,0.35); outline: none; cursor: pointer;
+        }
+        .lcd-progress::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+            border-radius: 50%; background: var(--accent-color); cursor: pointer; border: 2px solid var(--white);
+        }
+
+        .lcd-video-content { flex: 1; }
+        .lcd-video-content h2 { font-size: 2rem; margin-bottom: 16px; position: relative; padding-bottom: 12px; }
+        .lcd-video-content h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background-color: var(--primary-color); }
+        .lcd-video-content p { font-size: 1.05rem; color: var(--text-light); line-height: 1.7; }
+
+        /* --- E-COMMERCE LEVEL PRODUCT LAYOUT --- */
+        .masjid-products {
+            padding: 70px 0;
+            background-color: var(--bg-alt);
+        }
+        .masjid-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 45px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+        }
+        .masjid-title::after {
+            content: ''; display: block; width: 70px; height: 3.5px; background-color: var(--accent-color); margin: 14px auto 0; border-radius: 2px;
+        }
+
+        /* Responsive 4 Column Grid Layout */
+        .product-unit-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .product-unit {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        .product-unit:hover {
+            box-shadow: var(--shadow-intense);
+            transform: translateY(-5px);
+        }
+        
+        .prod-img-box {
+            height: 240px;
+            overflow: hidden;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            position: relative;
+            cursor: zoom-in; /* Indicates image can be expanded */
+        }
+        .product-unit img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        .product-unit:hover img { transform: scale(1.04); }
+
+        /* Zoom Search Icon Hint on Hover */
+        .prod-img-box::after {
+            content: 'search';
+            font-family: 'Material Symbols Rounded';
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            padding: 6px;
+            border-radius: 50%;
+            font-size: 18px;
+            opacity: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            pointer-events: none;
+        }
+        .prod-img-box:hover::after { opacity: 1; }
+
+        .prod-details-box {
+            padding: 16px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            border-top: 1px solid #f5f5f5;
+        }
+        .product-unit h2 {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        /* Flipkart-Style Professional Price Matrix */
+        .price-matrix {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .sales-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #212121;
+        }
+        .mrp-cut {
+            font-size: 0.9rem;
+            color: #878787;
+            text-decoration: line-through;
+            font-weight: 400;
+        }
+        .discount-pct {
+            font-size: 0.9rem;
+            color: #388e3c;
+            font-weight: 600;
+        }
+
+        .order-btn {
+            margin-top: auto;
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px 16px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+        .order-btn:hover {
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 4px 12px rgba(138, 20, 20, 0.2);
+        }
+
+        /* --- ANIMATED LIGHTBOX POPUP SYSTEM --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-container {
+            position: relative;
+            max-width: 85%;
+            max-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.7) translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lightbox-overlay.active .lightbox-container {
+            transform: scale(1) translateY(0);
+        }
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background-color: var(--white);
+            padding: 14px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -50px; right: 0;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition);
+        }
+        .lightbox-close:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        /* --- PREMIUM FOOTER STYLE --- */
+        footer {
+            background-color: #141414;
+            color: #b5b5b5;
+            padding: 75px 0 110px;
+            font-size: 0.9rem;
+        }
+        .footer-columns {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 40px;
+        }
+        footer h2, footer h3 {
+            color: var(--white);
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+        footer ul li { margin-bottom: 12px; }
+        footer ul li a { color: #b5b5b5; display: inline-block; }
+        footer ul li a:hover { color: var(--accent-color); transform: translateX(4px); }
+        footer p { margin-bottom: 10px; line-height: 1.6; }
+        .footer-bottom { text-align: center; color: #555; border-top: 1px solid #222; padding-top: 20px; font-size: 0.8rem; }
+
+        /* --- MOBILE BOTTOM NAVIGATION --- */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background-color: rgba(255, 255, 255, 0.97);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 64px;
+            z-index: 1040;
+            box-shadow: 0 -3px 20px rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.04);
+            display: none;
+        }
+        .nav-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text-light); flex: 1; height: 100%; font-weight: 500; position: relative;
+        }
+        .nav-btn .material-symbols-rounded { font-size: 22px; margin-bottom: 2px; color: #757575; transition: var(--transition); }
+        .nav-btn .label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; transition: var(--transition); }
+        
+        .nav-btn:hover .material-symbols-rounded,
+        .nav-btn.active .material-symbols-rounded { color: var(--primary-color); }
+        .nav-btn:hover .label,
+        .nav-btn.active .label { color: var(--text-dark); }
+
+        .mobile-bottom-dropdown {
+            position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(10px);
+            background-color: var(--white); box-shadow: var(--shadow-intense); min-width: 190px; border-radius: 8px;
+            opacity: 0; visibility: hidden; transition: var(--transition); display: flex; flex-direction: column;
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.04);
+        }
+        .mobile-bottom-dropdown.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .mobile-bottom-dropdown a { padding: 12px 16px; border-bottom: 1px solid var(--bg-alt); color: var(--text-dark); font-size: 0.85rem; font-weight: 500; text-align: left;}
+        .mobile-bottom-dropdown a:last-child { border-bottom: none; }
+
+        /* --- RESPONSIVE ADAPTATIONS --- */
+        @media (max-width: 1100px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .mobile-bottom-nav { display: flex; }
+            
+            .lcd-video-wrapper { flex-direction: column; gap: 30px; }
+            .product-unit-container { grid-template-columns: repeat(3, 1fr); }
+            .footer-columns { grid-template-columns: 1fr; gap: 35px; text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 10px 0; }
+            .navbar .logo-img { height: 38px; }
+            .navbar .logo-text { font-size: 1rem; letter-spacing: 0px; }
+            .page-hero { min-height: 35vh; margin-top: 58px; }
+            .page-hero h1 { font-size: 2rem; }
+            .page-hero p { font-size: 1rem; }
+
+            .lcd-video-section { padding: 50px 0; }
+            .lcd-video-content h2 { font-size: 1.5rem; }
+            .lcd-video-content p { font-size: 0.95rem; }
+
+            /* Modern Flipkart Style 2 Cards on Single Row Mobile */
+            .product-unit-container { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .product-unit { border-radius: 8px; }
+            .prod-img-box { height: 160px; padding: 6px; }
+            .prod-img-box::after { display: none; } /* Hide search overlay on touch screens */
+            .prod-details-box { padding: 10px; }
+            .product-unit h2 { font-size: 0.88rem; margin-bottom: 4px; line-height: 1.3; }
+            .price-matrix { gap: 4px; margin-bottom: 10px; }
+            .sales-price { font-size: 1.05rem; }
+            .mrp-cut { font-size: 0.78rem; }
+            .discount-pct { font-size: 0.78rem; }
+            .order-btn { padding: 8px 10px; font-size: 0.75rem; border-radius: 4px; }
+            
+            .lightbox-container { max-width: 92%; }
+            .lightbox-close { top: -46px; right: 6px; width: 36px; height: 36px; font-size: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .navbar .logo-text { font-size: 0.88rem; }
+            .navbar .logo-img { height: 32px; }
+        }
+
+/* --- STICKY ECO SEARCH & FILTER BAR --- */
+.sticky-filter-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 76px;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    z-index: 1000;
+    padding: 12px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+.filter-panel-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.search-input-group {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+    max-width: 480px;
+}
+.search-input-group input {
+    width: 100%;
+    padding: 10px 16px 10px 42px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1e1e1e;
+    background-color: #f8faf9;
+    outline: none;
+    transition: all 0.3s ease;
+}
+.search-input-group input:focus {
+    border-color: #8a1414;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(138, 20, 20, 0.1);
+}
+.search-input-group .search-icon-symbol {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 20px;
+    pointer-events: none;
+}
+.filter-chips-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.filter-chip-btn {
+    padding: 8px 18px;
+    background-color: #f8faf9;
+    border: 1px solid #e8e8e8;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #626262;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+.filter-chip-btn:hover {
+    border-color: #8a1414;
+    color: #8a1414;
+    background-color: rgba(138, 20, 20, 0.02);
+}
+.filter-chip-btn.active-chip {
+    background-color: #8a1414;
+    border-color: #8a1414;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(138, 20, 20, 0.2);
+}
+.no-filter-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 1.1rem;
+    color: #626262;
+    font-weight: 500;
+}
+
+/* Ensure hidden products via JavaScript are explicitly hidden */
+.product-unit[style*="display: none"] {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .sticky-filter-wrapper { position: static; padding: 16px 0; }
+    .filter-panel-container { flex-direction: column; align-items: stretch; gap: 14px; }
+    .search-input-group { max-width: 100%; min-width: 100%; }
+    .filter-chips-group { justify-content: flex-start; overflow-x: auto; padding-bottom: 4px; width: 100%; white-space: nowrap; flex-wrap: nowrap; }
+    .filter-chip-btn { flex-shrink: 0; }
+}
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="logo-container" onclick="location.href='../index.html'" style="cursor:pointer;">
+      <img src="../images/taha logo.png" alt="TAHA Logo" class="logo-img">
+      <span class="logo-text">TAHA Salah Time Indicator</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li class="nav-item">
+        <a href="#" class="active" onclick="event.preventDefault()">Products</a>
+        <div class="dropdown">
+          <a href="masjid-clock.html">Masjid Clock</a>
+          <a href="azan-home.html">Azan Home</a>
+          <a href="other-products.html">Other Products</a>
+        </div>
+      </li>
+      <li><a href="../about.html">About Us</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../terms.html">Terms & Conditions</a></li>
+      <li><a href="../tracking.html">Track Order</a></li>
+    </ul>
+    
+    <div class="hamburger" id="sidebarTrigger">&#9776;</div>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="mobile-sidebar" id="mobileSidebar">
+  <ul class="mobile-side-links">
+    <li><a href="../index.html">Home</a></li>
+    <li>
+      <a href="#" onclick="event.preventDefault()">Products</a>
+      <div class="mobile-side-dropdown">
+        <a href="masjid-clock.html">Masjid Clock</a>
+        <a href="azan-home.html">Azan Home</a>
+        <a href="other-products.html">Other Products</a>
+      </div>
+    </li>
+    <li><a href="../about.html">About Us</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../tracking.html">Track Order</a></li>
+  </ul>
+</nav>
+
+<div class="sticky-filter-wrapper">
+    <div class="container filter-panel-container">
+        <div class="search-input-group">
+            <span class="material-symbols-rounded search-icon-symbol">search</span>
+            <input type="text" id="productSearchEngine" placeholder="Search by models, keywords, or features...">
+        </div>
+        <div class="filter-chips-group">
+            <button class="filter-chip-btn active-chip" data-filter="all">All Clocks</button>
+            <button class="filter-chip-btn" data-filter="economy">Economy Range (Under ₹25k)</button>
+            <button class="filter-chip-btn" data-filter="medium">Medium Range (₹25k - ₹40k)</button>
+            <button class="filter-chip-btn" data-filter="high">High Range (Above ₹40k)</button>
+        </div>
+    </div>
+</div>
+
+<section class="page-hero">
+  <div class="hero-content">
+    <h1>Masjid Salah Time Indicators</h1>
+    <p>Let's Make Our Masjids Hi-tech</p>
+  </div>
+</section>
+
+<section class="lcd-video-section">
+  <div class="container">
+    <div class="lcd-video-wrapper">
+      <div class="lcd-video-box" id="lcdVideoWrapper">
+        <video id="lcdVideo" playsinline preload="metadata">
+          <source src="https://res.cloudinary.com/dz38l0vid/video/upload/v1766818972/LCD_32D_Model_Complete_Explainer_Abdullah_s_Premium_Range_Abdullah_s_Electronics_Centre_1080P_wwonvt.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="lcd-controls" id="lcdControls">
+          <button class="lcd-play-btn" id="lcdPlayBtn">▶</button>
+          <input type="range" class="lcd-progress" id="lcdProgress" min="0" max="100" value="0">
+        </div>
+      </div>
+      <div class="lcd-video-content">
+        <h2>Premium Series LCD Salah Time Indicator</h2>
+        <p>Get ready to boost your tech experience with our newest product, the LCD premium range model, designed to improve your daily life. Feel the perfect mix of cool style and smart features with our premium range, specially made to meet your highest needs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="masjid-products">
+  <div class="container">
+    <h2 class="masjid-title">New LCD Premium Series</h2>
+    <div class="product-unit-container">
+      
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-43.png" alt="LCD-24H"></div>
+        <div class="prod-details-box">
+          <h2>LCD-24H Premium STI</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹32,000</span>
+            <span class="mrp-cut">₹35,000</span>
+            <span class="discount-pct">30% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-24H" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-42.png" alt="LCD-24V"></div>
+        <div class="prod-details-box">
+          <h2>LCD-24V Premium STI</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹33,000</span>
+            <span class="mrp-cut">₹36,000</span>
+            <span class="discount-pct">33% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-24V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-41-600x600.png" alt="LCD-32H"></div>
+        <div class="prod-details-box">
+          <h2>LCD-32H Premium STI</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹40,000</span>
+            <span class="mrp-cut">₹45,000</span>
+            <span class="discount-pct">31% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-32H" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-40-600x600.png" alt="LCD-32V"></div>
+        <div class="prod-details-box">
+          <h2>LCD-32V Premium STI</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹40,000</span>
+            <span class="mrp-cut">₹45,000</span>
+            <span class="discount-pct">33% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-32V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-39-600x600.png" alt="LCD-24D"></div>
+        <div class="prod-details-box">
+          <h2>LCD-24D Premium Dual</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹44,000</span>
+            <span class="mrp-cut">₹50,000</span>
+            <span class="discount-pct">33% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-24D" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-38-600x600.png" alt="LCD-32D"></div>
+        <div class="prod-details-box">
+          <h2>LCD-32D Premium Dual</h2>
+          <div class="price-matrix">
+            <span class="sales-price">₹59,000</span>
+            <span class="mrp-cut">₹65,000</span>
+            <span class="discount-pct">34% off</span>
+          </div>
+          <a href="product-detail.html?model=LCD-32D" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="masjid-products" style="border-top: 1px solid rgba(0,0,0,0.05);">
+  <div class="container">
+    <h2 class="masjid-title">Newly Launched P2.5 Models – 2026</h2>
+    <div class="product-unit-container">
+      
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="../images/P2-E2 C40.jpg" alt="P2E2C40"></div>
+        <div class="prod-details-box">
+          <h2>Model P2E2C40</h2>
+          <div class="price-matrix"><span class="sales-price">₹54,000</span><span class="mrp-cut">₹56,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P2E2C40" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/19-1-600x600.png" alt="P2E2C24"></div>
+        <div class="prod-details-box">
+          <h2>Model P2E2C24</h2>
+          <div class="price-matrix"><span class="sales-price">₹45,000</span><span class="mrp-cut">₹47,000</span><span class="discount-pct">30% off</span></div>
+          <a href="product-detail.html?model=P2E2C24" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="../images/P2-E2 C18.jpg" alt="P2E2C18"></div>
+        <div class="prod-details-box">
+          <h2>Model P2E2C18</h2>
+          <div class="price-matrix"><span class="sales-price">₹41,000</span><span class="mrp-cut">₹43,000</span><span class="discount-pct">30% off</span></div>
+          <a href="product-detail.html?model=P2E2C18" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="../images/P2-D2 i40.jpg" alt="PD2i40"></div>
+        <div class="prod-details-box">
+          <h2>Model P2-D2 i40</h2>
+          <div class="price-matrix"><span class="sales-price">₹31,000</span><span class="mrp-cut">₹33,000</span><span class="discount-pct">30% off</span></div>
+          <a href="product-detail.html?model=P2D2i40" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+<div class="product-unit">
+        <div class="prod-img-box"><img src="../images/P2-D2 i24.jpg" alt="PD2i24"></div>
+        <div class="prod-details-box">
+          <h2>Model P2-D2 i24</h2>
+          <div class="price-matrix"><span class="sales-price">₹23,000</span><span class="mrp-cut">₹25,000</span><span class="discount-pct">30% off</span></div>
+          <a href="product-detail.html?model=P2D2i24" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/11-600x600.png" alt="P2D1i10"></div>
+        <div class="prod-details-box">
+          <h2>Model P2D1i10</h2>
+          <div class="price-matrix"><span class="sales-price">₹9,800</span><span class="mrp-cut">₹12,500</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P2D1i10" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/9.png" alt="P2C1B18"></div>
+        <div class="prod-details-box">
+          <h2>Model P2C1B18</h2>
+          <div class="price-matrix"><span class="sales-price">₹9,800</span><span class="mrp-cut">₹12,500</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P2C1B18" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="masjid-products" style="border-top: 1px solid rgba(0,0,0,0.05);">
+  <div class="container">
+    <h2 class="masjid-title">P3 & P4 Models</h2>
+    <div class="product-unit-container">
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/01/P-T2-D25-Slaah-Time-Indicator-600x600.png" alt="PT2D25"></div>
+        <div class="prod-details-box">
+          <h2>Model PT2D25</h2>
+          <div class="price-matrix"><span class="sales-price">₹1,05,000</span><span class="mrp-cut">₹1,10,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=PT2D25" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/02/P3-Q2-C25-Azan-Display-600x600.png" alt="P3Q2C25"></div>
+        <div class="prod-details-box">
+          <h2>Model P3Q2C25</h2>
+          <div class="price-matrix"><span class="sales-price">₹72,000</span><span class="mrp-cut">₹80,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P3Q2C25" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/02/Al-Barakah-Website-Images-1-1-600x600.png" alt="PD2i40"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i40</h2>
+          <div class="price-matrix"><span class="sales-price">₹47,000</span><span class="mrp-cut">₹52,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=PD2i40" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-36-600x600.png" alt="P4i40"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i40</h2>
+          <div class="price-matrix"><span class="sales-price">₹41,000</span><span class="mrp-cut">₹46,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i40" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-37-600x600.png" alt="P3i40"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i40</h2>
+          <div class="price-matrix"><span class="sales-price">₹40,000</span><span class="mrp-cut">₹45,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P3i40" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-44-1-600x600.png" alt="PD2i24L"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i24L</h2>
+          <div class="price-matrix"><span class="sales-price">₹41,000</span><span class="mrp-cut">₹46,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=PD2i24L" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-45-1-600x600.png" alt="P4i24L"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i24L</h2>
+          <div class="price-matrix"><span class="sales-price">₹36,000</span><span class="mrp-cut">₹41,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i24L" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-46-1-600x600.png" alt="P3i24L"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i24L</h2>
+          <div class="price-matrix"><span class="sales-price">₹33,000</span><span class="mrp-cut">₹38,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P3i24L" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-49-600x600.png" alt="P3i24L"></div>
+        <div class="prod-details-box">
+          <h2>Model P-D2 i24</h2>
+          <div class="price-matrix"><span class="sales-price">₹39,000</span><span class="mrp-cut">₹44,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=P-D2 i24" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-50-600x600.png" alt="P4i24"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i24</h2>
+          <div class="price-matrix"><span class="sales-price">₹34,000</span><span class="mrp-cut">₹39,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i24" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-51-600x600.png" alt="P3i24"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i24</h2>
+          <div class="price-matrix"><span class="sales-price">₹31,000</span><span class="mrp-cut">₹38,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P3i24" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-52-600x600.png" alt="PD2i24V"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i24V</h2>
+          <div class="price-matrix"><span class="sales-price">₹41,000</span><span class="mrp-cut">₹46,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PD2i24V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-53-600x600.png" alt="P4i24V"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i24V</h2>
+          <div class="price-matrix"><span class="sales-price">₹35,000</span><span class="mrp-cut">₹40,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P4i24V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-54-600x600.png" alt="P3i24V"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i24V</h2>
+          <div class="price-matrix"><span class="sales-price">₹33,000</span><span class="mrp-cut">₹38,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P3i24V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-55-600x600.png" alt="PD2i18"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i18</h2>
+          <div class="price-matrix"><span class="sales-price">₹37,000</span><span class="mrp-cut">₹42,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PD2i18" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-56-600x600.png" alt="PD2i18s"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i18s</h2>
+          <div class="price-matrix"><span class="sales-price">₹35,000</span><span class="mrp-cut">₹40,000</span><span class="discount-pct">32% off</span></div>
+          <a href="product-detail.html?model=PD2i18s" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-57-600x600.png" alt="PD2i18V"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i18V</h2>
+          <div class="price-matrix"><span class="sales-price">₹34,000</span><span class="mrp-cut">₹39,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PD2i18V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-58-600x600.png" alt="PD2i15V"></div>
+        <div class="prod-details-box">
+          <h2>Model PD2i15V</h2>
+          <div class="price-matrix"><span class="sales-price">₹27,000</span><span class="mrp-cut">₹32,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PD2i15V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-59-600x600.png" alt="P4i15V"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i15V</h2>
+          <div class="price-matrix"><span class="sales-price">₹26,000</span><span class="mrp-cut">₹31,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i15V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-60-600x600.png" alt="P3i15V"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i15V</h2>
+          <div class="price-matrix"><span class="sales-price">₹22,000</span><span class="mrp-cut">₹27,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P3i15V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-61-600x600.png" alt="P3i15V"></div>
+        <div class="prod-details-box">
+          <h2>Model P-D2 i15</h2>
+          <div class="price-matrix"><span class="sales-price">₹25,000</span><span class="mrp-cut">₹30,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P-D2 i15" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-62-600x600.png" alt="P4i15A"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i15A</h2>
+          <div class="price-matrix"><span class="sales-price">₹23,000</span><span class="mrp-cut">₹28,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P4i15A" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-63-600x600.png" alt="P3i15A"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i15A</h2>
+          <div class="price-matrix"><span class="sales-price">₹21,000</span><span class="mrp-cut">₹26,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P3i15A" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-64-600x600.png" alt="P3i15A"></div>
+        <div class="prod-details-box">
+          <h2>Model P-D2 i15</h2>
+          <div class="price-matrix"><span class="sales-price">₹25,000</span><span class="mrp-cut">₹30,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P-D2 i15" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-65-600x600.png" alt="P4i15B"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i15B</h2>
+          <div class="price-matrix"><span class="sales-price">₹23,000</span><span class="mrp-cut">₹28,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P4i15B" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-66-600x600.png" alt="P3i15B"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i15B</h2>
+          <div class="price-matrix"><span class="sales-price">₹21,000</span><span class="mrp-cut">₹26,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=P3i15B" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-67-600x600.png" alt="PC3i19"></div>
+        <div class="prod-details-box">
+          <h2>Model PC3i19</h2>
+          <div class="price-matrix"><span class="sales-price">₹21,000</span><span class="mrp-cut">₹26,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PC3i19" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-68-600x600.png" alt="P4i12"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i12</h2>
+          <div class="price-matrix"><span class="sales-price">₹19,000</span><span class="mrp-cut">₹24,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i12" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-69-600x600.png" alt="P3i12"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i12</h2>
+          <div class="price-matrix"><span class="sales-price">₹17,000</span><span class="mrp-cut">₹22,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P3i12" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-70-600x600.png" alt="PC3i9V"></div>
+        <div class="prod-details-box">
+          <h2>Model PC3i9V</h2>
+          <div class="price-matrix"><span class="sales-price">₹21,000</span><span class="mrp-cut">₹24,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=PC3i9V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-71-600x600.png" alt="P4i12V"></div>
+        <div class="prod-details-box">
+          <h2>Model P4i12V</h2>
+          <div class="price-matrix"><span class="sales-price">₹19,000</span><span class="mrp-cut">₹24,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=P4i12V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-72-600x600.png" alt="P3i12V"></div>
+        <div class="prod-details-box">
+          <h2>Model P3i12V</h2>
+          <div class="price-matrix"><span class="sales-price">₹17,000</span><span class="mrp-cut">₹22,000</span><span class="discount-pct">35% off</span></div>
+          <a href="product-detail.html?model=P3i12V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-73-600x600.png" alt="pi10"></div>
+        <div class="prod-details-box">
+          <h2>Model pi10</h2>
+          <div class="price-matrix"><span class="sales-price">₹13,000</span><span class="mrp-cut">₹18,000</span><span class="discount-pct">34% off</span></div>
+          <a href="product-detail.html?model=pi10" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-74-600x600.png" alt="pi10V"></div>
+        <div class="prod-details-box">
+          <h2>Model pi10V</h2>
+          <div class="price-matrix"><span class="sales-price">₹13,000</span><span class="mrp-cut">₹18,000</span><span class="discount-pct">35% off</span></div>
+          <a href="product-detail.html?model=pi10V" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+      <div class="product-unit">
+        <div class="prod-img-box"><img src="https://azanclock.in/wp-content/uploads/2026/03/Al-Barakah-Website-Images-75-600x600.png" alt="pi10mini"></div>
+        <div class="prod-details-box">
+          <h2>Model pi10mini</h2>
+          <div class="price-matrix"><span class="sales-price">₹11,000</span><span class="mrp-cut">₹17,000</span><span class="discount-pct">33% off</span></div>
+          <a href="product-detail.html?model=pi10mini" class="order-btn">View Details</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <div class="lightbox-container">
+    <button class="lightbox-close" id="lightboxCloseBtn">&times;</button>
+    <img src="" alt="Expanded Product View" class="lightbox-img" id="lightboxActiveImg">
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-columns">
+      <div>
+        <h2>TAHA Salah Time Indicator</h2>
+        <p>Professional Salah & Azan Clocks for Masjid, Home & Office. Engineering premium quality digital displays with accuracy and long lifecycle support.</p>
+      </div>
+      <div>
+        <h3>Products Menu</h3>
+        <ul>
+          <li><a href="masjid-clock.html">Masjid Clocks</a></li>
+          <li><a href="azan-home.html">Azan Home Units</a></li>
+          <li><a href="other-products.html">Other Products</a></li>
+          <li><a href="../terms.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Info</h3>
+        <p><strong>Phone Support:</strong></p>
+<p><a href="tel:+919826623786" style="color: #b5b5b5; text-decoration: none;">+91 9826623786</a></p>
+<p><a href="tel:+919302022123" style="color: #b5b5b5; text-decoration: none;">+91 9302022123</a></p>
+        <p>
+    <strong>Email:</strong> 
+    <a href="mailto:tahasalahtime@gmail.com" class="email-link">tahasalahtime@gmail.com</a>
+</p>
+        <p><strong>Address:</strong> 06, New Cloth Market Ratlam, Madhya Pradesh</p>
+        <p><strong>Head Office:</strong> Mumbai, Maharashtra</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; TAHA Salah Time Indicator. All Rights Reserved.
+    </div>
+  </div>
+</footer>
+
+<nav class="mobile-bottom-nav">
+  <a href="../index.html" class="nav-btn">
+    <span class="material-symbols-rounded">home</span>
+    <span class="label">Home</span>
+  </a>
+
+  <div class="nav-btn active" id="mobileProductBtn" style="cursor: pointer;">
+    <span class="material-symbols-rounded">inventory_2</span>
+    <span class="label">Products</span>
+
+    <div class="mobile-bottom-dropdown" id="mobileBottomDropdown">
+      <a href="masjid-clock.html">Masjid Clock</a>
+      <a href="azan-home.html">Azan Home</a>
+      <a href="other-products.html">Other Products</a>
+    </div>
+  </div>
+
+  <a href="../tracking.html" class="nav-btn">
+    <span class="material-symbols-rounded">local_shipping</span>
+    <span class="label">Track</span>
+  </a>
+
+  <a href="../contact.html" class="nav-btn">
+    <span class="material-symbols-rounded">call</span>
+    <span class="label">Contact</span>
+  </a>
+</nav>
+
+<script>
+    /* --- Hamburger Slide Sidebar Drawer Trigger --- */
+    const trigger = document.getElementById('sidebarTrigger');
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    trigger.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    });
+
+    /* --- Bottom Navigation Dropdown Control --- */
+    const mobProdBtn = document.getElementById('mobileProductBtn');
+    const mobDropdown = document.getElementById('mobileBottomDropdown');
+
+    mobProdBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobDropdown.classList.toggle('show');
+    });
+
+    window.addEventListener('click', () => {
+        if (mobDropdown.classList.contains('show')) {
+            mobDropdown.classList.remove('show');
+        }
+    });
+
+    /* --- Native Video Playback Handler --- */
+    function setupVideoControls(videoId, playBtnId, timelineId) {
+        const video = document.getElementById(videoId);
+        const playBtn = document.getElementById(playBtnId);
+        const timeline = document.getElementById(timelineId);
+
+        if (!video || !playBtn || !timeline) return;
+
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.paused || video.ended) {
+                video.play();
+                playBtn.innerText = '⏸';
+            } else {
+                video.pause();
+                playBtn.innerText = '▶';
+            }
+        });
+
+        video.addEventListener('timeupdate', () => {
+            const percentage = (video.currentTime / video.duration) * 100;
+            timeline.value = isNaN(percentage) ? 0 : percentage;
+        });
+
+        timeline.addEventListener('input', () => {
+            const time = (timeline.value / 100) * video.duration;
+            video.currentTime = time;
+        });
+        
+        video.addEventListener('ended', () => {
+            playBtn.innerText = '▶';
+            timeline.value = 0;
+        });
+    }
+
+    /* --- INTERACTIVE IMAGE LIGHTBOX ENGINE --- */
+    function setupImageLightbox() {
+        const overlay = document.getElementById('lightboxOverlay');
+        const activeImg = document.getElementById('lightboxActiveImg');
+        const closeBtn = document.getElementById('lightboxCloseBtn');
+        const imgBoxes = document.querySelectorAll('.prod-img-box img');
+
+        imgBoxes.forEach(img => {
+            img.parentElement.addEventListener('click', () => {
+                activeImg.src = img.src;
+                activeImg.alt = img.alt;
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Stop page scrolling background
+            });
+        });
+
+        // Close functions
+        const closeLightbox = () => {
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore layout scrolling
+        };
+
+        closeBtn.addEventListener('click', closeLightbox);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeLightbox();
+        });
+        
+        // Escape key close support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setupVideoControls('lcdVideo', 'lcdPlayBtn', 'lcdProgress');
+        setupImageLightbox();
+    });
+
+/* --- Dynamic Discount Counter Engine --- */
+function computeDiscountPercentages() {
+  const items = document.querySelectorAll('.product-unit');
+  items.forEach(item => {
+    const saleElement = item.querySelector('.sales-price');
+    const mrpElement = item.querySelector('.mrp-cut');
+    const discountElement = item.querySelector('.discount-pct');
+    
+    if (saleElement && mrpElement && discountElement) {
+      // Strips non-numeric characters automatically (e.g. "₹32,000" becomes 32000)
+      const salePrice = parseFloat(saleElement.textContent.replace(/[^\d.]/g, ''));
+      const mrpPrice = parseFloat(mrpElement.textContent.replace(/[^\d.]/g, ''));
+      
+      if (!isNaN(salePrice) && !isNaN(mrpPrice) && mrpPrice > salePrice) {
+        const calculatedPct = Math.round(((mrpPrice - salePrice) / mrpPrice) * 100);
+        discountElement.textContent = `${calculatedPct}% off`;
+      }
+    }
+  });
+}
+
+/* --- Prompt Search and Catalog Filtering Logic --- */
+function setupCatalogSearchEngine() {
+  const searchInput = document.getElementById('productSearchEngine');
+  const chipButtons = document.querySelectorAll('.filter-chip-btn');
+  const productContainers = document.querySelectorAll('.product-unit-container');
+  
+  let currentSearchQuery = "";
+  let activeRangeFilter = "all";
+
+  function evaluateFilters() {
+    let globalMatchCount = 0;
+
+    // Erase preceding 'no matches found' warnings if any exist
+    document.querySelectorAll('.no-filter-results').forEach(el => el.remove());
+
+    productContainers.forEach(container => {
+      const units = container.querySelectorAll('.product-unit');
+      let visibleInSectionCount = 0;
+
+      units.forEach(unit => {
+        const titleText = unit.querySelector('h2') ? unit.querySelector('h2').textContent.toLowerCase() : '';
+        const rawPriceString = unit.querySelector('.sales-price') ? unit.querySelector('.sales-price').textContent : '0';
+        const clearPrice = parseFloat(rawPriceString.replace(/[^\d.]/g, ''));
+
+        // Match Query Validation
+        const searchMatches = titleText.includes(currentSearchQuery);
+
+        // Range Segment Validation Matrix
+        let rangeMatches = false;
+        if (activeRangeFilter === 'all') {
+            rangeMatches = true;
+        } else if (activeRangeFilter === 'economy') {
+            rangeMatches = (clearPrice < 25000);
+        } else if (activeRangeFilter === 'medium') {
+            rangeMatches = (clearPrice >= 25000 && clearPrice <= 40000);
+        } else if (activeRangeFilter === 'high') {
+            rangeMatches = (clearPrice > 40000);
+        }
+
+        // Show/Hide Elements
+        if (searchMatches && rangeMatches) {
+            unit.style.setProperty('display', 'flex', 'important');
+            visibleInSectionCount++;
+            globalMatchCount++;
+        } else {
+            unit.style.setProperty('display', 'none', 'important');
+        }
+      });
+
+      // Collapse sections gracefully if all inner items are filtered out
+      const parentSection = container.closest('.masjid-products');
+      if (parentSection) {
+          parentSection.style.display = (visibleInSectionCount === 0) ? 'none' : 'block';
+      }
+    });
+
+    // Display placeholder note if absolutely zero models clear filters globally
+    if (globalMatchCount === 0) {
+        const primaryContainer = document.querySelector('.product-unit-container');
+        const parentSection = primaryContainer ? primaryContainer.closest('.masjid-products') : null;
+        if (parentSection) {
+            parentSection.style.display = 'block';
+            const noResultMsg = document.createElement('div');
+            noResultMsg.className = 'no-filter-results';
+            noResultMsg.innerHTML = `<span class="material-symbols-rounded" style="font-size: 44px; display:block; margin-bottom:8px; color:#bbb;">search_off</span> No models found matching criteria setup.`;
+            primaryContainer.appendChild(noResultMsg);
+        }
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearchQuery = e.target.value.toLowerCase().trim();
+      evaluateFilters();
+    });
+  }
+
+  chipButtons.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chipButtons.forEach(btn => btn.classList.remove('active-chip'));
+      chip.classList.add('active-chip');
+      activeRangeFilter = chip.getAttribute('data-filter');
+      evaluateFilters();
+    });
+  });
+}
+
+// Ensure the processes boot smoothly together upon initial document layout generation
+document.addEventListener('DOMContentLoaded', () => {
+  computeDiscountPercentages();
+  setupCatalogSearchEngine();
+});
+
+</script>
+
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647; /* Infinite absolute top layout indexing safety override */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px; /* Activates pure hardware-accelerated 3D depth space */
+  }
+
+  /* Interactive Multi-layered Ambient Light Radiance Engines */
+  .taha-3d-wp-wrapper::before,
+  .taha-3d-wp-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Layer 1: Professional Emerald Wave */
+  .taha-3d-wp-wrapper::before {
+    background-color: #25D366;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  }
+  
+  /* Layer 2: Premium Metallic Gold Sub-Aura */
+  .taha-3d-wp-wrapper::after {
+    background-color: #c9a71a;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 0.8s;
+  }
+
+  /* --- PHYSICAL 3D EMBOSSED GLASS BUTTON FRAME --- */
+  .taha-3d-wp-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    
+    /* Complex Multi-Tier Drop Shadows for 3D Realism Elevation */
+    box-shadow: 
+      0 12px 28px rgba(18, 122, 55, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+      
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    
+    /* Real-Time Mathematical Anti-Gravity Floating Engine Simulation */
+    animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+
+  /* Glossy Hyper-Realistic Reflection Sheet Overlay */
+  .glass-specular-glare {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+
+  /* Vector Branding Element Depth Extraction Styles */
+  .wp-vector-icon {
+    fill: #ffffff;
+    width: 33px;
+    height: 33px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    transform: translateZ(15px); /* Forces vector icon to pop outwards off the disk base physically */
+  }
+
+  /* --- HIGH-END HOVER MICRO-ACTIONS AND PROPULSIONS --- */
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+    animation-play-state: paused; /* Halts automated idle animation cleanly when interacting */
+    transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06);
+    background: linear-gradient(145deg, #35ff82 0%, #1fb456 50%, #158f41 100%);
+    box-shadow: 
+      0 22px 38px rgba(18, 122, 55, 0.55),
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Sweeps the glossy reflection sheet across the face of the circle on mouseover */
+  .taha-3d-wp-wrapper:hover .glass-specular-glare {
+    transform: rotate(-15deg) translate(25%, 25%);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .taha-3d-wp-wrapper:hover .wp-vector-icon {
+    transform: translateZ(28px) scale(1.1); /* Increases 3D depth pop effect significantly on mouse hovering */
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Tactile Compression Feedback Layer on Device Tap clicks */
+  .taha-3d-wp-wrapper:active .taha-3d-wp-button {
+    transform: translateY(-2px) scale(0.94);
+    box-shadow: 0 8px 16px rgba(18, 122, 55, 0.4);
+  }
+
+  /* --- SYSTEM MATHEMATICAL TIMELINE MATRIX KEYFRAMES --- */
+  @keyframes luxuriousWpPulse {
+    0% { transform: scale(0.88); opacity: 0.6; }
+    100% { transform: scale(1.65); opacity: 0; }
+  }
+
+  @keyframes dynamicWpFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* --- MOBILE UI RESPONSIVE SAFELOCK MATRIX --- */
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper {
+      bottom: 84px; /* Perfectly aligns spacing above your fixed mobile bottom shortcut panel menu strip */
+      right: 18px;
+      width: 55px;
+      height: 55px;
+    }
+    .wp-vector-icon {
+      width: 27px;
+      height: 27px;
+      transform: translateZ(8px); /* Calibrates soft depth scales for handheld devices */
+    }
+    .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+      /* Optimizes simpler scaling curves for touch views without awkward rotation axis skewing */
+      transform: translateY(-4px) scale(1.04); 
+    }
+    .taha-3d-wp-wrapper:hover .wp-vector-icon {
+      transform: translateZ(12px) scale(1.05);
+    }
+  }
+</style>
+
+<style>
+  /* --- HOVER EFFECT FOR PHONE NUMBERS --- */
+  /* Target links with the 'tel:' protocol */
+  a[href^="tel:"] {
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+  
+  a[href^="tel:"]:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: scale(1.05);    /* Slight zoom effect */
+    letter-spacing: 0.5px;
+  }
+
+  /* --- PROFESSIONAL MOBILE OPTIMIZATIONS --- */
+  @media (max-width: 768px) {
+    footer {
+      padding: 50px 0 60px;
+    }
+    
+    .footer-columns {
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    footer h2, footer h3 {
+      font-size: 1rem; /* Slightly smaller for mobile readability */
+      margin-bottom: 15px;
+    }
+
+    footer p, footer ul li, .footer-bottom {
+      font-size: 0.85rem;
+    }
+
+    /* Stack and center for clean mobile appearance */
+    .footer-columns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* --- EMAIL LINK STYLING --- */
+.email-link {
+    color: #b5b5b5 !important; /* Matches your footer text */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border-bottom: 1px solid transparent; /* Keeps it subtle */
+}
+
+/* Hover Effect */
+.email-link:hover {
+    color: #c9a71a !important; /* Gold color */
+    transform: translateX(5px); /* Gentle slide-in animation */
+    border-bottom: 1px solid #c9a71a; /* Underline appears on hover */
+}
+
+/* Optional: Clickable feedback */
+.email-link:active {
+    transform: scale(0.98);
+}
+</style>
+
+
+</body>
+</html>

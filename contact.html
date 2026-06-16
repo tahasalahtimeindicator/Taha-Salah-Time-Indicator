@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | TAHA Salah Time Indicator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+  <style>
+    /* --- CORE STYLE MATRIX & PREMIUM PALETTE --- */
+    :root {
+      --primary-color: #8a1414; /* Deep Burgundy Red */
+      --primary-color-dark: #660d0d;
+      --accent-color: #c9a71a; /* Professional Gold */
+      --text-dark: #1e1e1e;
+      --text-light: #555555;
+      --bg-light: #ffffff;
+      --bg-alt: #fcfdfc;
+      --white: #ffffff;
+      
+      --font-headings: 'Cinzel', serif;
+      --font-body: 'Poppins', sans-serif;
+      --font-alt: 'Montserrat', sans-serif;
+      
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-subtle: 0 4px 24px rgba(0,0,0,0.04);
+      --shadow-intense: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-alt);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-alt); font-weight: 700; color: var(--text-dark); }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- NAVBAR STYLING --- */
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.98);
+      padding: 14px 0;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 1050;
+      box-shadow: var(--shadow-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .navbar .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1060;
+    }
+    .navbar .logo-img { 
+      height: 46px; 
+      width: auto;
+      object-fit: contain;
+    }
+    .navbar .logo-text {
+      font-family: var(--font-headings);
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .hamburger {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--primary-color);
+      display: none;
+      z-index: 1060;
+      user-select: none;
+      transition: var(--transition);
+      padding: 4px;
+    }
+    .hamburger:hover { color: var(--accent-color); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .nav-links li a {
+      font-family: var(--font-alt);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-dark);
+      position: relative;
+      padding: 6px 0;
+    }
+    .nav-links li a:hover,
+    .nav-links li .active { color: var(--primary-color); }
+    .nav-links li a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+    .nav-links li a:hover::after { width: 100%; }
+
+    .nav-item { position: relative; }
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background-color: var(--white);
+      box-shadow: var(--shadow-intense);
+      min-width: 240px;
+      padding: 16px;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      border-top: 3px solid var(--accent-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1; visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown a {
+      font-size: 0.85rem;
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 500;
+      color: var(--text-light) !important;
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: block;
+    }
+    .dropdown a:hover {
+      background-color: var(--bg-alt);
+      color: var(--primary-color) !important;
+      transform: translateX(4px);
+    }
+
+    /* --- HERO SECTION --- */
+    .contact-hero {
+      position: relative;
+      min-height: 40vh;
+      margin-top: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop") center/cover no-repeat;
+    }
+    .hero-content h1 {
+      font-family: var(--font-headings);
+      font-size: 3rem;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .hero-content p {
+      font-family: var(--font-alt);
+      color: var(--accent-color);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* --- EDITORIAL MULTI-COLUMN CONTAINER --- */
+    .contact-main-section {
+      padding: 80px 0;
+      background-color: var(--bg-alt);
+    }
+    .contact-grid-wrapper {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 50px;
+      align-items: start;
+    }
+
+    /* Left Side Info Styling */
+    .contact-brand-details h2 {
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      margin-bottom: 24px;
+      position: relative;
+      padding-bottom: 12px;
+    }
+    .contact-brand-details h2::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 3.5px; background-color: var(--accent-color); border-radius: 2px;
+    }
+    .contact-brand-details .intro-text {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      margin-bottom: 35px;
+      line-height: 1.7;
+    }
+    .info-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .info-item-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background-color: var(--white);
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-subtle);
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+    }
+    .info-item-box:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-intense);
+      border-left-color: var(--accent-color);
+    }
+    .info-item-box .icon-wrap {
+      background-color: rgba(138, 20, 20, 0.08);
+      color: var(--primary-color);
+      width: 44px; height: 44px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-item-box h4 {
+      font-family: var(--font-alt);
+      font-size: 1rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .info-item-box p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    /* Right Side Form Panel Box */
+    .contact-form-holder {
+      background-color: var(--white);
+      padding: 50px 45px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-intense);
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .contact-form-holder h3 {
+      font-family: var(--font-alt);
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .contact-form-holder .sub-header {
+      font-size: 0.92rem;
+      color: var(--text-light);
+      margin-bottom: 35px;
+    }
+
+    /* --- SYSTEM FORM ARCHITECTURE --- */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-family: var(--font-alt);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      letter-spacing: 0.3px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      background-color: #fcfdfc;
+      border: 1.5px solid #e2e8e5;
+      color: var(--text-dark);
+      border-radius: 8px;
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-color);
+      background-color: var(--white);
+      box-shadow: 0 0 0 4px rgba(138, 20, 20, 0.08);
+    }
+    
+    /* Model Inner Search Composite Input Wrapper */
+    .search-select-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .form-group input[type="text"]#modelSearch {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23777" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 45px;
+    }
+
+    /* Purpose Radio Group Framework */
+    .checkbox-group {
+      display: flex;
+      gap: 24px;
+      background-color: #fcfdfc;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1.5px solid #e2e8e5;
+      width: fit-content;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-group input[type="radio"] {
+      accent-color: var(--primary-color);
+      width: 17px; height: 17px;
+      cursor: pointer;
+    }
+
+    /* Submission Framework Matrix Elements */
+    .submit-btn {
+      font-family: var(--font-alt);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(138, 20, 20, 0.2);
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background-color: var(--primary-color-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(138, 20, 20, 0.3);
+    }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* --- LOADER & OVERLAYS --- */
+    .submit-overlay, .success-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.98);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.4s ease, cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .submit-overlay.hidden, .success-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none !important;
+    }
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px; height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .success-overlay h2 {
+      font-family: var(--font-alt);
+      font-size: 2.2rem;
+      color: #2e7d32;
+    }
+    .success-overlay p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .home-btn { max-width: 250px; text-decoration: none; }
+
+    /* --- FOOTER STYLING --- */
+    .about-footer {
+      background-color: #111111;
+      color: var(--white);
+      padding: 45px 0;
+      border-top: 4px solid var(--primary-color);
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    .about-footer p { color: #777777; }
+
+    /* --- MOBILE BOTTOM NAVIGATION --- */
+    .mobile-bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 65px;
+      background: var(--white);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      z-index: 9999;
+      display: none;
+    }
+    .nav-btn {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      padding: 8px 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-btn .material-symbols-rounded { font-size: 18px; margin-bottom: 4px; color: #333; }
+    .nav-btn.active, .nav-btn:hover { color: var(--primary-color); }
+    .nav-btn.active .material-symbols-rounded { color: var(--primary-color); }
+    
+    .mobile-dropdown {
+      position: absolute;
+      bottom: 78px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background-color: var(--white);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.06);
+      z-index: 10000;
+    }
+    .mobile-dropdown.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) scale(1); }
+    .mobile-dropdown a { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); color: #222; font-size: 13px; text-align: center; display: block; }
+    .mobile-dropdown a:last-child { border-bottom: none; }
+    .mobile-dropdown a:hover { background: #f2f2f2; }
+
+    /* --- SCROLL INTERSECTION ANIMATION --- */
+    .auto-fade {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .auto-fade.show { opacity: 1; transform: translateY(0); }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    @media (max-width: 990px) {
+      .contact-grid-wrapper { grid-template-columns: 1fr; gap: 45px; }
+      .contact-brand-details .intro-text { margin-bottom: 25px; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 12px 0; }
+      
+      /* MOBILE LAYER OVERLAP TOGGLE ARCHITECTURE */
+      .navbar .nav-links { 
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background-color: var(--white);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        padding: 16px 24px;
+        gap: 0;
+        align-items: flex-start;
+        border-top: 1px solid rgba(0,0,0,0.08);
+        max-height: 85vh;
+        overflow-y: auto;
+        z-index: 1040;
+      }
+      .navbar .nav-links.active {
+        display: flex !important;
+      }
+      .navbar .nav-links li { 
+        width: 100%; 
+        display: block;
+        position: relative;
+        clear: both;
+      }
+      .navbar .nav-links li a { 
+        display: block; 
+        width: 100%; 
+        padding: 12px 0; 
+        font-size: 0.95rem; 
+        color: var(--text-dark);
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .navbar .nav-links li:last-child a { border-bottom: none; }
+      
+      /* Unrolling Mobile Dropdowns inline inside active menus safely */
+      .navbar .nav-links .dropdown {
+        position: static;
+        opacity: 1; 
+        visibility: visible;
+        transform: none; 
+        box-shadow: none;
+        padding: 4px 0 8px 16px;
+        border-top: none;
+        display: flex; 
+        flex-direction: column; 
+        gap: 2px;
+        width: 100%;
+        background: transparent;
+      }
+      .navbar .nav-links .dropdown a { 
+        padding: 10px 12px; 
+        border-bottom: none;
+        color: var(--text-light) !important;
+        font-size: 0.9rem;
+      }
+      
+      .navbar .hamburger { display: block; }
+      .mobile-bottom-nav { display: flex; }
+      
+      .contact-hero { min-height: 35vh; }
+      .hero-content h1 { font-size: 2.2rem; }
+      .contact-main-section { padding: 50px 0; }
+      .contact-form-holder { padding: 35px 24px; }
+      .contact-brand-details h2 { font-size: 1.8rem; }
+    }
+    @media (max-width: 580px) {
+      .navbar .logo-text { font-size: 1.05rem !important; letter-spacing: 0px; }
+      .navbar .logo-img { height: 38px !important; }
+    }
+    @media (max-width: 440px) {
+      .navbar .container { padding: 0 14px !important; }
+      .navbar .logo-container { gap: 6px; }
+      .navbar .logo-img { height: 34px !important; }
+      .navbar .logo-text { font-size: 0.9rem !important; }
+      .hamburger { font-size: 1.5rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+        <img src="images/taha logo.png" alt="T Logo" class="logo-img">
+        <span class="logo-text">TAHA Salah Time Indicator</span>
+      </div>
+      <div class="hamburger" id="hamburgerBtn">☰</div>
+
+      <ul class="nav-links" id="navLinksMenu">
+        <li><a href="index.html">Home</a></li>
+        <li class="nav-item">
+          <a href="#" class="dropdown-toggle">Products</a>
+          <div class="dropdown">
+            <a href="product-details/masjid-clock.html">Masjid Clocks</a>
+            <a href="product-details/azan-home.html">Azan Home Units</a>
+            <a href="product-details/other-products.html">Other Products</a>
+          </div>
+        </li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="tracking.html">Track Order</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="contact-hero">
+    <div class="hero-content">
+      <h1>Let’s Talk ✨</h1>
+      <p>Order • Inquiry • Custom Solutions</p>
+    </div>
+  </section>
+
+  <section class="contact-main-section">
+    <div class="container contact-grid-wrapper">
+      
+      <div class="contact-brand-details">
+        <h2>Connect With Us</h2>
+        <p class="intro-text">
+          Have an inquiry, or looking to customize a dynamic visual counter setup for your organization? Complete our submission portal on the right, and an authorized representative will coordinate with you directly.
+        </p>
+        
+        <div class="info-card-list">
+          <div class="info-item-box">
+            <div class="icon-wrap"><span class="material-symbols-rounded">location_on</span></div>
+            <div>
+              <h4>Corporate Head Office</h4>
+              <p>TAHA Salah Time Indicator<br>06, New Cloth Market, Ratlam, MP - 457001</p>
+            </div>
+          </div>
+          
+          <div class="info-item-box">
+            <div class="icon-wrap"><span class="material-symbols-rounded">mail</span></div>
+            <div>
+              <h4>Electronic Communication</h4>
+              <p>tahasalahtime@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="info-item-box">
+            <div class="icon-wrap"><span class="material-symbols-rounded">schedule</span></div>
+            <div>
+              <h4>Operational Hours</h4>
+              <p>Monday – Saturday: 10:00 AM to 07:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-holder">
+        <h3>Request a Quote</h3>
+        <p class="sub-header">Please fill out the form below to initiate procurement or technical inquiry routines.</p>
+
+        <form
+          id="contactForm"
+          action="https://formsubmit.co/tahasalahtime@gmail.com"
+          method="POST"
+          class="contact-form"
+        >
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="New Product Contact Request">
+          <input type="hidden" name="_template" value="table">
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="Name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="Phone" required>
+          </div>
+
+          <div class="form-group">
+            <label>Select Category</label>
+            <select name="Category" id="categorySelect" required>
+              <option value="">Choose</option>
+              <option value="Masjid STI">Masjid STI</option>
+              <option value="Azan Home">Azan Home</option>
+              <option value="Gold Rate Display">Gold Rate Display</option>
+              <option value="Rate Display">Rate Display</option>
+              <option value="Presentation Timer">Presentation Timer</option>
+              <option value="World Clock">World Clock</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Select Model</label>
+            <div class="search-select-wrapper">
+              <input type="text" id="modelSearch" placeholder="Search model...">
+              <select name="Model" id="modelSelect" required>
+                <option value="">Select Model</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Purpose</label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="Purpose" value="To Order" required> To Order</label>
+              <label><input type="radio" name="Purpose" value="Inquiry"> Inquiry</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Message (max 100 words)</label>
+            <textarea name="Message" maxlength="600" rows="4"></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Send Request 🚀</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <div id="submitOverlay" class="submit-overlay hidden">
+    <div class="loader"></div>
+    <p>Sending your request...</p>
+  </div>
+
+  <div id="successOverlay" class="success-overlay hidden">
+    <h2>✅ Request Sent</h2>
+    <p>Our team will contact you shortly.</p>
+    <a href="index.html" class="submit-btn home-btn">Go to Home</a>
+  </div>
+
+  <footer class="about-footer">
+    <div class="container">
+      <p>© 2026 TAHA Salah Time Indicator. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="nav-btn" id="bn-home">
+      <span class="material-symbols-rounded">home</span>
+      <span class="label">Home</span>
+    </a>
+    <div class="nav-btn has-dropdown" id="productsBtn">
+      <span class="material-symbols-rounded">inventory_2</span>
+      <span class="label">Products</span>
+      <div class="mobile-dropdown" id="mobileProductDropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clock</a>
+        <a href="product-details/azan-home.html">Azan Home</a>
+        <a href="product-details/other-products.html">Other Products</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-btn" id="bn-about">
+      <span class="material-symbols-rounded">info</span>
+      <span class="label">About</span>
+    </a>
+    <a href="contact.html" class="nav-btn active" id="bn-contact">
+      <span class="material-symbols-rounded">call</span>
+      <span class="label">Contact</span>
+    </a>
+    <a href="tracking.html" class="nav-btn" id="bn-track">
+      <span class="material-symbols-rounded">local_shipping</span>
+      <span class="label">Track</span>
+    </a>
+  </nav>
+
+  <script src="js/contact.js"></script>
+  <script src="js/main.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Hamburger Dropdown Navigation Open/Close Logic
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const navLinksMenu = document.getElementById("navLinksMenu");
+
+      if (hamburgerBtn && navLinksMenu) {
+        hamburgerBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navLinksMenu.classList.toggle("active");
+        });
+      }
+
+      // Mobile Navigation Bottom Dropdown Toggle Logic
+      const productsBtn = document.getElementById("productsBtn");
+      const mobileProductDropdown = document.getElementById("mobileProductDropdown");
+
+      if (productsBtn && mobileProductDropdown) {
+        productsBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          mobileProductDropdown.classList.toggle("show");
+        });
+      }
+
+      // Global Dismiss Layer Click Capture Setup
+      document.addEventListener("click", () => {
+        if (mobileProductDropdown) mobileProductDropdown.classList.remove("show");
+        if (navLinksMenu) navLinksMenu.classList.remove("active");
+      });
+
+      // Intersection Observer Animation Setup
+      const fadeEls = document.querySelectorAll(".info-item-box, .contact-form-holder, section, footer");
+      fadeEls.forEach(el => el.classList.add("auto-fade"));
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      fadeEls.forEach(el => observer.observe(el));
+    });
+  </script>
+
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647; /* Infinite absolute top layout indexing safety override */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px; /* Activates pure hardware-accelerated 3D depth space */
+  }
+
+  /* Interactive Multi-layered Ambient Light Radiance Engines */
+  .taha-3d-wp-wrapper::before,
+  .taha-3d-wp-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Layer 1: Professional Emerald Wave */
+  .taha-3d-wp-wrapper::before {
+    background-color: #25D366;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  }
+  
+  /* Layer 2: Premium Metallic Gold Sub-Aura */
+  .taha-3d-wp-wrapper::after {
+    background-color: #c9a71a;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 0.8s;
+  }
+
+  /* --- PHYSICAL 3D EMBOSSED GLASS BUTTON FRAME --- */
+  .taha-3d-wp-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    
+    /* Complex Multi-Tier Drop Shadows for 3D Realism Elevation */
+    box-shadow: 
+      0 12px 28px rgba(18, 122, 55, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+      
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    
+    /* Real-Time Mathematical Anti-Gravity Floating Engine Simulation */
+    animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+
+  /* Glossy Hyper-Realistic Reflection Sheet Overlay */
+  .glass-specular-glare {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+
+  /* Vector Branding Element Depth Extraction Styles */
+  .wp-vector-icon {
+    fill: #ffffff;
+    width: 33px;
+    height: 33px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    transform: translateZ(15px); /* Forces vector icon to pop outwards off the disk base physically */
+  }
+
+  /* --- HIGH-END HOVER MICRO-ACTIONS AND PROPULSIONS --- */
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+    animation-play-state: paused; /* Halts automated idle animation cleanly when interacting */
+    transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06);
+    background: linear-gradient(145deg, #35ff82 0%, #1fb456 50%, #158f41 100%);
+    box-shadow: 
+      0 22px 38px rgba(18, 122, 55, 0.55),
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Sweeps the glossy reflection sheet across the face of the circle on mouseover */
+  .taha-3d-wp-wrapper:hover .glass-specular-glare {
+    transform: rotate(-15deg) translate(25%, 25%);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .taha-3d-wp-wrapper:hover .wp-vector-icon {
+    transform: translateZ(28px) scale(1.1); /* Increases 3D depth pop effect significantly on mouse hovering */
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Tactile Compression Feedback Layer on Device Tap clicks */
+  .taha-3d-wp-wrapper:active .taha-3d-wp-button {
+    transform: translateY(-2px) scale(0.94);
+    box-shadow: 0 8px 16px rgba(18, 122, 55, 0.4);
+  }
+
+  /* --- SYSTEM MATHEMATICAL TIMELINE MATRIX KEYFRAMES --- */
+  @keyframes luxuriousWpPulse {
+    0% { transform: scale(0.88); opacity: 0.6; }
+    100% { transform: scale(1.65); opacity: 0; }
+  }
+
+  @keyframes dynamicWpFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* --- MOBILE UI RESPONSIVE SAFELOCK MATRIX --- */
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper {
+      bottom: 84px; /* Perfectly aligns spacing above your fixed mobile bottom shortcut panel menu strip */
+      right: 18px;
+      width: 55px;
+      height: 55px;
+    }
+    .wp-vector-icon {
+      width: 27px;
+      height: 27px;
+      transform: translateZ(8px); /* Calibrates soft depth scales for handheld devices */
+    }
+    .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+      /* Optimizes simpler scaling curves for touch views without awkward rotation axis skewing */
+      transform: translateY(-4px) scale(1.04); 
+    }
+    .taha-3d-wp-wrapper:hover .wp-vector-icon {
+      transform: translateZ(12px) scale(1.05);
+    }
+  }
+</style>
+
+</body>
+</html>
