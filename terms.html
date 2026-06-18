@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Terms & Conditions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+
+  <style>
+    /* --- CORE STYLE MATRIX & PREMIUM PALETTE --- */
+    :root {
+      --primary-color: #8a1414; /* Deep Burgundy Red */
+      --primary-color-dark: #660d0d;
+      --accent-color: #c9a71a; /* Professional Gold */
+      --text-dark: #1e1e1e;
+      --text-light: #555555;
+      --bg-light: #ffffff;
+      --bg-alt: #fcfdfc;
+      --white: #ffffff;
+      
+      --font-headings: 'Cinzel', serif;
+      --font-body: 'Poppins', sans-serif;
+      --font-alt: 'Montserrat', sans-serif;
+      
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-subtle: 0 4px 24px rgba(0,0,0,0.04);
+      --shadow-intense: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-alt);
+      color: var(--text-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-alt); font-weight: 700; color: var(--text-dark); }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- NAVBAR STYLING --- */
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.98);
+      padding: 14px 0;
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 1050;
+      box-shadow: var(--shadow-subtle);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+    }
+    .navbar .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1060;
+    }
+    .navbar .logo-img { 
+      height: 46px; 
+      width: auto;
+      object-fit: contain;
+    }
+    .navbar .logo-text {
+      font-family: var(--font-headings);
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .hamburger {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--primary-color);
+      display: none;
+      z-index: 1060;
+      user-select: none;
+      transition: var(--transition);
+      padding: 4px;
+    }
+    .hamburger:hover { color: var(--accent-color); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .nav-links li a {
+      font-family: var(--font-alt);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-dark);
+      position: relative;
+      padding: 6px 0;
+    }
+    .nav-links li a:hover,
+    .nav-links li .active { color: var(--primary-color); }
+    .nav-links li a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+    .nav-links li a:hover::after { width: 100%; }
+
+    .nav-item { position: relative; }
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background-color: var(--white);
+      box-shadow: var(--shadow-intense);
+      min-width: 240px;
+      padding: 16px;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      border-top: 3px solid var(--accent-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1; visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown a {
+      font-size: 0.85rem;
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 500;
+      color: var(--text-light) !important;
+      padding: 10px 12px;
+      border-radius: 6px;
+      display: block;
+    }
+    .dropdown a:hover {
+      background-color: var(--bg-alt);
+      color: var(--primary-color) !important;
+      transform: translateX(4px);
+    }
+
+    /* --- HERO HEADER (Updated with dynamic geometric clean patterns) --- */
+    .terms-hero {
+      position: relative;
+      min-height: 35vh;
+      margin-top: 74px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(rgba(20, 2, 2, 0.85), rgba(40, 5, 5, 0.9)), url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1464&auto=format&fit=crop") center/cover no-repeat;
+    }
+    .hero-title {
+      font-family: var(--font-headings);
+      font-size: 2.8rem;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-family: var(--font-alt);
+      color: var(--accent-color);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* --- TERMS CONTENT MATRIX --- */
+    .terms-container {
+      padding: 80px 0;
+      background-color: var(--bg-alt);
+    }
+    .terms-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .term-item {
+      background-color: var(--white);
+      padding: 35px 40px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-subtle);
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+      position: relative;
+    }
+    .term-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-intense);
+      border-left-color: var(--accent-color);
+    }
+    
+    /* Highlight state style for specific critical panels */
+    .term-item.highlight {
+      border-left-color: var(--accent-color);
+      background-color: rgba(201, 167, 26, 0.03);
+    }
+    .term-item.highlight:hover {
+      border-left-color: var(--primary-color);
+    }
+
+    .term-item p {
+      font-size: 1.05rem;
+      color: #333333;
+    }
+    .term-item p strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    .term-item em {
+      font-style: italic;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+
+    /* --- SCROLL INTERSECTION FADE ANIMATION --- */
+    .auto-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .auto-fade.show { opacity: 1; transform: translateY(0); }
+
+    /* --- MOBILE BOTTOM NAVIGATION --- */
+    .mobile-bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 65px;
+      background: var(--white);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      z-index: 9999;
+      display: none;
+    }
+    .nav-btn {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      padding: 8px 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-btn .material-symbols-rounded { font-size: 18px; margin-bottom: 4px; color: #333; }
+    .nav-btn:hover { color: var(--primary-color); }
+    
+    .mobile-dropdown {
+      position: absolute;
+      bottom: 78px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background-color: var(--white);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.06);
+      z-index: 10000;
+    }
+    .mobile-dropdown.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) scale(1); }
+    .mobile-dropdown a { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); color: #222; font-size: 13px; text-align: center; display: block; }
+    .mobile-dropdown a:last-child { border-bottom: none; }
+    .mobile-dropdown a:hover { background: #f2f2f2; }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    @media (max-width: 768px) {
+      .navbar { padding: 12px 0; }
+      
+      .navbar .nav-links { 
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background-color: var(--white);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        padding: 16px 24px;
+        gap: 0;
+        align-items: flex-start;
+        border-top: 1px solid rgba(0,0,0,0.08);
+        max-height: 85vh;
+        overflow-y: auto;
+        z-index: 1040;
+      }
+      .navbar .nav-links.active { display: flex !important; }
+      .navbar .nav-links li { width: 100%; display: block; }
+      .navbar .nav-links li a { 
+        display: block; width: 100%; padding: 12px 0; 
+        font-size: 0.95rem; color: var(--text-dark);
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .navbar .nav-links li:last-child a { border-bottom: none; }
+      
+      .navbar .nav-links .dropdown {
+        position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none;
+        padding: 4px 0 8px 16px; border-top: none; display: flex; flex-direction: column; gap: 2px;
+        width: 100%; background: transparent;
+      }
+      .navbar .nav-links .dropdown a { padding: 10px 12px; border-bottom: none; color: var(--text-light) !important; font-size: 0.9rem; }
+      
+      .navbar .hamburger { display: block; }
+      .mobile-bottom-nav { display: flex; }
+      
+      .terms-hero { min-height: 28vh; }
+      .hero-title { font-size: 2.2rem; }
+      .terms-container { padding: 50px 0; }
+      .term-item { padding: 25px 24px; }
+    }
+    @media (max-width: 580px) {
+      .navbar .logo-text { font-size: 1.05rem !important; letter-spacing: 0px; }
+      .navbar .logo-img { height: 38px !important; }
+    }
+    @media (max-width: 440px) {
+      .navbar .container { padding: 0 14px !important; }
+      .navbar .logo-container { gap: 6px; }
+      .navbar .logo-img { height: 34px !important; }
+      .navbar .logo-text { font-size: 0.9rem !important; }
+      .hamburger { font-size: 1.5rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo-container" onclick="location.href='index.html'" style="cursor:pointer;">
+        <img src="images/taha logo.png" alt="T Logo" class="logo-img">
+        <span class="logo-text">TAHA Salah Time Indicator</span>
+      </div>
+      <div class="hamburger" id="hamburger">&#9776;</div>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li class="nav-item">
+          <a href="#">Products</a>
+          <div class="dropdown">
+            <a href="product-details/masjid-clock.html">Masjid Clocks</a>
+            <a href="product-details/azan-home.html">Azan Home Units</a>
+            <a href="product-details/ajanta-clocks.html">Ajanta Digital Clocks</a>
+            <a href="product-details/other-products.html">Other Products</a>
+          </div>
+        </li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="tracking.html">Track Order</a></li>
+        <li><a href="terms.html" class="active">Terms & Conditions</a></li>
+        
+        <li id="userNav" class="nav-item" style="display:none;">
+          <a href="#" id="userName">My Account</a>
+          <div class="dropdown">
+            <a href="profile.html">Profile</a>
+            <a href="#" id="logoutBtn">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="terms-hero">
+    <h1 class="hero-title">Terms & Conditions</h1>
+    <p class="hero-subtitle">Please read carefully before placing an order</p>
+  </section>
+
+  <section class="terms-container">
+    <div class="container">
+      <ul class="terms-list">
+
+        <li class="term-item">
+          <p><strong>Hadiya is fixed.</strong> Please do not embarrass us by asking for any discount.</p>
+        </li>
+
+        <li class="term-item">
+          <p>
+            Hadiya mentioned in the catalogue is on an <strong>Ex-Works Mumbai basis</strong>.
+            Unit must be picked up from our office in <strong>Malad, Mumbai</strong>.
+            If delivery to your masjid is required, transportation charges will be extra at actuals.
+            Our technician’s salary and food expenses will be borne by us.
+          </p>
+        </li>
+
+        <li class="term-item">
+          <p>
+            For customised units with a different image but no change in electronics placement,
+            an additional <strong>10% charge</strong> will apply.
+            If electronics placement changes, an additional <strong>20% charge</strong> will apply.
+          </p>
+        </li>
+
+        <li class="term-item">
+          <p>
+            <strong>50% payment</strong> must be made in advance.
+            The remaining balance is payable when the unit is ready for dispatch.
+          </p>
+        </li>
+
+        <li class="term-item">
+          <p>
+            All units carry a <strong>ONE YEAR warranty</strong> against manufacturing defects
+            from the date of installation.
+            <strong>Lifetime service is FREE.</strong>
+            Only spare parts will be charged after the warranty period.
+          </p>
+        </li>
+
+        <li class="term-item highlight">
+          <p>
+            If any of our staff or dealer asks for travel expenses for service,
+            please call us immediately at
+            <strong>81080 33322</strong> and register a complaint.
+            We will take appropriate action against him,
+            <em>In’shaa Allah</em>.
+          </p>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <nav class="mobile-bottom-nav">
+    <a href="index.html" class="nav-btn">
+      <span class="material-symbols-rounded">home</span>
+      <span class="label">Home</span>
+    </a>
+    <div class="nav-btn has-dropdown" onclick="toggleMobileDropdown()">
+      <span class="material-symbols-rounded">inventory_2</span>
+      <span class="label">Products</span>
+      <div class="mobile-dropdown" id="mobileProductDropdown">
+        <a href="product-details/masjid-clock.html">Masjid Clock</a>
+        <a href="product-details/azan-home.html">Azan Home</a>
+        <a href="product-details/other-products.html">Other Products</a>
+      </div>
+    </div>
+    <a href="about.html" class="nav-btn">
+      <span class="material-symbols-rounded">info</span>
+      <span class="label">About</span>
+    </a>
+    <a href="contact.html" class="nav-btn">
+      <span class="material-symbols-rounded">call</span>
+      <span class="label">Contact</span>
+    </a>
+    <a href="tracking.html" class="nav-btn">
+      <span class="material-symbols-rounded">local_shipping</span>
+      <span class="label">Track</span>
+    </a>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Hamburger Menu Toggle Navigation Script
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          navLinks.classList.toggle("active");
+        });
+      }
+
+      // Global dismissal when clicking anywhere outside menus
+      document.addEventListener("click", () => {
+        if (navLinks) navLinks.classList.remove("active");
+        const mobileDropdown = document.getElementById("mobileProductDropdown");
+        if (mobileDropdown) mobileDropdown.classList.remove("show");
+      });
+
+      // Intersection Scroll View Observer Setup
+      const fadeEls = document.querySelectorAll(".term-item, section");
+      fadeEls.forEach(el => el.classList.add("auto-fade"));
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      fadeEls.forEach(el => observer.observe(el));
+    });
+
+    // Mobile Bottom Dropdown Action Logic Layer
+    function toggleMobileDropdown() {
+      const mobileDropdown = document.getElementById("mobileProductDropdown");
+      if (mobileDropdown) {
+        event.stopPropagation();
+        mobileDropdown.classList.toggle("show");
+      }
+    }
+  </script>
+
+<div class="taha-3d-wp-wrapper">
+  <a href="https://wa.me/919302022123?text=Salam,%20I%20am%20interested%20in%20your%20Salah%20Time%20Indicator%20products." 
+     class="taha-3d-wp-button" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     aria-label="Chat on WhatsApp">
+    
+    <div class="glass-specular-glare"></div>
+    
+    <svg viewBox="0 0 448 512" class="wp-vector-icon">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
+  .taha-3d-wp-wrapper {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 2147483647; /* Infinite absolute top layout indexing safety override */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    perspective: 1000px; /* Activates pure hardware-accelerated 3D depth space */
+  }
+
+  /* Interactive Multi-layered Ambient Light Radiance Engines */
+  .taha-3d-wp-wrapper::before,
+  .taha-3d-wp-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* Layer 1: Professional Emerald Wave */
+  .taha-3d-wp-wrapper::before {
+    background-color: #25D366;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  }
+  
+  /* Layer 2: Premium Metallic Gold Sub-Aura */
+  .taha-3d-wp-wrapper::after {
+    background-color: #c9a71a;
+    animation: luxuriousWpPulse 2.4s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 0.8s;
+  }
+
+  /* --- PHYSICAL 3D EMBOSSED GLASS BUTTON FRAME --- */
+  .taha-3d-wp-button {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2bf075 0%, #1aa04c 50%, #127a37 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    
+    /* Complex Multi-Tier Drop Shadows for 3D Realism Elevation */
+    box-shadow: 
+      0 12px 28px rgba(18, 122, 55, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 3px 6px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+      
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    
+    /* Real-Time Mathematical Anti-Gravity Floating Engine Simulation */
+    animation: dynamicWpFloat 4s ease-in-out infinite;
+  }
+
+  /* Glossy Hyper-Realistic Reflection Sheet Overlay */
+  .glass-specular-glare {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 55%);
+    transform: rotate(-15deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+
+  /* Vector Branding Element Depth Extraction Styles */
+  .wp-vector-icon {
+    fill: #ffffff;
+    width: 33px;
+    height: 33px;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 2;
+    transform: translateZ(15px); /* Forces vector icon to pop outwards off the disk base physically */
+  }
+
+  /* --- HIGH-END HOVER MICRO-ACTIONS AND PROPULSIONS --- */
+  .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+    animation-play-state: paused; /* Halts automated idle animation cleanly when interacting */
+    transform: translateY(-8px) rotateY(12deg) rotateX(10deg) scale(1.06);
+    background: linear-gradient(145deg, #35ff82 0%, #1fb456 50%, #158f41 100%);
+    box-shadow: 
+      0 22px 38px rgba(18, 122, 55, 0.55),
+      0 6px 12px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(255, 255, 255, 0.6),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Sweeps the glossy reflection sheet across the face of the circle on mouseover */
+  .taha-3d-wp-wrapper:hover .glass-specular-glare {
+    transform: rotate(-15deg) translate(25%, 25%);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .taha-3d-wp-wrapper:hover .wp-vector-icon {
+    transform: translateZ(28px) scale(1.1); /* Increases 3D depth pop effect significantly on mouse hovering */
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  /* Tactile Compression Feedback Layer on Device Tap clicks */
+  .taha-3d-wp-wrapper:active .taha-3d-wp-button {
+    transform: translateY(-2px) scale(0.94);
+    box-shadow: 0 8px 16px rgba(18, 122, 55, 0.4);
+  }
+
+  /* --- SYSTEM MATHEMATICAL TIMELINE MATRIX KEYFRAMES --- */
+  @keyframes luxuriousWpPulse {
+    0% { transform: scale(0.88); opacity: 0.6; }
+    100% { transform: scale(1.65); opacity: 0; }
+  }
+
+  @keyframes dynamicWpFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* --- MOBILE UI RESPONSIVE SAFELOCK MATRIX --- */
+  @media (max-width: 768px) {
+    .taha-3d-wp-wrapper {
+      bottom: 84px; /* Perfectly aligns spacing above your fixed mobile bottom shortcut panel menu strip */
+      right: 18px;
+      width: 55px;
+      height: 55px;
+    }
+    .wp-vector-icon {
+      width: 27px;
+      height: 27px;
+      transform: translateZ(8px); /* Calibrates soft depth scales for handheld devices */
+    }
+    .taha-3d-wp-wrapper:hover .taha-3d-wp-button {
+      /* Optimizes simpler scaling curves for touch views without awkward rotation axis skewing */
+      transform: translateY(-4px) scale(1.04); 
+    }
+    .taha-3d-wp-wrapper:hover .wp-vector-icon {
+      transform: translateZ(12px) scale(1.05);
+    }
+  }
+</style>
+
+</body>
+</html>

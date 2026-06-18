@@ -197,51 +197,64 @@
             align-items: center;
             gap: 50px;
         }
-        .custom-video {
-            flex: 1.2;
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow-intense);
-            aspect-ratio: 16/9;
-            background-color: #000;
-        }
-        .custom-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
-        
-        .video-controls {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            z-index: 10;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .center-btn {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--primary-color);
-            color: var(--white);
-            border: none;
-            width: 62px; height: 62px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(138, 20, 20, 0.4);
-            z-index: 10;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .center-btn:hover { background-color: var(--primary-color-dark); transform: translate(-50%, -50%) scale(1.05); }
-        
-        .center-btn.show, .video-controls.show { opacity: 1; pointer-events: auto; }
+        /* Container for the video and its controls */
+.custom-video {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Make sure the video stays in place */
+.custom-video video {
+    width: 100%;
+    display: block;
+}
+
+/* The Controls container (the bar at the bottom) */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+/* The Play/Pause Button in the center */
+.center-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+/* Show controls when the container is hovered or active */
+.custom-video:hover .video-controls, 
+.custom-video:hover .center-btn {
+    opacity: 1;
+}
+
+/* Style the timeline input */
+.video-progress {
+    flex-grow: 1;
+    cursor: pointer;
+}
 
         .video-controls input[type="range"] {
             flex: 1; -webkit-appearance: none; appearance: none; height: 5px; border-radius: 3px;
@@ -684,6 +697,109 @@
             .navbar .logo-text { font-size: 0.75rem !important; }
             .navbar .logo-img { height: 24px !important; }
         }
+
+
+/* Container for the video and its controls */
+.custom-video {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* The "Big Zoom" state */
+.custom-video.zoomed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-video.zoomed video {
+    max-height: 100vh;
+    width: auto;
+}
+
+.custom-video video {
+    width: 100%;
+    display: block;
+}
+
+/* Base state: Hidden */
+.center-btn, .video-controls {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Show when hovering OR when video is paused */
+.custom-video:hover .center-btn,
+.custom-video:hover .video-controls,
+.custom-video.is-paused .center-btn,
+.custom-video.is-paused .video-controls {
+    opacity: 1;
+}
+
+/* Play/Pause Button */
+.center-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 10;
+    pointer-events: auto; /* Ensure it's clickable */
+}
+
+/* Dim slightly during playback so it doesn't distract from the content */
+.custom-video.playing .center-btn {
+    opacity: 0.4 !important;
+}
+
+.center-btn:hover {
+    opacity: 1 !important;
+    background: rgba(138, 20, 20, 1);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* The Pulse Keyframes */
+@keyframes pulse-animation {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    padding: 15px; display: flex; align-items: center; gap: 15px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+}
+
+/* Hover State */
+.custom-video:hover .center-btn,
+.custom-video:hover .video-controls {
+    opacity: 1;
+}
+
+.fullscreen-btn {
+    background: none; border: none; color: white;
+    font-size: 20px; cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -719,24 +835,26 @@
         </div>
     </section>
 
-    <section class="product-video-section fade-in">
-        <div class="container product-video-wrapper">
-            <div class="custom-video" id="videoWrapper">
-                <video id="productVideo" poster="video-poster.jpg" preload="metadata" playsinline>
-                    <source src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Abdullah_s_P3_Azan_Clock_Explainer_Home_Unit_Abdullah_s_Electronics_Pvt_Ltd_1080P_uainan.mp4" type="video/mp4">
-                </video>
-                <button class="center-btn" id="playBtn">▶</button>
-                <div class="video-controls" id="videoControls">
-                    <input type="range" id="progressBar" value="0" min="0" max="100">
-                </div>
-            </div>
-            <div class="product-video-content">
-                <h2>Azan Clock–</h2>
-                <p>✨ Never miss a prayer again with our beautifully designed Azan Clock! ✨</p>
-                <p>Stay connected to your Namaz on time with automatic prayer time reminders, a clear digital display, and accurate Azan for all five daily prayers.</p>
+   <section class="product-video-section fade-in">
+    <div class="container product-video-wrapper">
+        <div class="custom-video" id="videoPlayerContainer">
+            <video id="mainVideo" src="https://res.cloudinary.com/dz38l0vid/video/upload/q_auto,f_auto/Abdullah_s_P3_Azan_Clock_Explainer_Home_Unit_Abdullah_s_Electronics_Pvt_Ltd_1080P_uainan.mp4" playsinline></video>
+            
+            <!-- Play/Pause Overlay -->
+            <button class="center-btn" id="playPauseBtn">▶</button>
+            
+            <!-- Bottom Timeline Controls -->
+            <div class="video-controls" id="controlsBar">
+                <input type="range" id="timeline" class="video-progress" value="0" min="0" max="100">
+                <button class="fullscreen-btn" id="fsBtn">⛶</button>
             </div>
         </div>
-    </section>
+        <div class="product-video-content">
+            <h2>Azan Clock–</h2>
+            <p>✨ Never miss a prayer again with our beautifully designed Azan Clock! ✨</p>
+        </div>
+    </div>
+</section>
 
     <section class="home-products fade-in">
         <div class="container">
@@ -1215,6 +1333,72 @@
                 }
             });
         }
+
+
+
+
+
+   document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById('mainVideo');
+    const container = document.getElementById('videoPlayerContainer');
+    const playBtn = document.getElementById('playPauseBtn');
+    const controls = document.getElementById('controlsBar');
+    
+    let hideTimeout;
+
+    // Logic to handle vanishing
+    const handleVanish = () => {
+        clearTimeout(hideTimeout);
+        // Only start timer if the video is actually playing
+        if (!video.paused) {
+            hideTimeout = setTimeout(() => {
+                container.classList.remove("is-paused");
+            }, 3000); // Vanish after 3 seconds
+        }
+    };
+
+    const togglePlay = () => {
+        if (video.paused) {
+            video.play();
+            playBtn.innerHTML = "❚❚"; // Clean vertical bars
+            container.classList.add("is-paused"); // Show controls
+            handleVanish(); // Start the vanish timer
+        } else {
+            video.pause();
+            playBtn.innerHTML = "▶"; // Standard play triangle
+            container.classList.add("is-paused"); // Force show while paused
+            clearTimeout(hideTimeout); // Stop vanish timer
+        }
+    };
+
+    // Listeners
+    video.addEventListener('click', togglePlay);
+    playBtn.addEventListener('click', togglePlay);
+    
+    // Interaction keeps it visible
+    container.addEventListener('mousemove', () => {
+        container.classList.add("is-paused");
+        handleVanish();
+    });
+
+    // Initial state: force visible so user knows it's a video
+    container.classList.add("is-paused");
+});
+
+// Add this inside your DOMContentLoaded block
+const zoomBtn = document.getElementById('fsBtn'); // Assuming this is your zoom button
+
+zoomBtn.addEventListener('click', () => {
+    container.classList.toggle('zoomed');
+    
+    // Optional: Update icon when zoomed
+    if (container.classList.contains('zoomed')) {
+        zoomBtn.innerHTML = "⛶"; // Icon for "Exit Zoom"
+    } else {
+        zoomBtn.innerHTML = "⛶"; // Icon for "Zoom"
+    }
+});
+
     </script>
 
 <div class="taha-3d-wp-wrapper">
@@ -1233,6 +1417,8 @@
 </div>
 
 <style>
+    
+    .controls, .play-btn { z-index: 1000 !important; position: relative; }
   /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
   .taha-3d-wp-wrapper {
     position: fixed;

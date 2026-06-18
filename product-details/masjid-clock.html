@@ -772,16 +772,21 @@
 <section class="lcd-video-section">
   <div class="container">
     <div class="lcd-video-wrapper">
-      <div class="lcd-video-box" id="lcdVideoWrapper">
-        <video id="lcdVideo" playsinline preload="metadata">
-          <source src="https://res.cloudinary.com/dz38l0vid/video/upload/v1766818972/LCD_32D_Model_Complete_Explainer_Abdullah_s_Premium_Range_Abdullah_s_Electronics_Centre_1080P_wwonvt.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <div class="lcd-controls" id="lcdControls">
-          <button class="lcd-play-btn" id="lcdPlayBtn">▶</button>
-          <input type="range" class="lcd-progress" id="lcdProgress" min="0" max="100" value="0">
-        </div>
-      </div>
+      <div class="lcd-video-box video-media"> <video src="https://res.cloudinary.com/dz38l0vid/video/upload/v1766818972/LCD_32D_Model_Complete_Explainer_Abdullah_s_Premium_Range_Abdullah_s_Electronics_Centre_1080P_wwonvt.mp4" type="video/mp4" playsinline></video>
+  
+  <div class="lcd-controls controls"> 
+    <button class="lcd-play-btn play-btn">
+      <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="pause-icon" viewBox="0 0 24 24" width="24" height="24" fill="white" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    
+    <input type="range" class="lcd-progress timeline" value="0" min="0" max="100">
+    
+    <button class="fullscreen-btn" style="background:none; border:none; cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+    </button>
+  </div>
+</div>
       <div class="lcd-video-content">
         <h2>Premium Series LCD Salah Time Indicator</h2>
         <p>Get ready to boost your tech experience with our newest product, the LCD premium range model, designed to improve your daily life. Feel the perfect mix of cool style and smart features with our premium range, specially made to meet your highest needs.</p>
@@ -1563,6 +1568,77 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCatalogSearchEngine();
 });
 
+
+
+/* ================= VIDEO CONTROLS WITH AUTO FADE ================= */
+document.querySelectorAll(".video-media").forEach(box => {
+    const video = box.querySelector("video");
+    const playBtn = box.querySelector(".play-btn"); // Updated to match your index.html class
+    const timeline = box.querySelector(".timeline");
+    const controls = box.querySelector(".controls");
+
+    if (!video || !playBtn || !timeline) return;
+
+    let fadeTimeout;
+    let isDragging = false; // Flag to prevent conflict during scrub
+
+    // Function to show/hide controls
+    function showControls() {
+        if (controls) controls.style.opacity = "1";
+        clearTimeout(fadeTimeout);
+        
+        fadeTimeout = setTimeout(() => {
+            if (!video.paused && !isDragging) {
+                if (controls) controls.style.opacity = "0";
+            }
+        }, 3000);
+    }
+
+    // Play / Pause toggle
+    playBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        if (video.paused) {
+            await video.play();
+            playBtn.textContent = "⏸";
+        } else {
+            video.pause();
+            playBtn.textContent = "▶";
+        }
+        showControls();
+    });
+
+    // Update timeline while playing (only if NOT dragging)
+    video.addEventListener("timeupdate", () => {
+        if (!isNaN(video.duration) && !isDragging) {
+            timeline.value = (video.currentTime / video.duration) * 100;
+        }
+    });
+
+    // Scrub video on timeline change
+    timeline.addEventListener("mousedown", () => { isDragging = true; });
+    timeline.addEventListener("touchstart", () => { isDragging = true; });
+
+    timeline.addEventListener("input", () => {
+        if (!isNaN(video.duration)) {
+            video.currentTime = (timeline.value / 100) * video.duration;
+        }
+    });
+
+    timeline.addEventListener("mouseup", () => { 
+        isDragging = false; 
+        video.play();
+    });
+    
+    timeline.addEventListener("touchend", () => { 
+        isDragging = false; 
+        video.play();
+    });
+
+    // Interaction triggers
+    box.addEventListener("mousemove", showControls);
+    box.addEventListener("touchstart", showControls);
+    box.addEventListener("click", showControls);
+});
 </script>
 
 <div class="taha-3d-wp-wrapper">
@@ -1581,6 +1657,17 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <style>
+/* 1. Ensure the timeline is above all other video elements */
+.timeline {
+    cursor: pointer;
+    touch-action: none; /* Tells the browser to let the element handle touch events */
+}
+
+/* 2. Ensure the video container itself doesn't steal clicks */
+.video-media {
+    position: relative;
+}
+
   /* --- SPATIAL PERSPECTIVE HOVER CONTAINER --- */
   .taha-3d-wp-wrapper {
     position: fixed;

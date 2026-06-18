@@ -207,55 +207,78 @@
             gap: 50px;
             align-items: center;
         }
+        /* Container */
         .video-box {
             position: relative;
             background-color: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: var(--shadow-intense);
             aspect-ratio: 16/9;
+            cursor: pointer;
+            transition: all 0.5s ease;
         }
-        .video-box video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+
+        /* Base: Controls are invisible */
+        .video-play-btn, .video-controls {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
+
+        /* Force visible when PAUSED or HOVERED */
+        .video-box.is-paused .video-play-btn,
+        .video-box.is-paused .video-controls,
+        .video-box:hover .video-play-btn,
+        .video-box:hover .video-controls {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         .video-play-btn {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(138, 20, 20, 0.95);
-            color: var(--white);
-            border: 2px solid var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
             width: 70px; height: 70px;
             border-radius: 50%;
-            font-size: 24px;
+            font-size: 30px;
             cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: var(--transition);
             z-index: 10;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            padding-left: 4px;
         }
-        .video-play-btn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            background-color: var(--accent-color);
-            color: #000;
-        }
+
         .video-controls {
             position: absolute;
             bottom: 0; left: 0; right: 0;
             background: linear-gradient(transparent, rgba(0,0,0,0.8));
             padding: 20px 15px 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 9;
         }
-        .video-box:hover .video-controls { opacity: 1; }
+
         .video-controls input[type="range"] {
             width: 100%;
             accent-color: var(--accent-color);
             cursor: pointer;
         }
+
+        /* Theater/Zoom Mode */
+        .video-box.zoomed {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* Ensure video tag fills box properly */
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
         .video-content h2 {
             font-size: 2rem;
             color: var(--primary-color);
@@ -480,14 +503,6 @@
         .mobile-dropdown a:last-child { border-bottom: none; }
         .mobile-dropdown a:hover { background: #f2f2f2; }
 
-        /* --- SCROLL INTERSECTION FADE-IN ANIMATION --- */
-        .auto-fade {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .auto-fade.show { opacity: 1; transform: translateY(0); }
-
         /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 990px) {
             .video-wrapper { grid-template-columns: 1fr; gap: 40px; }
@@ -496,8 +511,6 @@
         }
         @media (max-width: 768px) {
             .navbar { padding: 12px 0; }
-            
-            /* RIGID MOBILE INTERFACE TERMINATOR SETUP */
             .navbar .nav-links { 
                 display: none; 
                 flex-direction: column;
@@ -513,65 +526,16 @@
                 overflow-y: auto;
                 z-index: 1040;
             }
-            .navbar .nav-links.active {
-                display: flex !important;
-            }
-            .navbar .nav-links li { 
-                width: 100%; 
-                display: block;
-                position: relative;
-                clear: both;
-            }
-            .navbar .nav-links li a { 
-                display: block; 
-                width: 100%; 
-                padding: 12px 0; 
-                font-size: 0.95rem; 
-                color: var(--text-dark);
-                border-bottom: 1px solid #f0f0f0;
-            }
-            .navbar .nav-links li:last-child a { border-bottom: none; }
-            
-            /* Unroll Dropdowns inline safely for responsive states */
+            .navbar .nav-links.active { display: flex !important; }
+            .navbar .nav-links li { width: 100%; display: block; position: relative; }
+            .navbar .nav-links li a { display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: var(--text-dark); border-bottom: 1px solid #f0f0f0; }
             .navbar .nav-links .dropdown {
-                position: static;
-                opacity: 1; 
-                visibility: visible;
-                transform: none; 
-                box-shadow: none;
-                padding: 4px 0 8px 16px;
-                border-top: none;
-                display: flex; 
-                flex-direction: column; 
-                gap: 2px;
-                width: 100%;
-                background: transparent;
+                position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; padding: 4px 0 8px 16px; border-top: none; display: flex; flex-direction: column; gap: 2px; width: 100%; background: transparent;
             }
-            .navbar .nav-links .dropdown a { 
-                padding: 10px 12px; 
-                border-bottom: none;
-                color: var(--text-light) !important;
-                font-size: 0.9rem;
-            }
-            
             .navbar .hamburger { display: block; }
             .mobile-bottom-nav { display: flex; }
             .hero-content h1 { font-size: 2rem; }
-            .hero-content p { font-size: 0.95rem; }
-            .video-section, .about-section, .contact-persons, .office-location { padding: 50px 0; }
             .person-grid { grid-template-columns: 1fr; gap: 20px; }
-            .video-content h2, .about-section h2, .contact-persons h2, .office-location h2 { font-size: 1.7rem; }
-        }
-        @media (max-width: 580px) {
-            .navbar .logo-text { font-size: 1.05rem !important; letter-spacing: 0px; }
-            .navbar .logo-img { height: 38px !important; }
-        }
-        @media (max-width: 440px) {
-            .navbar .container { padding: 0 14px !important; }
-            .navbar .logo-container { gap: 6px; }
-            .navbar .logo-img { height: 34px !important; }
-            .navbar .logo-text { font-size: 0.9rem !important; }
-            .hamburger { font-size: 1.5rem !important; }
         }
     </style>
 </head>
@@ -753,8 +717,8 @@
     </nav>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Hamburger Dropdown Toggle Logic
+       document.addEventListener("DOMContentLoaded", () => {
+            // Hamburger
             const hamburgerBtn = document.getElementById("hamburgerBtn");
             const navLinksMenu = document.getElementById("navLinksMenu");
 
@@ -781,51 +745,56 @@
                 if (mobileProductDropdown) mobileProductDropdown.classList.remove("show");
                 if (navLinksMenu) navLinksMenu.classList.remove("active");
             });
+       
 
-            // Native Video Controller Custom Implementation
+          // 1. Mobile Menu Logics
+    document.addEventListener("DOMContentLoaded", () => {
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const navLinksMenu = document.getElementById("navLinksMenu");
+        const productsBtn = document.getElementById("productsBtn");
+        const mobileProductDropdown = document.getElementById("mobileProductDropdown");
+
+        if (hamburgerBtn && navLinksMenu) {
+            hamburgerBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                navLinksMenu.classList.toggle("active");
+            });
+        }
+
+        if (productsBtn && mobileProductDropdown) {
+            productsBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                mobileProductDropdown.classList.toggle("show");
+            });
+        }
+
+        document.addEventListener("click", () => {
+            if (mobileProductDropdown) mobileProductDropdown.classList.remove("show");
+            if (navLinksMenu) navLinksMenu.classList.remove("active");
+        });
+    });
+
+        // Video Controller
             const video = document.getElementById("promoVideo");
-            const playBtn = document.getElementById("videoPlayBtn");
-            const progress = document.getElementById("videoProgress");
+            const box = document.getElementById("videoBox");
+            const btn = document.getElementById("videoPlayBtn");
+            const prog = document.getElementById("videoProgress");
+            let t;
 
-            if (video && playBtn && progress) {
-                playBtn.addEventListener("click", () => {
-                    if (video.paused) {
-                        video.play();
-                        playBtn.innerText = "⏸";
-                    } else {
-                        video.pause();
-                        playBtn.innerText = "▶";
-                    }
-                });
+            const show = () => { box.classList.add("is-paused"); clearTimeout(t); };
+            const hide = () => { if(!video.paused) t = setTimeout(() => box.classList.remove("is-paused"), 3000); };
 
-                video.addEventListener("timeupdate", () => {
-                    const value = (video.currentTime / video.duration) * 100;
-                    progress.value = isNaN(value) ? 0 : value;
-                });
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if(video.paused) { video.play(); btn.innerText = "❚❚"; hide(); }
+                else { video.pause(); btn.innerText = "▶"; show(); }
+            });
 
-                progress.addEventListener("input", () => {
-                    const time = (progress.value / 100) * video.duration;
-                    video.currentTime = time;
-                });
-                
-                video.addEventListener("ended", () => {
-                    playBtn.innerText = "▶";
-                    progress.value = 0;
-                });
-            }
-
-            // Intersection Observer Animation Setup
-            const fadeEls = document.querySelectorAll("section, footer, .person-card, .address-box, .map-box");
-            fadeEls.forEach(el => el.classList.add("auto-fade"));
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("show");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            fadeEls.forEach(el => observer.observe(el));
+            box.addEventListener("mousemove", () => { show(); hide(); });
+            video.addEventListener("timeupdate", () => { if(video.duration) prog.value = (video.currentTime / video.duration) * 100; });
+            prog.addEventListener("input", () => { video.currentTime = (prog.value / 100) * video.duration; show(); });
+            
+            show();
         });
     </script>
 
